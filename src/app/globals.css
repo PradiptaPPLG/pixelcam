@@ -1,26 +1,274 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* ============================================================
+   PIXELCAM — DESIGN SYSTEM
+   Minimal Apple-inspired premium photobooth
+   Colors: PROJECT_RULES.md spec
+   ============================================================ */
 
+/* ------------------------------------------------------------
+   THEME TOKENS
+   ------------------------------------------------------------ */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* Typography — Geist via next/font (PROJECT_RULES spec) */
+  --font-sans: var(--font-geist), -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  --font-mono: "Geist Mono", "SF Mono", "Fira Code", monospace;
+
+  /* PROJECT_RULES color palette */
+  --color-background: #fafafa;
+  --color-foreground: #111111;
+  --color-primary: #111111;
+  --color-secondary: #6b7280;
+  --color-border: #e5e7eb;
+  --color-accent: #4f46e5;
+  --color-success: #22c55e;
+  --color-danger: #ef4444;
+
+  /* Surface layers */
+  --color-surface-0: #ffffff;
+  --color-surface-1: #fafafa;
+  --color-surface-2: #f5f5f5;
+  --color-surface-3: #eeeeee;
+
+  /* Accent tints */
+  --color-accent-50: #eef2ff;
+  --color-accent-100: #e0e7ff;
+  --color-accent-600: #4338ca;
+  --color-accent-700: #3730a3;
+
+  /* Radius — PROJECT_RULES spec */
+  --radius-card: 16px;
+  --radius-btn: 14px;
+  --radius-input: 14px;
+  --radius-large: 24px;
+  --radius-full: 9999px;
+
+  /* Shadows — very soft, PROJECT_RULES spec */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-sm: 0 1px 4px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.07);
+  --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.08);
+
+  /* Easing */
+  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-out: cubic-bezier(0.0, 0, 0.2, 1);
+
+  /* Layout — PROJECT_RULES spec */
+  --container-max: 1280px;
+  --section-padding: 96px;
+  --container-padding: 24px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ------------------------------------------------------------
+   CSS CUSTOM PROPERTIES (runtime)
+   ------------------------------------------------------------ */
+:root {
+  --bg: var(--color-background);
+  --fg: var(--color-foreground);
+  --fg-2: var(--color-secondary);
+  --border-color: var(--color-border);
+  --accent: var(--color-accent);
+  --nav-bg: rgba(250, 250, 250, 0.85);
+  --nav-border: rgba(229, 231, 235, 0.8);
+}
+
+/* ------------------------------------------------------------
+   BASE RESET
+   ------------------------------------------------------------ */
+/* NOTE: margin/padding are intentionally NOT reset here. Tailwind's
+   preflight already zeroes them inside @layer base, where spacing
+   utilities (pt-*, py-*, px-*, gap-*, …) can override them. Repeating
+   the reset here (unlayered) would beat those layered utilities and
+   collapse all padding/margin app-wide. */
+@layer base {
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  height: 100%;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.6;
+  background-color: var(--bg);
+  color: var(--fg);
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
+
+/* Focus ring */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* Selection */
+::selection {
+  background-color: rgba(79, 70, 229, 0.12);
+  color: var(--fg);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: #9ca3af; }
+
+/* Links */
+a { color: inherit; text-decoration: none; }
+
+/* Images */
+img, video { max-width: 100%; height: auto; display: block; }
+
+}
+/* end @layer base */
+
+/* ------------------------------------------------------------
+   TYPOGRAPHY SCALE — PROJECT_RULES spec
+   ------------------------------------------------------------ */
+
+/* Hero: 64–72px */
+.text-hero {
+  font-size: clamp(2.75rem, 6vw, 4.5rem);
+  font-weight: 700;
+  line-height: 1.06;
+  letter-spacing: -0.04em;
+  color: var(--fg);
+}
+
+/* Heading: 40px */
+.text-heading {
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.03em;
+  color: var(--fg);
+}
+
+/* Section title: 28px */
+.text-section-title {
+  font-size: clamp(1.25rem, 3vw, 1.75rem);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--fg);
+}
+
+/* Body: 16px */
+.text-body {
+  font-size: 1rem;
+  line-height: 1.65;
+  color: var(--fg-2);
+}
+
+/* Caption: 14px */
+.text-caption {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--fg-2);
+}
+
+/* Small: 12px */
+.text-small {
+  font-size: 0.75rem;
+  line-height: 1.5;
+  color: var(--fg-2);
+}
+
+/* Overline label */
+.text-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-secondary);
+}
+
+/* ------------------------------------------------------------
+   SECTION LAYOUT
+   ------------------------------------------------------------ */
+.section {
+  padding-top: var(--section-padding);
+  padding-bottom: var(--section-padding);
+}
+
+.section-sm {
+  padding-top: 64px;
+  padding-bottom: 64px;
+}
+
+/* ------------------------------------------------------------
+   CSS ANIMATIONS (used alongside Framer Motion)
+   ------------------------------------------------------------ */
+@keyframes float-gentle {
+  0%, 100% { transform: translateY(0px) rotate(var(--strip-rotate, 0deg)); }
+  50%       { transform: translateY(-8px) rotate(var(--strip-rotate, 0deg)); }
+}
+
+/* ------------------------------------------------------------
+   DARK MODE
+   Applied when <html class="dark"> (see ThemeToggle / no-flash
+   script). The app uses a consistent literal palette, so we remap
+   those utilities here. Photostrip/theme colors are set via inline
+   styles and are intentionally left untouched (they are content).
+   ------------------------------------------------------------ */
+.dark {
+  color-scheme: dark;
+  --color-background: #0d0d0f;
+  --color-foreground: #f4f4f5;
+  --color-secondary: #a1a1aa;
+  --color-border: #2a2a2e;
+  --bg: #0d0d0f;
+  --fg: #f4f4f5;
+  --fg-2: #a1a1aa;
+}
+
+/* Surfaces */
+.dark .bg-\[\#FAFAFA\], .dark .bg-\[\#fafafa\] { background-color: #0d0d0f; }
+.dark .bg-white,
+.dark .bg-\[\#FFFFFF\], .dark .bg-\[\#ffffff\] { background-color: #18181b; }
+.dark .bg-\[\#F5F5F5\], .dark .bg-\[\#f5f5f5\] { background-color: #232327; }
+.dark .bg-\[\#EEEEEE\], .dark .bg-\[\#eeeeee\] { background-color: #2a2a2e; }
+.dark .bg-\[\#EEF2FF\], .dark .bg-\[\#eef2ff\] { background-color: #1e1b3a; }
+.dark .bg-\[\#ECFDF3\] { background-color: #0e2a1b; }
+.dark .bg-\[rgba\(250\,250\,250\,0\.88\)\] { background-color: rgba(13, 13, 15, 0.85); }
+
+/* Text */
+.dark .text-\[\#111111\] { color: #f4f4f5; }
+.dark .text-\[\#6B7280\], .dark .text-\[\#6b7280\] { color: #a1a1aa; }
+.dark .text-\[\#9CA3AF\], .dark .text-\[\#9ca3af\] { color: #71717a; }
+
+/* Borders */
+.dark .border-\[\#E5E7EB\], .dark .border-\[\#e5e7eb\] { border-color: #2a2a2e; }
+.dark .border-\[\#F0F0F0\], .dark .border-\[\#f0f0f0\] { border-color: #232327; }
+.dark .border-\[\#ECECEC\], .dark .border-\[\#ececec\] { border-color: #2a2a2e; }
+
+/* Primary buttons/links invert to light-on-dark (elements only, so the
+   intentional dark CTA section keeps its color). */
+.dark a.bg-\[\#111111\],
+.dark button.bg-\[\#111111\] {
+  background-color: #f4f4f5;
+  color: #111111;
+}
+.dark a.hover\:bg-\[\#222222\]:hover,
+.dark button.hover\:bg-\[\#222222\]:hover { background-color: #e4e4e7; }
+
+/* Hover surfaces */
+.dark .hover\:bg-\[\#F5F5F5\]:hover, .dark .hover\:bg-\[\#f5f5f5\]:hover { background-color: #232327; }
+.dark .hover\:bg-\[\#FAFAFA\]:hover, .dark .hover\:bg-\[\#fafafa\]:hover { background-color: #18181b; }
+.dark .hover\:bg-\[\#EEEEEE\]:hover, .dark .hover\:bg-\[\#eeeeee\]:hover { background-color: #2a2a2e; }
