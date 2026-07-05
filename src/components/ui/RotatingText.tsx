@@ -173,13 +173,13 @@ const RotatingText = forwardRef<RotatingTextRef, RotatingTextProps>((props, ref)
           layout
           aria-hidden="true"
         >
-          {elements.map((wordObj, wordIndex, array) => {
+          {elements.map((wordObj: { characters: string[]; needsSpace: boolean }, wordIndex: number, array: { characters: string[]; needsSpace: boolean }[]) => {
             const previousCharsCount = array
               .slice(0, wordIndex)
-              .reduce((sum, word) => sum + word.characters.length, 0);
+              .reduce((sum: number, word: { characters: string[]; needsSpace: boolean }) => sum + word.characters.length, 0);
             return (
               <span key={wordIndex} className={cn('text-rotate-word', splitLevelClassName)}>
-                {wordObj.characters.map((char, charIndex) => (
+                {wordObj.characters.map((char: string, charIndex: number) => (
                   <motion.span
                     key={charIndex}
                     initial={initial}
