@@ -79,24 +79,24 @@ const RotatingText = forwardRef<RotatingTextRef, RotatingTextProps>((props, ref)
     const currentText = texts[currentTextIndex];
     if (splitBy === 'characters') {
       const words = currentText.split(' ');
-      return words.map((word, i) => ({
+      return words.map((word: string, i: number) => ({
         characters: splitIntoCharacters(word),
         needsSpace: i !== words.length - 1,
       }));
     }
     if (splitBy === 'words') {
-      return currentText.split(' ').map((word, i, arr) => ({
+      return currentText.split(' ').map((word: string, i: number, arr: string[]) => ({
         characters: [word],
         needsSpace: i !== arr.length - 1,
       }));
     }
     if (splitBy === 'lines') {
-      return currentText.split('\n').map((line, i, arr) => ({
+      return currentText.split('\n').map((line: string, i: number, arr: string[]) => ({
         characters: [line],
         needsSpace: i !== arr.length - 1,
       }));
     }
-    return currentText.split(splitBy).map((part, i, arr) => ({
+    return currentText.split(splitBy as string).map((part: string, i: number, arr: string[]) => ({
       characters: [part],
       needsSpace: i !== arr.length - 1,
     }));
