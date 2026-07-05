@@ -4,7 +4,7 @@ import Container from "@/components/ui/Container";
 export const metadata: Metadata = {
   title: "Privacy Policy",
   description:
-    "Kebijakan privasi PixelCam — bagaimana kami menangani data dan privasi pengguna.",
+    "PixelCam's privacy policy — how we handle your data and protect your privacy.",
 };
 
 export default function PrivacyPage() {
@@ -17,111 +17,99 @@ export default function PrivacyPage() {
 
         {/* ── Headline ── */}
         <h1 className="text-heading mb-2">Privacy Policy</h1>
-        <p className="text-caption mb-10">Terakhir diperbarui: Juli 2025</p>
+        <p className="text-caption mb-10">Last updated: July 2025</p>
 
         <div className="flex flex-col gap-10">
 
-          {/* 1 */}
           <section>
-            <h2 className="text-section-title mb-3">1. Pendahuluan</h2>
+            <h2 className="text-section-title mb-3">1. Introduction</h2>
             <p className="text-body">
-              PixelCam adalah aplikasi photobooth berbasis web yang berjalan
-              sepenuhnya di browser kamu. Kami berkomitmen untuk menjaga privasi
-              pengguna. Kebijakan ini menjelaskan informasi apa yang kami
-              kumpulkan dan bagaimana kami menggunakannya.
+              PixelCam is a browser-based photobooth that runs entirely on your
+              device. We are committed to protecting your privacy. This policy
+              explains what information we collect and how we use it.
             </p>
           </section>
 
-          {/* 2 */}
           <section>
-            <h2 className="text-section-title mb-3">2. Data yang Kami Kumpulkan</h2>
+            <h2 className="text-section-title mb-3">2. Data We Collect</h2>
             <p className="text-body mb-3">
-              PixelCam dirancang dengan prinsip <em>privacy by default</em>.
-              Secara umum, kami tidak menyimpan data pribadi kamu. Berikut
-              rinciannya:
+              PixelCam is built with a <em>privacy by default</em> approach.
+              We generally do not store any personal data. Here&apos;s the breakdown:
             </p>
-            <ul className="flex flex-col gap-2 text-caption list-none">
-              <li className="flex gap-3">
+            <ul className="flex flex-col gap-2 list-none">
+              <li className="flex gap-3 text-caption">
                 <span className="shrink-0 text-[var(--color-accent)]">✦</span>
-                <span><strong>Kamera</strong> — akses kamera hanya digunakan secara lokal di browser untuk mengambil foto. Gambar tidak dikirim ke server mana pun.</span>
+                <span><strong className="text-[var(--fg)]">Camera</strong> — camera access is used locally in your browser to take photos. Images are never sent to any server.</span>
               </li>
-              <li className="flex gap-3">
+              <li className="flex gap-3 text-caption">
                 <span className="shrink-0 text-[var(--color-accent)]">✦</span>
-                <span><strong>Foto</strong> — semua foto diproses langsung di perangkat kamu dan tidak pernah diunggah ke server kami.</span>
+                <span><strong className="text-[var(--fg)]">Photos</strong> — all photos are processed directly on your device and are never uploaded to our servers.</span>
               </li>
-              <li className="flex gap-3">
+              <li className="flex gap-3 text-caption">
                 <span className="shrink-0 text-[var(--color-accent)]">✦</span>
-                <span><strong>Akun</strong> — PixelCam tidak memerlukan pendaftaran atau login. Kami tidak menyimpan data akun.</span>
+                <span><strong className="text-[var(--fg)]">Accounts</strong> — PixelCam requires no registration or login. We do not store any account data.</span>
               </li>
-              <li className="flex gap-3">
+              <li className="flex gap-3 text-caption">
                 <span className="shrink-0 text-[var(--color-accent)]">✦</span>
-                <span><strong>Analitik</strong> — kami mungkin menggunakan layanan analitik pihak ketiga (seperti Vercel Analytics) untuk memahami penggunaan umum aplikasi secara anonim.</span>
+                <span><strong className="text-[var(--fg)]">Analytics</strong> — we may use third-party analytics (such as Vercel Analytics) to understand general usage patterns anonymously.</span>
               </li>
             </ul>
           </section>
 
-          {/* 3 */}
           <section>
-            <h2 className="text-section-title mb-3">3. Penggunaan Data</h2>
+            <h2 className="text-section-title mb-3">3. How We Use Data</h2>
             <p className="text-body">
-              Data anonim yang kami kumpulkan hanya digunakan untuk keperluan
-              peningkatan performa dan pengalaman pengguna. Kami tidak menjual,
-              menyewakan, atau membagikan data apapun kepada pihak ketiga untuk
-              tujuan komersial.
+              Any anonymous data we collect is used solely to improve app
+              performance and user experience. We do not sell, rent, or share
+              any data with third parties for commercial purposes.
             </p>
           </section>
 
-          {/* 4 */}
           <section>
-            <h2 className="text-section-title mb-3">4. Cookie</h2>
+            <h2 className="text-section-title mb-3">4. Cookies</h2>
             <p className="text-body">
-              PixelCam menggunakan penyimpanan lokal browser (localStorage)
-              untuk menyimpan preferensi seperti tema tampilan. Tidak ada cookie
-              pelacak yang digunakan.
+              PixelCam uses browser local storage (localStorage) to save
+              preferences such as your selected theme. No tracking cookies are
+              used.
             </p>
           </section>
 
-          {/* 5 */}
           <section>
-            <h2 className="text-section-title mb-3">5. Keamanan</h2>
+            <h2 className="text-section-title mb-3">5. Security</h2>
             <p className="text-body">
-              Karena foto dan data kamu tidak pernah meninggalkan perangkatmu,
-              risiko keamanan dari sisi kami sangat minimal. Namun kami tetap
-              menyarankan kamu untuk berhati-hati saat menggunakan perangkat
-              bersama.
+              Because your photos and data never leave your device, security
+              risks on our end are minimal. We still recommend being cautious
+              when using PixelCam on a shared device.
             </p>
           </section>
 
-          {/* 6 */}
           <section>
-            <h2 className="text-section-title mb-3">6. Perubahan Kebijakan</h2>
+            <h2 className="text-section-title mb-3">6. Policy Updates</h2>
             <p className="text-body">
-              Kami dapat memperbarui kebijakan privasi ini sewaktu-waktu.
-              Perubahan akan ditandai dengan tanggal pembaruan di bagian atas
-              halaman ini.
+              We may update this privacy policy at any time. Changes will be
+              reflected by the updated date at the top of this page.
             </p>
           </section>
 
-          {/* 7 */}
           <section>
-            <h2 className="text-section-title mb-3">7. Kontak</h2>
+            <h2 className="text-section-title mb-3">7. Contact</h2>
             <p className="text-body">
-              Jika kamu memiliki pertanyaan terkait privasi, kamu dapat
-              menghubungi kami melalui Instagram{" "}
+              If you have any questions about this privacy policy, feel free to
+              reach out via Instagram{" "}
               <a
                 href="https://www.instagram.com/massdiipp"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[var(--color-accent)] hover:underline"
+                className="text-[var(--color-accent)] hover:underline focus-visible:outline-none focus-visible:underline"
               >
                 @massdiipp
               </a>{" "}
-              atau{" "}
+              or{" "}
               <a
                 href="https://www.instagram.com/1lyzznw"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[var(--color-accent)] hover:underline"
+                className="text-[var(--color-accent)] hover:underline focus-visible:outline-none focus-visible:underline"
               >
                 @1lyzznw
               </a>.

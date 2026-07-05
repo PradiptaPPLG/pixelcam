@@ -3,8 +3,7 @@ import Container from "@/components/ui/Container";
 
 export const metadata: Metadata = {
   title: "Terms of Service",
-  description:
-    "Syarat dan ketentuan penggunaan PixelCam.",
+  description: "Terms and conditions for using PixelCam.",
 };
 
 export default function TermsPage() {
@@ -17,107 +16,97 @@ export default function TermsPage() {
 
         {/* ── Headline ── */}
         <h1 className="text-heading mb-2">Terms of Service</h1>
-        <p className="text-caption mb-10">Terakhir diperbarui: Juli 2025</p>
+        <p className="text-caption mb-10">Last updated: July 2025</p>
 
         <div className="flex flex-col gap-10">
 
-          {/* 1 */}
           <section>
-            <h2 className="text-section-title mb-3">1. Penerimaan Syarat</h2>
+            <h2 className="text-section-title mb-3">1. Acceptance of Terms</h2>
             <p className="text-body">
-              Dengan mengakses dan menggunakan PixelCam, kamu menyetujui syarat
-              dan ketentuan yang tercantum di halaman ini. Jika kamu tidak
-              menyetujuinya, harap tidak menggunakan layanan ini.
+              By accessing and using PixelCam, you agree to the terms and
+              conditions outlined on this page. If you do not agree, please
+              refrain from using the service.
             </p>
           </section>
 
-          {/* 2 */}
           <section>
-            <h2 className="text-section-title mb-3">2. Deskripsi Layanan</h2>
+            <h2 className="text-section-title mb-3">2. Service Description</h2>
             <p className="text-body">
-              PixelCam adalah aplikasi photobooth berbasis web yang memungkinkan
-              pengguna mengambil foto, menerapkan filter, memilih tema, dan
-              mengunduh strip foto langsung dari browser. Layanan ini bersifat
-              gratis dan tidak memerlukan akun.
+              PixelCam is a browser-based photobooth that lets users take
+              photos, apply filters, choose themes, and download photo strips
+              directly from their browser. The service is free and requires no
+              account.
             </p>
           </section>
 
-          {/* 3 */}
           <section>
-            <h2 className="text-section-title mb-3">3. Penggunaan yang Diperbolehkan</h2>
+            <h2 className="text-section-title mb-3">3. Acceptable Use</h2>
             <p className="text-body mb-3">
-              Kamu diperbolehkan menggunakan PixelCam untuk keperluan pribadi
-              dan non-komersial. Kamu setuju untuk tidak:
+              You may use PixelCam for personal, non-commercial purposes. You
+              agree not to:
             </p>
-            <ul className="flex flex-col gap-2 text-caption list-none">
-              <li className="flex gap-3">
+            <ul className="flex flex-col gap-2 list-none">
+              <li className="flex gap-3 text-caption">
                 <span className="shrink-0 text-[var(--color-accent)]">✦</span>
-                <span>Menggunakan layanan untuk tujuan ilegal atau merugikan pihak lain.</span>
+                <span>Use the service for illegal purposes or to harm others.</span>
               </li>
-              <li className="flex gap-3">
+              <li className="flex gap-3 text-caption">
                 <span className="shrink-0 text-[var(--color-accent)]">✦</span>
-                <span>Mencoba meretas, merusak, atau mengganggu sistem PixelCam.</span>
+                <span>Attempt to hack, damage, or disrupt PixelCam&apos;s systems.</span>
               </li>
-              <li className="flex gap-3">
+              <li className="flex gap-3 text-caption">
                 <span className="shrink-0 text-[var(--color-accent)]">✦</span>
-                <span>Menggunakan PixelCam untuk membuat konten yang melanggar hak cipta atau hak privasi orang lain.</span>
+                <span>Use PixelCam to create content that infringes on copyright or the privacy of others.</span>
               </li>
             </ul>
           </section>
 
-          {/* 4 */}
           <section>
-            <h2 className="text-section-title mb-3">4. Hak Kekayaan Intelektual</h2>
+            <h2 className="text-section-title mb-3">4. Intellectual Property</h2>
             <p className="text-body">
-              Seluruh elemen desain, kode, dan konten PixelCam adalah milik tim
-              PixelCam. Foto yang kamu ambil menggunakan PixelCam sepenuhnya
-              menjadi milikmu — kami tidak mengklaim kepemilikan atas foto
-              tersebut.
+              All design elements, code, and content of PixelCam belong to the
+              PixelCam team. Photos you take using PixelCam are entirely yours
+              — we make no claim of ownership over them.
             </p>
           </section>
 
-          {/* 5 */}
           <section>
-            <h2 className="text-section-title mb-3">5. Penafian</h2>
+            <h2 className="text-section-title mb-3">5. Disclaimer</h2>
             <p className="text-body">
-              PixelCam disediakan "sebagaimana adanya" tanpa jaminan dalam
-              bentuk apapun. Kami tidak bertanggung jawab atas kehilangan data,
-              kerusakan perangkat, atau kerugian lainnya yang timbul dari
-              penggunaan layanan ini.
+              PixelCam is provided &quot;as is&quot; without warranties of any kind. We
+              are not responsible for data loss, device damage, or any other
+              harm arising from the use of this service.
             </p>
           </section>
 
-          {/* 6 */}
           <section>
-            <h2 className="text-section-title mb-3">6. Perubahan Layanan</h2>
+            <h2 className="text-section-title mb-3">6. Changes to the Service</h2>
             <p className="text-body">
-              Kami berhak mengubah, menambah, atau menghentikan fitur layanan
-              kapan saja tanpa pemberitahuan sebelumnya. Kami juga dapat
-              memperbarui syarat ini sewaktu-waktu — perubahan berlaku sejak
-              ditampilkan di halaman ini.
+              We reserve the right to modify, add, or discontinue features at
+              any time without prior notice. We may also update these terms at
+              any time — changes take effect as soon as they are posted on this
+              page.
             </p>
           </section>
 
-          {/* 7 */}
           <section>
-            <h2 className="text-section-title mb-3">7. Kontak</h2>
+            <h2 className="text-section-title mb-3">7. Contact</h2>
             <p className="text-body">
-              Pertanyaan seputar syarat penggunaan dapat disampaikan melalui
-              Instagram{" "}
+              Questions about these terms can be directed to us via Instagram{" "}
               <a
                 href="https://www.instagram.com/massdiipp"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[var(--color-accent)] hover:underline"
+                className="text-[var(--color-accent)] hover:underline focus-visible:outline-none focus-visible:underline"
               >
                 @massdiipp
               </a>{" "}
-              atau{" "}
+              or{" "}
               <a
                 href="https://www.instagram.com/1lyzznw"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[var(--color-accent)] hover:underline"
+                className="text-[var(--color-accent)] hover:underline focus-visible:outline-none focus-visible:underline"
               >
                 @1lyzznw
               </a>.

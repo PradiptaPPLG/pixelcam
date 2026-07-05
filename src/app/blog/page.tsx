@@ -4,61 +4,61 @@ import Container from "@/components/ui/Container";
 export const metadata: Metadata = {
   title: "Blog",
   description:
-    "Panduan lengkap cara menggunakan PixelCam — dari membuka booth hingga mengunduh hasil foto.",
+    "A complete guide on how to use PixelCam — from opening the booth to downloading your photo strip.",
 };
 
 /* ─── Tutorial steps ────────────────────────────────────────── */
 const STEPS = [
   {
     number: "01",
-    title: "Buka Booth",
+    title: "Open the Booth",
     description:
-      'Klik tombol "Start Session" atau "Open Booth" di halaman utama. Tidak perlu akun, tidak perlu install apa pun — langsung jalan di browser.',
+      'Click the "Start Session" or "Open Booth" button on the homepage. No account needed, nothing to install — it runs directly in your browser.',
   },
   {
     number: "02",
-    title: "Izinkan Akses Kamera",
+    title: "Allow Camera Access",
     description:
-      'Browser akan meminta izin mengakses kamera. Klik "Allow" / "Izinkan". Kalau kamu punya lebih dari satu kamera, kamu bisa pilih mana yang ingin dipakai.',
+      'Your browser will ask for camera permission. Click "Allow". If you have multiple cameras, you can choose which one to use.',
   },
   {
     number: "03",
-    title: "Pilih Tema",
+    title: "Choose a Theme",
     description:
-      "Sebelum memotret, pilih tema tampilan strip foto kamu. Ada berbagai pilihan estetik — dari minimalis, vintage, hingga modern. Tema mengatur warna frame dan layout strip.",
+      "Before shooting, pick a theme for your photo strip. There are various aesthetic options — from minimalist and vintage to modern. Themes control the frame color and strip layout.",
   },
   {
     number: "04",
-    title: "Pilih Filter",
+    title: "Pick a Filter",
     description:
-      "Aktifkan filter sinematik sesuai mood kamu. Filter akan langsung terlihat di preview kamera secara real-time sebelum kamu memotret.",
+      "Apply a cinematic filter that matches your mood. Filters are previewed on the camera feed in real-time before you shoot.",
   },
   {
     number: "05",
-    title: "Ambil Foto",
+    title: "Take Your Photos",
     description:
-      "Tekan tombol capture. PixelCam akan melakukan countdown otomatis, lalu mengambil beberapa foto sekaligus untuk membentuk strip. Pastikan pencahayaan cukup untuk hasil terbaik.",
+      "Press the capture button. PixelCam will start an automatic countdown and take a series of photos to form your strip. Make sure you have good lighting for the best results.",
   },
   {
     number: "06",
-    title: "Edit di Studio",
+    title: "Edit in Studio",
     description:
-      "Setelah foto diambil, kamu bisa masuk ke editor untuk menyesuaikan kecerahan, kontras, dan saturasi. Tambahkan stiker atau teks kalau mau.",
+      "After the photos are taken, head to the editor to adjust brightness, contrast, and saturation. You can also add stickers or text.",
   },
   {
     number: "07",
-    title: "Unduh Hasil",
+    title: "Download Your Strip",
     description:
-      "Kalau sudah puas, klik tombol unduh. Strip foto akan tersimpan langsung ke perangkat kamu dalam format gambar berkualitas tinggi.",
+      "When you&apos;re happy with the result, click the download button. Your photo strip will be saved directly to your device in high quality.",
   },
 ] as const;
 
 /* ─── Tips ──────────────────────────────────────────────────── */
 const TIPS = [
-  "Gunakan pencahayaan dari depan (hadap jendela) agar wajah lebih terang dan filter bekerja optimal.",
-  "Coba beberapa filter di preview sebelum memotret — efeknya bisa sangat berbeda tergantung kondisi cahaya.",
-  "Untuk foto grup, mundur sedikit agar semua orang masuk frame.",
-  "PixelCam bekerja paling baik di browser Chrome atau Edge versi terbaru.",
+  "Use front-facing light (face a window) to brighten your face and get the most out of the filters.",
+  "Try different filters in the preview before shooting — the effect can vary a lot depending on lighting.",
+  "For group shots, step back a little to make sure everyone fits in the frame.",
+  "PixelCam works best on the latest version of Chrome or Edge.",
 ] as const;
 
 /* ─── Page ──────────────────────────────────────────────────── */
@@ -68,14 +68,14 @@ export default function BlogPage() {
       <Container size="sm">
 
         {/* ── Label ── */}
-        <p className="text-label text-[var(--color-accent)] mb-4">Panduan</p>
+        <p className="text-label text-[var(--color-accent)] mb-4">Guide</p>
 
         {/* ── Headline ── */}
-        <h1 className="text-heading mb-4">Cara Menggunakan PixelCam</h1>
+        <h1 className="text-heading mb-4">How to Use PixelCam</h1>
 
         <p className="text-body mb-14">
-          Ikuti langkah-langkah berikut untuk mendapatkan hasil foto terbaik
-          dari PixelCam — semuanya berjalan langsung di browser kamu.
+          Follow these steps to get the best photos from PixelCam —
+          everything runs directly in your browser.
         </p>
 
         {/* ── Steps ── */}
@@ -83,14 +83,11 @@ export default function BlogPage() {
           {STEPS.map(({ number, title, description }) => (
             <li
               key={number}
-              className="flex gap-5 rounded-[var(--radius-card)] border border-[var(--color-border)] bg-[var(--color-surface-0)] p-6 hover:shadow-[var(--shadow-md)] transition-shadow duration-200"
+              className="flex gap-5 rounded-[var(--radius-card)] border border-[var(--color-border)] bg-[var(--color-surface-0)] p-6 transition-all duration-200 hover:bg-[var(--color-surface-2)]"
             >
-              {/* Step number */}
               <span className="shrink-0 w-10 h-10 rounded-full bg-[var(--color-accent-50)] text-[var(--color-accent)] text-[13px] font-bold flex items-center justify-center">
                 {number}
               </span>
-
-              {/* Content */}
               <div className="flex flex-col gap-1.5">
                 <h2 className="text-[16px] font-semibold text-[var(--fg)]">
                   {title}
@@ -106,7 +103,7 @@ export default function BlogPage() {
 
         {/* ── Tips ── */}
         <div className="rounded-[var(--radius-card)] bg-[var(--color-accent-50)] border border-[var(--color-accent-100)] p-6">
-          <h2 className="text-section-title mb-4">Tips & Trik</h2>
+          <h2 className="text-section-title mb-4">Tips &amp; Tricks</h2>
           <ul className="flex flex-col gap-3" role="list">
             {TIPS.map((tip) => (
               <li key={tip} className="flex gap-3 text-caption">
