@@ -3,6 +3,8 @@
 import { motion } from "framer-motion";
 import PreviewCanvas from "@/components/preview/PreviewCanvas";
 import { getFilterById } from "@/utils/filter";
+import { getFilterPreset } from "@/data/filterPresets";
+import { useFilteredPhotos } from "@/hooks/useFilteredPhotos";
 import type { StripCustomization, ThemePreset } from "@/utils/theme";
 
 interface FilterPreviewProps {
@@ -24,6 +26,8 @@ export default function FilterPreview({
   filterId,
 }: FilterPreviewProps) {
   const filter = getFilterById(filterId);
+  const filterPreset = getFilterPreset(filterId);
+  const filteredPhotos = useFilteredPhotos(photos, filterPreset.settings);
 
   return (
     <motion.div
@@ -41,7 +45,7 @@ export default function FilterPreview({
           theme={theme}
           customization={customization}
           filter={filter}
-          photos={photos}
+          photos={filteredPhotos}
         />
       </motion.div>
     </motion.div>

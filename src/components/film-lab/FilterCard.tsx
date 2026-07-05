@@ -10,6 +10,7 @@ interface FilterCardProps {
   preset: FilterPreset;
   selected: boolean;
   onSelect: () => void;
+  thumbnail?: string | null;
 }
 
 /** Sample gradient used as the thumbnail placeholder for each filter. */
@@ -25,6 +26,7 @@ export default function FilterCard({
   preset,
   selected,
   onSelect,
+  thumbnail,
 }: FilterCardProps) {
   return (
     <motion.button
@@ -44,11 +46,16 @@ export default function FilterCard({
     >
       {/* Thumbnail placeholder */}
       <span className="h-12 w-12 shrink-0 overflow-hidden rounded-[10px] ring-1 ring-black/10">
-        <span
-          className="block h-full w-full"
-          style={{ background: SAMPLE, filter: toPreviewCss(preset.settings) }}
-          aria-hidden="true"
-        />
+        {thumbnail ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={thumbnail} alt="" className="h-full w-full object-cover" />
+        ) : (
+          <span
+            className="block h-full w-full"
+            style={{ background: SAMPLE, filter: toPreviewCss(preset.settings) }}
+            aria-hidden="true"
+          />
+        )}
       </span>
 
       {/* Text */}

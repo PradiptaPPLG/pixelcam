@@ -103,16 +103,6 @@ export default function Navbar() {
             {/* Desktop CTA */}
             <div className="hidden md:flex items-center gap-3">
               <ThemeToggle />
-              <Link
-                href="/booth"
-                id="navbar-start-session"
-                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-[14px] bg-[#111111] text-white text-[13px] font-medium hover:bg-[#222222] active:bg-[#333333] transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4f46e5] focus-visible:ring-offset-2"
-              >
-                Start Session
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-                  <path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </Link>
             </div>
 
             {/* Mobile toggle */}
@@ -187,12 +177,6 @@ export default function Navbar() {
               <span className="text-sm font-medium text-[#6b7280]">Theme</span>
               <ThemeToggle />
             </div>
-            <Link
-              href="/booth"
-              className="flex items-center justify-center gap-2 w-full py-2.5 rounded-[14px] bg-[#111111] text-white text-sm font-medium hover:bg-[#222222] transition-colors"
-            >
-              Start Session
-            </Link>
           </div>
         </div>
       </div>

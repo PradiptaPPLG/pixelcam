@@ -76,6 +76,12 @@ export default function UploadFlow({ open, onClose }: UploadFlowProps) {
       setError("Please choose PNG, JPG, JPEG or WEBP images.");
       return;
     }
+    if (files.length > count) {
+      setError(`Maksimal ${count} foto. Sistem hanya mengambil ${count} foto pertama.`);
+    } else {
+      setError(null);
+    }
+    
     revokeUrls();
     const selected = files.slice(0, count);
     const objectUrls = selected.map((file) => URL.createObjectURL(file));

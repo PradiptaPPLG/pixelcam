@@ -101,7 +101,6 @@ const PreviewCanvas = forwardRef<HTMLDivElement, PreviewCanvasProps>(
                   width: imgWidth,
                   height: imgHeight,
                   objectFit: "cover",
-                  filter: filter.css,
                 }}
               />
             </div>

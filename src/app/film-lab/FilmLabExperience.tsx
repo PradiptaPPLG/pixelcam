@@ -102,7 +102,7 @@ export default function FilmLabExperience() {
           <div className="flex flex-col gap-5 lg:sticky lg:top-24 lg:max-h-[calc(100vh-7rem)]">
             <FilmHeader />
             <div className="-mr-1 min-h-0 flex-1 overflow-y-auto pr-1">
-              <FilterSidebar selectedId={selectedId} onSelect={selectFilter} />
+              <FilterSidebar selectedId={selectedId} onSelect={selectFilter} firstPhoto={photos[0]} />
             </div>
             <FilterFooter
               onBack={() => router.push("/theme")}

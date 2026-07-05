@@ -25,22 +25,45 @@ export type FilterId =
  * configuration — no rendering happens here.
  */
 export interface FilterSettings {
-  /** Exposure multiplier (1 = unchanged). */
-  brightness: number;
-  /** Contrast multiplier (1 = unchanged). */
+  /** Exposure offset (-100 to 100, 0 = neutral) */
+  exposure: number;
+  /** Contrast multiplier (0 to 2, 1 = neutral) */
   contrast: number;
-  /** Saturation multiplier (1 = unchanged, 0 = monochrome). */
+  /** Brightness offset (-100 to 100, 0 = neutral) */
+  brightness: number;
+  /** Saturation multiplier (0 to 2, 1 = neutral) */
   saturation: number;
-  /** White balance, -100 (cool) … 100 (warm). */
+  /** Vibrance multiplier (-1 to 1, 0 = neutral) */
+  vibrance: number;
+  /** Color temperature (-100 to 100, cool to warm) */
   temperature: number;
-  /** Film grain intensity, 0 … 100. */
-  grain: number;
-  /** Vignette strength, 0 … 100. */
-  vignette: number;
-  /** Faded-film lift, 0 … 100 (raises blacks / softens contrast). */
+  /** Tint (-100 to 100, green to magenta) */
+  tint: number;
+  
+  /** Shadow lift/fade (0 to 100, raises black point) */
   fade: number;
-  /** Optional color wash as a hex string, or "none". */
-  tint: string;
+  /** White point clamping (0 to 100, lowers white point) */
+  highlightCompression: number;
+
+  /** Split toning shadow color [H, S] (H: 0-360, S: 0-1) */
+  shadowColor?: [number, number];
+  /** Split toning highlight color [H, S] (H: 0-360, S: 0-1) */
+  highlightColor?: [number, number];
+
+  /** Lift (Shadows) per RGB channel [-1 to 1] */
+  lift?: [number, number, number];
+  /** Gamma (Midtones) per RGB channel [0 to 2, 1 = neutral] */
+  gamma?: [number, number, number];
+  /** Gain (Highlights) per RGB channel [0 to 2, 1 = neutral] */
+  gain?: [number, number, number];
+
+  /** Optional Color wash hex or "none" */
+  colorWash: string;
+
+  /** Film grain intensity (0 to 100) */
+  grain: number;
+  /** Vignette strength (0 to 100) */
+  vignette: number;
 }
 
 /** A named filter preset the user can pick in Film Lab. */

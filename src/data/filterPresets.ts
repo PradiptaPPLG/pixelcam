@@ -7,16 +7,19 @@
 
 import type { FilterId, FilterPreset, FilterSettings } from "@/types/filter";
 
-/** Neutral baseline; every preset overrides from here. */
 export const NEUTRAL_SETTINGS: FilterSettings = {
-  brightness: 1,
+  exposure: 0,
   contrast: 1,
+  brightness: 0,
   saturation: 1,
+  vibrance: 0,
   temperature: 0,
+  tint: 0,
+  fade: 0,
+  highlightCompression: 0,
+  colorWash: "none",
   grain: 0,
   vignette: 0,
-  fade: 0,
-  tint: "none",
 };
 
 function preset(
@@ -28,70 +31,81 @@ function preset(
   return { id, name, description, settings: { ...NEUTRAL_SETTINGS, ...settings } };
 }
 
-/** The twelve built-in Film Lab presets, in display order. */
 export const FILTER_PRESETS: FilterPreset[] = [
   preset("original", "Original", "Natural colors.", {}),
-  preset("film", "Film", "Classic analog look.", {
-    contrast: 1.14,
-    saturation: 1.1,
-    temperature: 16,
-    grain: 20,
+  preset("film", "Film ⭐", "Nostalgic analog feeling.", {
+    contrast: 1.15,
+    saturation: 0.9,
+    temperature: 15,
+    tint: 5, // slightly green/warm
+    fade: 15,
+    highlightCompression: 10,
+    grain: 25,
+    vignette: 20,
+    shadowColor: [120, 0.1], // greenish shadows
+    highlightColor: [40, 0.15], // warm highlights
+    colorWash: "#faf5eb",
   }),
-  preset("retro", "Retro", "Warm nostalgic tones.", {
-    brightness: 1.03,
-    saturation: 1.12,
-    temperature: 32,
-    fade: 12,
+  preset("strong", "Strong", "High contrast and vibrant.", {
+    contrast: 1.3,
+    saturation: 1.2,
+    vibrance: 0.2,
+    exposure: 5,
+    highlightCompression: 5,
+    gamma: [0.95, 1.0, 1.05], // cooler shadows/midtones for landscape
   }),
-  preset("vintage", "Vintage", "Slight yellow faded appearance.", {
+  preset("vintage", "Vintage", "Retro faded colors.", {
+    contrast: 0.9,
+    saturation: 0.75,
+    temperature: 20,
+    tint: 10,
+    fade: 30,
+    colorWash: "#f4e0c0", // brown/yellow tint
+    shadowColor: [60, 0.2], // brownish lift
+  }),
+  preset("cream", "Cream", "Soft pastel and airy.", {
+    contrast: 0.85,
+    brightness: 10,
+    saturation: 0.85,
+    temperature: 10,
+    fade: 5,
+    colorWash: "#fdf8f5", // creamy white
+  }),
+  preset("senja", "Senja", "Warm sunset glow.", {
+    contrast: 1.1,
+    saturation: 1.15,
+    temperature: 45,
+    tint: -5, // orange/magenta
+    shadowColor: [220, 0.2], // blue shadows
+    vignette: 15,
+  }),
+  preset("early_morning", "Early Morning", "Cool calm atmosphere.", {
     contrast: 0.95,
     saturation: 0.9,
-    temperature: 24,
-    fade: 28,
-    tint: "#f0e0b0",
+    temperature: -30,
+    tint: -10, // blue/cyan
+    fade: 10,
+    colorWash: "#f0f5fa",
   }),
-  preset("mono", "Mono", "Black & white.", {
+  preset("bw", "Black & White", "Professional monochrome.", {
+    contrast: 1.25,
     saturation: 0,
-    contrast: 1.1,
+    vibrance: -1,
+    fade: 5,
+    highlightCompression: 5,
   }),
-  preset("dreamy", "Dreamy", "Soft glow.", {
-    brightness: 1.08,
-    contrast: 0.92,
+  preset("light", "Light", "Subtle modern enhancement.", {
+    contrast: 1.05,
     saturation: 1.05,
-    fade: 20,
+    brightness: 5,
+    vibrance: 0.1,
   }),
-  preset("cool", "Cool", "Blue tone.", {
-    saturation: 1.05,
-    temperature: -35,
-    brightness: 1.02,
-  }),
-  preset("warm", "Warm", "Orange tone.", {
-    saturation: 1.1,
-    temperature: 40,
-  }),
-  preset("fade", "Fade", "Low contrast.", {
-    contrast: 0.85,
-    brightness: 1.06,
-    saturation: 0.9,
-    fade: 30,
-  }),
-  preset("moody", "Moody", "Dark cinematic.", {
-    brightness: 0.92,
-    contrast: 1.15,
-    saturation: 0.95,
-    temperature: -8,
-    vignette: 40,
-  }),
-  preset("vivid", "Vivid", "Rich saturation.", {
-    saturation: 1.4,
-    contrast: 1.06,
-  }),
-  preset("grain", "Grain", "Film grain inspired.", {
-    brightness: 0.98,
-    contrast: 1.16,
-    saturation: 0.94,
-    temperature: 6,
-    grain: 55,
+  preset("doodle", "Doodle", "Artistic illustration.", {
+    contrast: 1.4,
+    saturation: 1.3,
+    exposure: 10,
+    highlightCompression: 15, // flatten highlights a bit for illustration look
+    shadowColor: [0, 0],
   }),
 ];
 
