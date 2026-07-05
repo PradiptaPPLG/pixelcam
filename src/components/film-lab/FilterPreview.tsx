@@ -33,6 +33,7 @@ export default function FilterPreview({
     <motion.div
       animate={{ backgroundColor: theme.style.canvas }}
       transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
+      style={{ background: theme.style.canvasPattern ?? theme.style.canvas }}
       className="flex justify-center rounded-[24px] p-8 ring-1 ring-black/5 sm:p-12"
     >
       <motion.div

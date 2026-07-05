@@ -4,6 +4,9 @@ import { useRef, useState } from "react";
 import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
 import TutorialModal from "./TutorialModal";
+import Shuffle from "../ui/Shuffle";
+import ShinyText from "../ui/ShinyText";
+import RotatingText from "../ui/RotatingText";
 
 /* ── Photo strip mock data ──────────────────────────────────── */
 const STRIPS = [
@@ -136,11 +139,51 @@ export default function HeroSection() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.55, delay: 0.1, ease: "easeOut" }}
           >
-            Capture Moments
+            <ShinyText
+              text="Capture Moments"
+              speed={3}
+              color="currentColor"
+              shineColor="#a5b4fc"
+              spread={90}
+              direction="left"
+              pauseOnHover
+            />
             <br />
-            <span className="text-[#4f46e5]">Like a Real</span>
+            <span className="inline-flex items-baseline gap-2 flex-wrap">
+              <span className="text-[#4f46e5]">Like a</span>
+              <RotatingText
+                texts={['Real', 'Perfect', 'Premium', 'Epic', 'Aesthetic', 'Timeless']}
+                mainClassName="px-3 py-0.5 bg-[#4f46e5]/60 backdrop-blur-sm text-white rounded-lg overflow-hidden inline-flex"
+                splitLevelClassName="overflow-hidden"
+                staggerFrom="last"
+                initial={{ y: '100%' }}
+                animate={{ y: 0 }}
+                exit={{ y: '-120%' }}
+                staggerDuration={0.025}
+                transition={{ type: 'spring', damping: 22, stiffness: 320 }}
+                rotationInterval={2200}
+                splitBy="characters"
+                auto
+                loop
+              />
+            </span>
             <br />
-            Photobooth.
+            <Shuffle
+              text="PHOTOBOOTH."
+              tag="span"
+              shuffleDirection="right"
+              duration={0.4}
+              animationMode="evenodd"
+              shuffleTimes={1}
+              ease="power3.out"
+              stagger={0.04}
+              threshold={0.1}
+              triggerOnce={true}
+              triggerOnHover={true}
+              respectReducedMotion={true}
+              className="text-[#111111] dark:text-white [&_span]:text-[#111111] dark:[&_span]:text-white"
+              style={{ fontSize: "clamp(1rem, 3.2vw, 2.4rem)", lineHeight: "1.2", letterSpacing: "-0.02em", color: "inherit" }}
+            />
           </motion.h1>
 
           <motion.p

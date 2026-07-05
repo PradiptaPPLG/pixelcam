@@ -386,7 +386,7 @@ export default function PreviewExperience() {
 
             <div
               className="relative flex min-h-[420px] items-center justify-center rounded-[24px] p-8 ring-1 ring-black/5 sm:p-12"
-              style={{ background: PREVIEW_GRADIENT }}
+              style={{ background: theme.style.canvasPattern ?? theme.style.canvas }}
             >
               <LoadingOverlay show={false} />
               <motion.div

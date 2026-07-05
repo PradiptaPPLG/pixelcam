@@ -47,7 +47,7 @@ function FaqItem({
   index: number;
 }) {
   const [open, setOpen] = useState(false);
-  const ref    = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-30px" });
 
   return (
@@ -103,7 +103,7 @@ function FaqItem({
 
 /* ── FaqSection ─────────────────────────────────────────────── */
 export default function FaqSection() {
-  const titleRef   = useRef<HTMLDivElement>(null);
+  const titleRef = useRef<HTMLDivElement>(null);
   const titleInView = useInView(titleRef, { once: true, margin: "-40px" });
 
   return (
@@ -129,10 +129,10 @@ export default function FaqSection() {
             <p className="text-[#6b7280] text-[15px] leading-relaxed mt-1">
               Can&apos;t find your answer? Reach out to us at{" "}
               <a
-                href="mailto:hello@pixelcam.app"
+                href="mailto:pradipta02032009@gmail.com"
                 className="text-[#4f46e5] hover:underline focus-visible:outline-none"
               >
-                hello@pixelcam.app
+                pradipta02032009@gmail.com
               </a>
             </p>
           </motion.div>

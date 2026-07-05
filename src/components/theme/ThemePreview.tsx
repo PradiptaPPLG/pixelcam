@@ -50,7 +50,6 @@ export default function ThemePreview({
   return (
     <motion.div
       animate={{
-        backgroundColor: style.paper,
         boxShadow: showShadow ? style.shadow : "0 0 0 0 rgba(0,0,0,0)",
         borderRadius: stripRadius,
         paddingTop: style.padding,
@@ -59,7 +58,10 @@ export default function ThemePreview({
         paddingRight: style.padding,
       }}
       transition={TRANSITION}
-      style={{ fontFamily: style.mono ? MONO_STACK : undefined }}
+      style={{
+        background: style.paperPattern ?? style.paper,
+        fontFamily: style.mono ? MONO_STACK : undefined,
+      }}
       className="flex w-full max-w-[300px] flex-col"
     >
       {/* Title */}

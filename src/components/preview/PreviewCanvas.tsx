@@ -53,7 +53,7 @@ const PreviewCanvas = forwardRef<HTMLDivElement, PreviewCanvasProps>(
         style={{
           width,
           boxSizing: "border-box",
-          backgroundColor: style.paper,
+          background: style.paperPattern ?? style.paper,
           borderRadius: stripRadius,
           padding: style.padding,
           boxShadow: showShadow ? style.shadow : "none",
