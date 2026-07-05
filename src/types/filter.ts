@@ -18,7 +18,14 @@ export type FilterId =
   | "fade"
   | "moody"
   | "vivid"
-  | "grain";
+  | "grain"
+  | "strong"
+  | "cream"
+  | "senja"
+  | "early_morning"
+  | "bw"
+  | "light"
+  | "doodle";
 
 /**
  * Configurable, engine-agnostic values for a filter. All numbers are plain
