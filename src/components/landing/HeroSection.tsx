@@ -1,12 +1,23 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, useSyncExternalStore } from "react";
 import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
+import dynamic from "next/dynamic";
 import TutorialModal from "./TutorialModal";
 import Shuffle from "../ui/Shuffle";
 import ShinyText from "../ui/ShinyText";
 import RotatingText from "../ui/RotatingText";
+import {
+  subscribeThemeMode,
+  getThemeMode,
+  getServerThemeMode,
+  isDark,
+} from "@/lib/theme-mode";
+
+const PixelBlast = dynamic(() => import("@/components/ui/PixelBlast"), {
+  ssr: false,
+});
 
 /* ── Photo strip mock data ──────────────────────────────────── */
 const STRIPS = [
@@ -102,12 +113,43 @@ export default function HeroSection() {
   const mockupY = useTransform(scrollYProgress, [0, 1], [0, 60]);
   const [tutorialOpen, setTutorialOpen] = useState(false);
 
+  const mode = useSyncExternalStore(
+    subscribeThemeMode,
+    getThemeMode,
+    getServerThemeMode,
+  );
+  const isDarkMode = isDark(mode);
+
   return (
     <section
       ref={ref}
       className="relative flex items-center min-h-[calc(100vh-64px)] py-16 md:py-24 overflow-hidden"
       aria-labelledby="hero-heading"
     >
+      {/* PixelBlast interactive WebGL background */}
+      <div className="absolute inset-0 -z-10 pointer-events-none" aria-hidden="true">
+        <PixelBlast
+          variant="square"
+          pixelSize={3}
+          color={isDarkMode ? "#B497CF" : "#a586ff"}
+          patternScale={2}
+          patternDensity={1}
+          pixelSizeJitter={0}
+          enableRipples
+          rippleSpeed={0.4}
+          rippleThickness={0.12}
+          rippleIntensityScale={1.5}
+          liquid={false}
+          liquidStrength={0.12}
+          liquidRadius={1.2}
+          liquidWobbleSpeed={5}
+          speed={0.5}
+          edgeFade={0.25}
+          transparent
+          className="pointer-events-auto"
+        />
+      </div>
+
       {/* Subtle noise texture overlay */}
       <div
         className="pointer-events-none absolute inset-0 opacity-[0.015]"
@@ -117,6 +159,7 @@ export default function HeroSection() {
         }}
         aria-hidden="true"
       />
+
 
       <div className="w-full max-w-[1280px] mx-auto px-6 grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
         {/* Left — copy */}
