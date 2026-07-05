@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   Camera,
@@ -11,6 +11,7 @@ import {
   X,
   type LucideIcon,
 } from "lucide-react";
+import { ScrollStack, ScrollStackItem } from "@/components/ui";
 
 interface TutorialModalProps {
   open: boolean;
@@ -57,39 +58,12 @@ const SLIDES: Slide[] = [
   },
 ];
 
-const variants = {
-  enter: (direction: number) => ({ opacity: 0, x: direction > 0 ? 40 : -40 }),
-  center: { opacity: 1, x: 0 },
-  exit: (direction: number) => ({ opacity: 0, x: direction > 0 ? -40 : 40 }),
-};
-
 /**
- * Tutorial slideshow. Advance by clicking or swiping; auto-closes after the
- * last slide, on backdrop click, or on Escape. Traps focus while open.
+ * Tutorial modal utilizing ScrollStack. Shows tutorial steps stacking on top
+ * of each other as the user scrolls. Traps focus while open.
  */
 export default function TutorialModal({ open, onClose }: TutorialModalProps) {
-  const [[index, direction], setSlide] = useState<[number, number]>([0, 0]);
   const dialogRef = useRef<HTMLDivElement>(null);
-
-  const goNext = () => {
-    if (index >= SLIDES.length - 1) {
-      onClose();
-      return;
-    }
-    setSlide([index + 1, 1]);
-  };
-
-  const goPrev = () => {
-    if (index <= 0) return;
-    setSlide([index - 1, -1]);
-  };
-
-  // Reset to the first slide each time it opens (render-phase, not an effect).
-  const [wasOpen, setWasOpen] = useState(open);
-  if (open !== wasOpen) {
-    setWasOpen(open);
-    if (open) setSlide([0, 0]);
-  }
 
   // Escape to close, Tab to trap focus, lock scroll, restore focus on close.
   useEffect(() => {
@@ -131,10 +105,6 @@ export default function TutorialModal({ open, onClose }: TutorialModalProps) {
     };
   }, [open, onClose]);
 
-  const slide = SLIDES[index];
-  const Icon = slide.icon;
-  const isLast = index === SLIDES.length - 1;
-
   return (
     <AnimatePresence>
       {open && (
@@ -157,95 +127,93 @@ export default function TutorialModal({ open, onClose }: TutorialModalProps) {
             exit={{ opacity: 0, scale: 0.97, y: 8 }}
             transition={{ type: "spring", stiffness: 320, damping: 30 }}
             onClick={(event) => event.stopPropagation()}
-            className="relative w-full max-w-md overflow-hidden rounded-[24px] border border-[#e5e7eb] bg-white shadow-[0_24px_60px_-16px_rgba(0,0,0,0.35)] focus:outline-none"
+            className="relative w-full max-w-md h-[550px] max-h-[85vh] flex flex-col overflow-hidden rounded-[24px] border border-[#e5e7eb] dark:border-[#2a2a2e] bg-[#fafafa] dark:bg-[#0d0d0f] shadow-[0_24px_60px_-16px_rgba(0,0,0,0.35)] focus:outline-none"
           >
-            {/* Close */}
-            <button
-              type="button"
-              onClick={onClose}
-              aria-label="Close tutorial"
-              className="absolute right-3 top-3 z-10 grid h-8 w-8 place-items-center rounded-full text-[#6b7280] transition-colors hover:bg-[#f5f5f5] hover:text-[#111111] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4f46e5]"
-            >
-              <X className="h-4 w-4" aria-hidden="true" />
-            </button>
-
-            {/* Slide (click or swipe to advance) */}
-            <motion.div
-              key="slide-area"
-              drag="x"
-              dragConstraints={{ left: 0, right: 0 }}
-              dragElastic={0.2}
-              onDragEnd={(_, info) => {
-                if (info.offset.x < -60) goNext();
-                else if (info.offset.x > 60) goPrev();
-              }}
-              onClick={goNext}
-              className="cursor-pointer select-none px-8 pb-6 pt-14"
-            >
-              <span className="text-[12px] font-semibold uppercase tracking-[0.08em] text-[#9ca3af]">
-                Tutorial · {index + 1} / {SLIDES.length}
-              </span>
-
-              <AnimatePresence mode="wait" custom={direction}>
-                <motion.div
-                  key={index}
-                  custom={direction}
-                  variants={variants}
-                  initial="enter"
-                  animate="center"
-                  exit="exit"
-                  transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
-                  className="mt-4 flex flex-col items-center gap-4 text-center"
+            {/* Header */}
+            <div className="flex items-center justify-between px-6 py-4 border-b border-[#e5e7eb] dark:border-[#2a2a2e] bg-white dark:bg-[#18181b] z-10 shadow-[0_1px_2px_rgba(0,0,0,0.02)]">
+              <div>
+                <h2
+                  id="tutorial-title"
+                  className="text-base font-semibold tracking-[-0.02em] text-[#111111] dark:text-[#f4f4f5]"
                 >
-                  <span
-                    className="grid h-16 w-16 place-items-center rounded-[20px]"
-                    style={{ backgroundColor: `${slide.accent}1a`, color: slide.accent }}
-                  >
-                    <Icon className="h-7 w-7" aria-hidden="true" />
-                  </span>
-                  <h2
-                    id="tutorial-title"
-                    className="text-[22px] font-semibold tracking-[-0.02em] text-[#111111]"
-                  >
-                    {slide.title}
-                  </h2>
-                  <p className="max-w-xs text-[15px] leading-relaxed text-[#6b7280]">
-                    {slide.text}
-                  </p>
-                </motion.div>
-              </AnimatePresence>
-            </motion.div>
-
-            {/* Controls */}
-            <div className="flex items-center justify-between gap-4 border-t border-[#f0f0f0] px-6 py-4">
-              <button
-                type="button"
-                onClick={goPrev}
-                disabled={index === 0}
-                className="text-[14px] font-medium text-[#6b7280] transition-colors hover:text-[#111111] disabled:cursor-not-allowed disabled:opacity-40 focus-visible:outline-none focus-visible:underline"
-              >
-                Back
-              </button>
-
-              <div className="flex items-center gap-1.5" aria-hidden="true">
-                {SLIDES.map((_, dot) => (
-                  <span
-                    key={dot}
-                    className="h-1.5 rounded-full transition-all duration-300"
-                    style={{
-                      width: dot === index ? 18 : 6,
-                      backgroundColor: dot === index ? "#111111" : "#d1d5db",
-                    }}
-                  />
-                ))}
+                  How PixelCam Works
+                </h2>
+                <p className="text-[11px] text-[#6b7280] dark:text-[#a1a1aa] mt-0.5">
+                  Scroll to view the 5 quick steps
+                </p>
               </div>
-
               <button
                 type="button"
-                onClick={goNext}
-                className="inline-flex items-center gap-1.5 rounded-[12px] bg-[#111111] px-4 py-2 text-[14px] font-medium text-white transition-colors hover:bg-[#222222] active:bg-[#333333] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4f46e5] focus-visible:ring-offset-2"
+                onClick={onClose}
+                aria-label="Close tutorial"
+                className="grid h-8 w-8 place-items-center rounded-full text-[#6b7280] dark:text-[#a1a1aa] transition-colors hover:bg-[#f5f5f5] dark:hover:bg-[#232327] hover:text-[#111111] dark:hover:text-[#f4f4f5] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4f46e5]"
               >
-                {isLast ? "Done" : "Next"}
+                <X className="h-4 w-4" aria-hidden="true" />
+              </button>
+            </div>
+
+            {/* Scrollable stack content */}
+            <div className="flex-1 overflow-hidden relative">
+              <ScrollStack
+                itemDistance={20}
+                itemScale={0.025}
+                itemStackDistance={14}
+                stackPosition="20px"
+                scaleEndPosition="0px"
+                baseScale={0.92}
+                blurAmount={1.2}
+                useWindowScroll={false}
+              >
+                {SLIDES.map((slide, i) => {
+                  const Icon = slide.icon;
+                  return (
+                    <ScrollStackItem key={i}>
+                      <div className="flex items-center justify-between w-full">
+                        <div
+                          className="grid h-9 w-9 place-items-center rounded-xl"
+                          style={{
+                            backgroundColor: `${slide.accent}15`,
+                            color: slide.accent,
+                          }}
+                        >
+                          <Icon className="h-4.5 w-4.5" aria-hidden="true" />
+                        </div>
+                        <span
+                          className="font-mono text-[10px] font-bold px-2 py-0.5 rounded-full tracking-wide uppercase"
+                          style={{
+                            backgroundColor: `${slide.accent}12`,
+                            color: slide.accent,
+                          }}
+                        >
+                          Step 0{i + 1}
+                        </span>
+                      </div>
+
+                      <div className="flex flex-col gap-1 mt-1">
+                        <h3 className="text-[15px] font-semibold tracking-[-0.01em] text-[#111111] dark:text-[#f4f4f5]">
+                          {slide.title}
+                        </h3>
+                        <p className="text-[12.5px] leading-relaxed text-[#6b7280] dark:text-[#a1a1aa]">
+                          {slide.text}
+                        </p>
+                      </div>
+                    </ScrollStackItem>
+                  );
+                })}
+              </ScrollStack>
+            </div>
+
+            {/* Footer */}
+            <div className="flex items-center justify-between border-t border-[#e5e7eb] dark:border-[#2a2a2e] px-6 py-4 bg-white dark:bg-[#18181b]">
+              <span className="text-[10px] font-semibold text-[#9ca3af] dark:text-[#71717a] tracking-[0.08em] uppercase">
+                Step-by-step
+              </span>
+              <button
+                type="button"
+                onClick={onClose}
+                className="inline-flex items-center gap-1.5 rounded-[12px] bg-[#111111] dark:bg-[#f4f4f5] dark:text-[#111111] px-5 py-2 text-[13px] font-medium text-white transition-colors hover:bg-[#222222] dark:hover:bg-[#e4e4e7] active:bg-[#333333] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4f46e5]"
+              >
+                Got it
               </button>
             </div>
           </motion.div>
