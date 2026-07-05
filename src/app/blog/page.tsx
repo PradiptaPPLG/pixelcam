@@ -83,7 +83,7 @@ export default function BlogPage() {
           {STEPS.map(({ number, title, description }) => (
             <li
               key={number}
-              className="flex gap-5 rounded-[var(--radius-card)] border border-[var(--color-border)] bg-[var(--color-surface-0)] p-6 transition-all duration-200 hover:bg-[var(--color-surface-2)]"
+              className="flex gap-5 rounded-[var(--radius-card)] border border-[var(--color-border)] bg-[var(--bg)] p-6 transition-all duration-200 hover:border-[var(--color-accent)] hover:shadow-[0_4px_16px_rgba(79,70,229,0.15)]"
             >
               <span className="shrink-0 w-10 h-10 rounded-full bg-[var(--color-accent-50)] text-[var(--color-accent)] text-[13px] font-bold flex items-center justify-center">
                 {number}
@@ -102,7 +102,7 @@ export default function BlogPage() {
         <div className="h-px bg-[var(--color-border)] my-12" />
 
         {/* ── Tips ── */}
-        <div className="rounded-[var(--radius-card)] bg-[var(--color-accent-50)] border border-[var(--color-accent-100)] p-6">
+        <div className="rounded-[var(--radius-card)] bg-[var(--bg)] border border-[var(--color-border)] p-6">
           <h2 className="text-section-title mb-4">Tips &amp; Tricks</h2>
           <ul className="flex flex-col gap-3" role="list">
             {TIPS.map((tip) => (

@@ -79,7 +79,7 @@ export default function AboutPage() {
                 href={href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex flex-col gap-1 rounded-[var(--radius-card)] border border-[var(--color-border)] bg-[var(--color-surface-0)] p-6 transition-all duration-200 hover:bg-[var(--color-surface-2)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)]"
+                className="group flex flex-col gap-1 rounded-[var(--radius-card)] border border-[var(--color-border)] bg-[var(--bg)] p-6 transition-all duration-200 hover:border-[var(--color-accent)] hover:shadow-[0_4px_16px_rgba(79,70,229,0.15)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)]"
               >
                 <span className="text-[15px] font-semibold text-[var(--fg)] transition-colors group-hover:text-[var(--color-accent)]">
                   {handle}
@@ -93,7 +93,7 @@ export default function AboutPage() {
         </section>
 
         {/* ── CTA ── */}
-        <div className="flex flex-col items-start justify-between gap-5 rounded-[var(--radius-large)] border border-[var(--color-accent-100)] bg-[var(--color-accent-50)] px-8 py-8 sm:flex-row sm:items-center">
+        <div className="flex flex-col items-start justify-between gap-5 rounded-[var(--radius-large)] border border-[var(--color-border)] bg-[var(--bg)] px-8 py-8 sm:flex-row sm:items-center">
           <div>
             <p className="text-[15px] font-semibold text-[var(--fg)]">
               Want to try it?
