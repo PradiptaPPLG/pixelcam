@@ -181,8 +181,7 @@ export default function HeroSection() {
               triggerOnce={true}
               triggerOnHover={true}
               respectReducedMotion={true}
-              className="text-[#111111] dark:text-white [&_span]:text-[#111111] dark:[&_span]:text-white"
-              style={{ fontSize: "clamp(1rem, 3.2vw, 2.4rem)", lineHeight: "1.2", letterSpacing: "-0.02em", color: "inherit" }}
+              style={{ fontSize: "clamp(1rem, 3.2vw, 2.4rem)", lineHeight: "1.2", letterSpacing: "-0.02em" }}
             />
           </motion.h1>
 

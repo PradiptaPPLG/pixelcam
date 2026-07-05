@@ -135,20 +135,20 @@ export default function GallerySection() {
               Explore the themes
             </h2>
             <p className="text-[#6b7280] text-[16px] max-w-sm leading-relaxed mt-3">
-              15 hand-crafted aesthetics, each designed to make your photos feel intentional.
+              25 hand-crafted aesthetics, each designed to make your photos feel intentional.
             </p>
           </div>
           <div className="hidden md:flex gap-3">
             <button
               onClick={scrollLeft}
-              className="grid h-12 w-12 place-items-center rounded-full border border-[#e5e7eb] bg-white text-[#111] hover:bg-[#f3f4f6] transition-colors shadow-sm"
+              className="grid h-12 w-12 place-items-center rounded-full border border-[#e5e7eb] dark:border-[#52525b] bg-white dark:bg-[#3f3f46] text-[#111] dark:text-white hover:bg-[#f3f4f6] dark:hover:bg-[#52525b] transition-colors shadow-sm"
               aria-label="Scroll left"
             >
               <ChevronLeft className="h-6 w-6" />
             </button>
             <button
               onClick={scrollRight}
-              className="grid h-12 w-12 place-items-center rounded-full border border-[#e5e7eb] bg-white text-[#111] hover:bg-[#f3f4f6] transition-colors shadow-sm"
+              className="grid h-12 w-12 place-items-center rounded-full border border-[#e5e7eb] dark:border-[#52525b] bg-white dark:bg-[#3f3f46] text-[#111] dark:text-white hover:bg-[#f3f4f6] dark:hover:bg-[#52525b] transition-colors shadow-sm"
               aria-label="Scroll right"
             >
               <ChevronRight className="h-6 w-6" />
