@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useSyncExternalStore } from "react";
+import { useRef, useState, useEffect, useSyncExternalStore } from "react";
 import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
 import dynamic from "next/dynamic";
@@ -26,25 +26,55 @@ const STRIPS = [
     rotate: -6,
     offsetY: 20,
     delay: 0,
-    frames: ["#f3e8ff", "#e9d5ff", "#ddd6fe", "#c4b5fd"],
-    label: "Pastel Bloom",
+    label: "Cherry Blossom",
+    theme: "cherry-blossom",
+    bg: "radial-gradient(#f472b6 1px, transparent 1px) 0 0 / 6px 6px, #ffe5ec",
+    cardBorder: "1px solid #fbcfe8",
+    headerTextColor: "#db2777",
+    footerTextColor: "#db2777",
+    frameBorderColor: "rgba(255, 255, 255, 0.8)",
+    photos: [
+      "/images/dinihari1.webp",
+      "/images/dinihari2.webp",
+      "/images/dinihari3.webp"
+    ]
   },
   {
     id: "strip-b",
     rotate: 2,
     offsetY: -10,
     delay: 0.1,
-    frames: ["#fef3c7", "#fde68a", "#fcd34d", "#fbbf24"],
-    label: "Golden Hour",
+    label: "Crimson Velvet",
+    theme: "crimson-velvet",
+    bg: "linear-gradient(to bottom, #500a12, #1f0307)",
+    cardBorder: "1px solid rgba(255, 255, 255, 0.15)",
+    headerTextColor: "#f43f5e",
+    footerTextColor: "#f43f5e",
+    frameBorderColor: "rgba(255, 255, 255, 0.25)",
+    photos: [
+      "/images/gelapterang1.webp",
+      "/images/gelapterang2.webp",
+      "/images/gelapterang3.webp"
+    ]
   },
   {
     id: "strip-c",
     rotate: 8,
     offsetY: 30,
     delay: 0.2,
-    frames: ["#d1fae5", "#a7f3d0", "#6ee7b7", "#34d399"],
-    label: "Mint Fresh",
-  },
+    label: "Cotton Candy",
+    theme: "cotton-candy",
+    bg: "linear-gradient(to bottom, #fae8ff, #e0e7ff, #d1fae5, #fef3c7)",
+    cardBorder: "1px solid rgba(255, 255, 255, 0.4)",
+    headerTextColor: "#8b5cf6",
+    footerTextColor: "#8b5cf6",
+    frameBorderColor: "rgba(255, 255, 255, 0.9)",
+    photos: [
+      "/images/senja1.webp",
+      "/images/senja2.webp",
+      "/images/senja3.webp"
+    ]
+  }
 ] as const;
 
 /* ── Single photo strip card ────────────────────────────────── */
@@ -67,37 +97,47 @@ function PhotoStrip({
       className="flex-shrink-0 select-none"
     >
       <div
-        className="w-[110px] rounded-2xl overflow-hidden shadow-[0_12px_40px_rgba(0,0,0,0.10)] border border-white bg-white"
+        className="w-[128px] rounded-2xl overflow-hidden shadow-[0_16px_48px_rgba(0,0,0,0.12)] dark:shadow-[0_16px_48px_rgba(0,0,0,0.6)] transition-shadow"
+        style={{
+          background: strip.bg,
+          border: strip.cardBorder,
+        }}
         aria-label={`Photo strip: ${strip.label}`}
       >
         {/* Film header */}
-        <div className="h-6 bg-[#111111] flex items-center justify-center gap-1 px-2">
-          <div className="w-1.5 h-1.5 rounded-full bg-white opacity-40" />
-          <span className="text-[8px] text-white/60 font-mono tracking-widest uppercase">
-            PixelCam
+        <div className="h-8 flex items-center justify-center relative">
+          <span
+            className="text-[9px] font-mono tracking-[0.25em] font-bold uppercase"
+            style={{ color: strip.headerTextColor }}
+          >
+            • PIXELCAM •
           </span>
-          <div className="w-1.5 h-1.5 rounded-full bg-white opacity-40" />
         </div>
 
         {/* Photo frames */}
-        <div className="flex flex-col gap-[3px] p-[5px]">
-          {strip.frames.map((color, i) => (
+        <div className="flex flex-col gap-2 p-2 pt-0">
+          {strip.photos.map((photo, i) => (
             <div
               key={i}
-              className="h-[72px] rounded-[6px] relative overflow-hidden"
-              style={{ backgroundColor: color }}
+              className="h-[102px] rounded-[8px] relative overflow-hidden bg-black/10"
+              style={{ border: `2px solid ${strip.frameBorderColor}` }}
             >
-              {/* Subtle figure silhouette placeholder */}
-              <div className="absolute inset-0 flex items-end justify-center pb-2">
-                <div className="w-8 h-10 rounded-t-full bg-white/20" />
-              </div>
+              <img
+                src={photo}
+                alt={`${strip.label} frame ${i + 1}`}
+                className="w-full h-full object-cover select-none"
+                loading="lazy"
+              />
             </div>
           ))}
         </div>
 
         {/* Film footer */}
-        <div className="h-7 bg-[#111111] flex items-center justify-center">
-          <span className="text-[7px] text-white/40 font-mono tracking-[0.2em]">
+        <div className="h-9 flex items-center justify-center pt-0">
+          <span
+            className="text-[8.5px] font-mono tracking-[0.2em] font-bold"
+            style={{ color: strip.footerTextColor }}
+          >
             {strip.label.toUpperCase()}
           </span>
         </div>
@@ -120,35 +160,48 @@ export default function HeroSection() {
   );
   const isDarkMode = isDark(mode);
 
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
   return (
     <section
       ref={ref}
       className="relative flex items-center min-h-[calc(100vh-64px)] py-16 md:py-24 overflow-hidden"
       aria-labelledby="hero-heading"
     >
-      {/* PixelBlast interactive WebGL background */}
-      <div className="absolute inset-0 -z-10 pointer-events-none" aria-hidden="true">
-        <PixelBlast
-          variant="square"
-          pixelSize={3}
-          color={isDarkMode ? "#B497CF" : "#a586ff"}
-          patternScale={2}
-          patternDensity={1}
-          pixelSizeJitter={0}
-          enableRipples
-          rippleSpeed={0.4}
-          rippleThickness={0.12}
-          rippleIntensityScale={1.5}
-          liquid={false}
-          liquidStrength={0.12}
-          liquidRadius={1.2}
-          liquidWobbleSpeed={5}
-          speed={0.5}
-          edgeFade={0.25}
-          transparent
-          className="pointer-events-auto"
-        />
-      </div>
+      {/* PixelBlast interactive WebGL background — Desktop only */}
+      {!isMobile && (
+        <div className="absolute inset-0 -z-10 pointer-events-none" aria-hidden="true">
+          <PixelBlast
+            variant="square"
+            pixelSize={3}
+            color={isDarkMode ? "#B497CF" : "#a586ff"}
+            patternScale={2}
+            patternDensity={1}
+            pixelSizeJitter={0}
+            enableRipples
+            rippleSpeed={0.4}
+            rippleThickness={0.12}
+            rippleIntensityScale={1.5}
+            liquid={false}
+            liquidStrength={0.12}
+            liquidRadius={1.2}
+            liquidWobbleSpeed={5}
+            speed={0.5}
+            edgeFade={0.25}
+            transparent
+            className="pointer-events-auto"
+          />
+        </div>
+      )}
 
       {/* Subtle noise texture overlay */}
       <div
@@ -224,7 +277,7 @@ export default function HeroSection() {
               triggerOnce={true}
               triggerOnHover={true}
               respectReducedMotion={true}
-              style={{ fontSize: "clamp(1rem, 3.2vw, 2.4rem)", lineHeight: "1.2", letterSpacing: "-0.02em" }}
+              style={{ fontSize: "clamp(1.65rem, 5vw, 2.6rem)", lineHeight: "1.2", letterSpacing: "-0.02em" }}
             />
           </motion.h1>
 
