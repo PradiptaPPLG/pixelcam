@@ -59,8 +59,8 @@ export default function CtaSection() {
             isolation: "isolate",
             background: effectiveDarkMode
               ? "linear-gradient(135deg, #090b14 0%, #101426 50%, #1b0e2f 100%)"
-              : "linear-gradient(135deg, #fce4f0 0%, #f5c6e0 50%, #eedcf8 100%)",
-            border: effectiveDarkMode ? "1px solid rgba(255,255,255,0.08)" : "1px solid #e5c6d8",
+              : "linear-gradient(135deg, #fff0f6 0%, #fff9fc 50%, #fcf5ff 100%)",
+            border: effectiveDarkMode ? "1px solid rgba(255,255,255,0.08)" : "1px solid #fbcfe8",
             boxShadow: effectiveDarkMode
               ? "0 16px 48px rgba(0,0,0,0.4)"
               : "0 16px 48px rgba(180,60,120,0.1)",

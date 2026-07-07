@@ -81,21 +81,20 @@ void main(){
     vec4 col;mainImage(col,gl_FragCoord.xy);
     col.rgb=hueShiftRGB(col.rgb,uHueShift);
     
-    // Smooth transition between dark mode colors (from cppn) and light mode colors.
-    // In light mode (uLightMode = 1.0), we map the R, G, and B channels of the CPPN
-    // to a rich, moving pastel range (sky blue, lavender, soft pink, and cream highlights)
-    // so that the waves are beautifully visible.
-    vec3 lightCol = vec3(
-        mix(0.76, 0.98, col.r),
-        mix(0.68, 0.92, col.g),
-        mix(0.85, 0.99, col.b)
-    );
-    col.rgb = mix(col.rgb, lightCol, uLightMode);
+    // In dark mode (uLightMode = 0.0), the background is opaque with the raw CPPN colors.
+    // In light mode (uLightMode = 1.0), we render the canvas transparently and only overlay
+    // dynamic, flowing magenta & purple waves over the bright HTML card background.
+    vec3 magentaCol = mix(vec3(0.95, 0.15, 0.65), vec3(0.50, 0.20, 0.95), col.g);
+    vec3 finalCol = mix(col.rgb, magentaCol, uLightMode);
+    
+    // In light mode, alpha is driven by the wave intensity (col.r) up to 0.40 opacity
+    // so it floats elegantly over the card's background.
+    float finalAlpha = mix(1.0, col.r * 0.40, uLightMode);
 
     float scanline_val=sin(gl_FragCoord.y*uScanFreq)*0.5+0.5;
-    col.rgb*=1.-(scanline_val*scanline_val)*uScan;
-    col.rgb+=(rand(gl_FragCoord.xy+uTime)-0.5)*uNoise;
-    gl_FragColor=vec4(clamp(col.rgb,0.0,1.0),1.0);
+    finalCol*=1.-(scanline_val*scanline_val)*uScan;
+    finalCol+=(rand(gl_FragCoord.xy+uTime)-0.5)*uNoise;
+    gl_FragColor=vec4(clamp(finalCol,0.0,1.0), finalAlpha);
 }
 `;
 
@@ -152,6 +151,8 @@ export default function DarkVeil({
     const renderer = new Renderer({
       dpr: Math.min(window.devicePixelRatio, 2),
       canvas,
+      alpha: true,
+      premultipliedAlpha: false,
     });
 
     const gl = renderer.gl;
