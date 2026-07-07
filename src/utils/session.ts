@@ -5,7 +5,7 @@
    ============================================================ */
 
 /** Selectable number of photos per session. */
-export const PHOTO_COUNT_OPTIONS = [2, 4, 6] as const;
+export const PHOTO_COUNT_OPTIONS = [3, 4, 5] as const;
 
 /** Selectable countdown durations in seconds (0 = off). */
 export const COUNTDOWN_OPTIONS = [0, 3, 5] as const;
