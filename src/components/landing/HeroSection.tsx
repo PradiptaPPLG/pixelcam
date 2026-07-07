@@ -325,10 +325,10 @@ export default function HeroSection() {
         {/* Right — floating strips mockup */}
         <motion.div
           style={{ y: mockupY }}
-          className="relative flex items-center justify-center h-[420px] lg:h-[500px]"
+          className="relative flex items-center justify-center h-[320px] md:h-[420px] lg:h-[500px] overflow-hidden"
           aria-hidden="true"
         >
-          <div className="flex items-end gap-4 lg:gap-5">
+          <div className="flex items-end gap-3 lg:gap-5 scale-[0.72] sm:scale-[0.85] md:scale-95 lg:scale-100 origin-bottom transition-transform">
             {STRIPS.map((strip) => (
               <PhotoStrip key={strip.id} strip={strip} />
             ))}
