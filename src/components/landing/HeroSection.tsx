@@ -329,7 +329,7 @@ export default function HeroSection() {
           className="relative flex items-center justify-center h-[320px] md:h-[420px] lg:h-[500px] -mt-8 md:mt-0"
           aria-hidden="true"
         >
-          <div className="flex items-end gap-3 lg:gap-5 scale-[0.72] sm:scale-[0.85] md:scale-95 lg:scale-100 origin-center transition-transform -translate-x-4 md:translate-x-0">
+          <div className="flex items-end gap-3 lg:gap-5 scale-[0.72] sm:scale-[0.85] md:scale-95 lg:scale-100 origin-center transition-transform -translate-x-6 md:translate-x-0">
             {STRIPS.map((strip) => (
               <PhotoStrip key={strip.id} strip={strip} />
             ))}
