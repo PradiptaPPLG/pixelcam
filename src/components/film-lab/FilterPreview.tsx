@@ -1,5 +1,6 @@
 "use client";
 
+import { useMemo } from "react";
 import { motion } from "framer-motion";
 import PreviewCanvas from "@/components/preview/PreviewCanvas";
 import { getFilterById } from "@/utils/filter";
@@ -30,7 +31,13 @@ export default function FilterPreview({
 }: FilterPreviewProps) {
   const filter = getFilterById(filterId, intensity);
   const filterPreset = getFilterPreset(filterId);
-  const settings = interpolateFilterSettings(filterPreset.settings, intensity);
+  // Memoize so the settings object reference only changes when filterId or intensity
+  // actually changes — prevents useFilteredPhotos from infinite-looping.
+  const settings = useMemo(
+    () => interpolateFilterSettings(filterPreset.settings, intensity),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [filterId, intensity],
+  );
   const filteredPhotos = useFilteredPhotos(photos, settings);
 
   return (
@@ -41,7 +48,7 @@ export default function FilterPreview({
       className="flex justify-center rounded-[24px] p-8 ring-1 ring-black/5 sm:p-12"
     >
       <motion.div
-        key={`${filterId}-${intensity}`}
+        key={filterId}
         initial={{ opacity: 0.85 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.15, ease: [0.4, 0, 0.2, 1] }}
