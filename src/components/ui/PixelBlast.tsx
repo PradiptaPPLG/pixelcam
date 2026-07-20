@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
 import { Effect, EffectComposer, EffectPass, RenderPass } from "postprocessing";
+import { isWebGLAvailable } from "@/lib/webgl";
 import "./PixelBlast.css";
 
 interface TouchPoint {
@@ -384,6 +385,207 @@ interface ThreeState {
   onPointerMove?: (e: PointerEvent) => void;
 }
 
+const BAYER8 = new Float32Array([
+  0/64, 32/64,  8/64, 40/64,  2/64, 34/64, 10/64, 42/64,
+ 48/64, 16/64, 56/64, 24/64, 50/64, 18/64, 58/64, 26/64,
+ 12/64, 44/64,  4/64, 36/64, 14/64, 46/64,  6/64, 38/64,
+ 60/64, 28/64, 52/64, 20/64, 62/64, 30/64, 54/64, 22/64,
+  3/64, 35/64, 11/64, 43/64,  1/64, 33/64,  9/64, 41/64,
+ 51/64, 19/64, 59/64, 27/64, 49/64, 17/64, 57/64, 25/64,
+ 15/64, 47/64,  7/64, 39/64, 13/64, 45/64,  5/64, 37/64,
+ 63/64, 31/64, 55/64, 23/64, 61/64, 29/64, 53/64, 21/64
+]);
+
+function hash11Fallback(n: number) {
+  const sin = Math.sin(n) * 43758.5453;
+  return sin - Math.floor(sin);
+}
+
+function vnoiseFallback(x: number, y: number, z: number) {
+  const ix = Math.floor(x), iy = Math.floor(y), iz = Math.floor(z);
+  const fx = x - ix, fy = y - iy, fz = z - iz;
+  const wx = fx * fx * fx * (fx * (fx * 6.0 - 15.0) + 10.0);
+  const wy = fy * fy * fy * (fy * (fy * 6.0 - 15.0) + 10.0);
+  const wz = fz * fz * fz * (fz * (fz * 6.0 - 15.0) + 10.0);
+
+  const n000 = hash11Fallback(ix + iy * 57.0 + iz * 113.0);
+  const n100 = hash11Fallback(ix + 1.0 + iy * 57.0 + iz * 113.0);
+  const n010 = hash11Fallback(ix + (iy + 1.0) * 57.0 + iz * 113.0);
+  const n110 = hash11Fallback(ix + 1.0 + (iy + 1.0) * 57.0 + iz * 113.0);
+  const n001 = hash11Fallback(ix + iy * 57.0 + (iz + 1.0) * 113.0);
+  const n101 = hash11Fallback(ix + 1.0 + iy * 57.0 + (iz + 1.0) * 113.0);
+  const n011 = hash11Fallback(ix + (iy + 1.0) * 57.0 + (iz + 1.0) * 113.0);
+  const n111 = hash11Fallback(ix + 1.0 + (iy + 1.0) * 57.0 + (iz + 1.0) * 113.0);
+
+  const x00 = n000 + (n100 - n000) * wx;
+  const x10 = n010 + (n110 - n010) * wx;
+  const x01 = n001 + (n101 - n001) * wx;
+  const x11 = n011 + (n111 - n011) * wx;
+
+  const y0 = x00 + (x10 - x00) * wy;
+  const y1 = x01 + (x11 - x01) * wy;
+
+  return (y0 + (y1 - y0) * wz) * 2.0 - 1.0;
+}
+
+function fbm2Fallback(uvX: number, uvY: number, scale: number, t: number) {
+  let px = uvX * scale;
+  let py = uvY * scale;
+  let amp = 1.0;
+  let freq = 1.0;
+  let sum = 1.0;
+  for (let i = 0; i < 5; i++) {
+    sum += amp * vnoiseFallback(px * freq, py * freq, t);
+    freq *= 1.25;
+  }
+  return sum * 0.5 + 0.5;
+}
+
+function initCanvas2DFallback(
+  container: HTMLElement,
+  opts: {
+    color: string;
+    pixelSize: number;
+    speed: number;
+    edgeFade: number;
+    enableRipples: boolean;
+    patternScale?: number;
+    patternDensity?: number;
+    rippleSpeed?: number;
+    rippleThickness?: number;
+    rippleIntensityScale?: number;
+  }
+) {
+  const canvas = document.createElement("canvas");
+  canvas.style.width = "100%";
+  canvas.style.height = "100%";
+  canvas.style.display = "block";
+  container.appendChild(canvas);
+
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return () => {};
+
+  let animationFrameId: number;
+  const startTime = performance.now();
+  const ripples: { x: number; y: number; startTime: number }[] = [];
+
+  const handlePointerDown = (e: PointerEvent) => {
+    if (!opts.enableRipples) return;
+    const rect = canvas.getBoundingClientRect();
+    ripples.push({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
+      startTime: performance.now(),
+    });
+    if (ripples.length > 10) ripples.shift();
+  };
+
+  const eventSource = container.closest("section") || container.parentElement || canvas;
+  eventSource.addEventListener("pointerdown", handlePointerDown as any, { passive: true });
+
+  const render = () => {
+    const w = container.clientWidth || 300;
+    const h = container.clientHeight || 150;
+    if (canvas.width !== w || canvas.height !== h) {
+      canvas.width = w;
+      canvas.height = h;
+    }
+
+    ctx.clearRect(0, 0, w, h);
+
+    const now = performance.now();
+    const t = (now - startTime) * 0.001 * opts.speed;
+    const pSize = Math.max(2, opts.pixelSize);
+    const cellSize = pSize * 8;
+    const aspectRatio = w / h;
+
+    const scale = opts.patternScale ?? 2;
+    const density = opts.patternDensity ?? 1;
+    const rSpeed = opts.rippleSpeed ?? 0.4;
+    const rThickness = opts.rippleThickness ?? 0.12;
+    const rIntensity = opts.rippleIntensityScale ?? 1.5;
+
+    const cols = Math.ceil(w / pSize);
+    const rows = Math.ceil(h / pSize);
+    const cellCols = Math.ceil(w / cellSize);
+    const cellRows = Math.ceil(h / cellSize);
+
+    // Cache cell feed values
+    const cellFeeds = new Float32Array(cellCols * cellRows);
+    for (let cr = 0; cr < cellRows; cr++) {
+      for (let cc = 0; cc < cellCols; cc++) {
+        const cellX = cc * cellSize;
+        const cellY = cr * cellSize;
+        const uvX = (cellX / w) * aspectRatio;
+        const uvY = cellY / h;
+
+        let base = fbm2Fallback(uvX, uvY, scale, t * 0.05) * 0.5 - 0.65;
+        let feed = base + (density - 0.5) * 0.3;
+
+        if (opts.enableRipples && ripples.length > 0) {
+          for (const rip of ripples) {
+            const cuvX = (rip.x / w) * aspectRatio;
+            const cuvY = rip.y / h;
+            const ripTime = Math.max((now - rip.startTime) * 0.001, 0);
+            const dist = Math.hypot(uvX - cuvX, uvY - cuvY);
+            const waveR = rSpeed * ripTime;
+            const ring = Math.exp(-Math.pow((dist - waveR) / rThickness, 2));
+            const atten = Math.exp(-1.0 * ripTime) * Math.exp(-10.0 * dist);
+            feed = Math.max(feed, ring * atten * rIntensity);
+          }
+        }
+        cellFeeds[cc + cr * cellCols] = feed;
+      }
+    }
+
+    ctx.fillStyle = opts.color;
+
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        const px = c * pSize;
+        const py = r * pSize;
+
+        const cellCol = Math.floor(px / cellSize);
+        const cellRow = Math.floor(py / cellSize);
+        const feed = cellFeeds[Math.min(cellCol, cellCols - 1) + Math.min(cellRow, cellRows - 1) * cellCols];
+
+        const bayerIdx = (c % 8) + (r % 8) * 8;
+        const bayerVal = BAYER8[bayerIdx] - 0.5;
+
+        const bw = feed + bayerVal >= 0.5 ? 1.0 : 0.0;
+        if (bw <= 0) continue;
+
+        let alpha = 1.0;
+
+        if (opts.edgeFade > 0) {
+          const normX = px / w;
+          const normY = py / h;
+          const edge = Math.min(normX, normY, 1.0 - normX, 1.0 - normY);
+          const fade = Math.min(1.0, edge / opts.edgeFade);
+          alpha *= fade;
+        }
+
+        if (alpha > 0.01) {
+          ctx.globalAlpha = alpha;
+          ctx.fillRect(px, py, pSize, pSize);
+        }
+      }
+    }
+
+    animationFrameId = requestAnimationFrame(render);
+  };
+
+  render();
+
+  return () => {
+    cancelAnimationFrame(animationFrameId);
+    eventSource.removeEventListener("pointerdown", handlePointerDown as any);
+    if (canvas.parentElement === container) {
+      container.removeChild(canvas);
+    }
+  };
+}
+
 export default function PixelBlast({
   variant = "square",
   pixelSize = 3,
@@ -413,6 +615,7 @@ export default function PixelBlast({
   const speedRef = useRef(speed);
 
   const threeRef = useRef<ThreeState | null>(null);
+  const fallbackCleanupRef = useRef<(() => void) | null>(null);
   const prevConfigRef = useRef<{ antialias: boolean; liquid: boolean; noiseAmount: number } | null>(null);
 
   useEffect(() => {
@@ -424,7 +627,7 @@ export default function PixelBlast({
     const cfg = { antialias, liquid, noiseAmount };
     let mustReinit = false;
 
-    if (!threeRef.current) mustReinit = true;
+    if (!threeRef.current && !fallbackCleanupRef.current) mustReinit = true;
     else if (prevConfigRef.current) {
       for (const k of needsReinitKeys) {
         if (prevConfigRef.current[k] !== cfg[k]) {
@@ -452,17 +655,47 @@ export default function PixelBlast({
     };
 
     if (mustReinit) {
+      if (fallbackCleanupRef.current) {
+        fallbackCleanupRef.current();
+        fallbackCleanupRef.current = null;
+      }
       if (threeRef.current) {
         cleanUpThree(threeRef.current);
         threeRef.current = null;
       }
-      const canvas = document.createElement("canvas");
-      const renderer = new THREE.WebGLRenderer({
-        canvas,
-        antialias,
-        alpha: true,
-        powerPreference: "high-performance"
-      });
+
+      const fallbackOpts = {
+        color,
+        pixelSize,
+        speed,
+        edgeFade,
+        enableRipples,
+        patternScale,
+        patternDensity,
+        rippleSpeed,
+        rippleThickness,
+        rippleIntensityScale,
+      };
+
+      if (!isWebGLAvailable()) {
+        fallbackCleanupRef.current = initCanvas2DFallback(container, fallbackOpts);
+        return;
+      }
+
+      let renderer: THREE.WebGLRenderer;
+      try {
+        const canvas = document.createElement("canvas");
+        renderer = new THREE.WebGLRenderer({
+          canvas,
+          antialias,
+          alpha: true,
+          powerPreference: "default"
+        });
+      } catch (err) {
+        console.warn("PixelBlast: Falling back to 2D Canvas animation.", err);
+        fallbackCleanupRef.current = initCanvas2DFallback(container, fallbackOpts);
+        return;
+      }
       renderer.domElement.style.width = "100%";
       renderer.domElement.style.height = "100%";
       renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
@@ -697,6 +930,10 @@ export default function PixelBlast({
     prevConfigRef.current = cfg;
 
     return () => {
+      if (fallbackCleanupRef.current) {
+        fallbackCleanupRef.current();
+        fallbackCleanupRef.current = null;
+      }
       if (threeRef.current && mustReinit) return;
       if (!threeRef.current) return;
       cleanUpThree(threeRef.current);

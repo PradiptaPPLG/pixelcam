@@ -2,6 +2,7 @@
 
 import { useRef, useEffect } from "react";
 import { Renderer, Program, Mesh, Triangle, Vec2 } from "ogl";
+import { isWebGLAvailable } from "@/lib/webgl";
 
 interface DarkVeilProps {
   hueShift?: number;
@@ -143,19 +144,26 @@ export default function DarkVeil({
   ]);
 
   useEffect(() => {
+    if (!isWebGLAvailable()) return;
     const canvas = ref.current;
     if (!canvas) return;
     const parent = canvas.parentElement;
     if (!parent) return;
 
-    const renderer = new Renderer({
-      dpr: Math.min(window.devicePixelRatio, 2),
-      canvas,
-      alpha: true,
-      premultipliedAlpha: false,
-    });
+    let renderer: Renderer;
+    try {
+      renderer = new Renderer({
+        dpr: Math.min(window.devicePixelRatio, 2),
+        canvas,
+        alpha: true,
+        premultipliedAlpha: false,
+      });
+    } catch {
+      return;
+    }
 
     const gl = renderer.gl;
+    if (!gl) return;
     const geometry = new Triangle(gl);
 
     const program = new Program(gl, {
