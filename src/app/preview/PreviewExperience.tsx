@@ -45,6 +45,7 @@ import {
   subscribeThemeState,
 } from "@/utils/theme";
 import { getFilterPreset } from "@/data/filterPresets";
+import { interpolateFilterSettings } from "@/lib/filterEngine";
 import { useFilteredPhotos } from "@/hooks/useFilteredPhotos";
 
 const EXPORT_SCALE = 2;
@@ -262,12 +263,14 @@ export default function PreviewExperience() {
     getFilterStateServerSnapshot,
   );
 
+  const filterIntensity = filterState.intensity ?? 100;
   const theme = getThemeById(themeState.themeId);
-  const filter = getFilterById(filterState.filterId);
+  const filter = getFilterById(filterState.filterId, filterIntensity);
   const filterPreset = getFilterPreset(filterState.filterId);
   const { customization } = themeState;
 
-  const filteredPhotos = useFilteredPhotos(photos, filterPreset.settings);
+  const filterSettings = interpolateFilterSettings(filterPreset.settings, filterIntensity);
+  const filteredPhotos = useFilteredPhotos(photos, filterSettings);
 
   const canvasRef = useRef<HTMLDivElement>(null);
   const [size, setSize] = useState<ExportDimensions>({ width: 0, height: 0 });

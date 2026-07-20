@@ -90,8 +90,9 @@ export default function EditorExperience() {
 
   const themeId = themeOverride ?? themeState.themeId;
   const filterId = filterOverride ?? filterState.filterId;
+  const filterIntensity = filterState.intensity ?? 100;
   const theme = getThemeById(themeId);
-  const filter = getFilterById(filterId);
+  const filter = getFilterById(filterId, filterIntensity);
   const { customization } = themeState;
 
   const editor = useEditor();

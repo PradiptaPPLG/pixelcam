@@ -200,6 +200,46 @@ export async function applyFilter(imageSrc: string, settings: FilterSettings): P
   });
 }
 
+/**
+ * Interpolates filter settings based on an intensity percentage (0-100).
+ * 0% returns neutral (original) settings, 100% returns full preset settings.
+ */
+export function interpolateFilterSettings(presetSettings: FilterSettings, intensity: number = 100): FilterSettings {
+  const ratio = clamp(intensity / 100, 0, 1);
+  if (ratio >= 0.99) return presetSettings;
+  if (ratio <= 0.01) return { ...NEUTRAL_SETTINGS };
+
+  const lerp = (base: number, target: number) => base + (target - base) * ratio;
+
+  return {
+    exposure: lerp(0, presetSettings.exposure),
+    contrast: lerp(1, presetSettings.contrast),
+    brightness: lerp(0, presetSettings.brightness),
+    saturation: lerp(1, presetSettings.saturation),
+    vibrance: lerp(0, presetSettings.vibrance),
+    temperature: lerp(0, presetSettings.temperature),
+    tint: lerp(0, presetSettings.tint),
+    fade: lerp(0, presetSettings.fade),
+    highlightCompression: lerp(0, presetSettings.highlightCompression),
+    colorWash: ratio > 0.1 ? presetSettings.colorWash : "none",
+    grain: lerp(0, presetSettings.grain),
+    vignette: lerp(0, presetSettings.vignette),
+    shadowColor: presetSettings.shadowColor
+      ? [presetSettings.shadowColor[0], presetSettings.shadowColor[1] * ratio]
+      : undefined,
+    highlightColor: presetSettings.highlightColor
+      ? [presetSettings.highlightColor[0], presetSettings.highlightColor[1] * ratio]
+      : undefined,
+    gamma: presetSettings.gamma
+      ? [
+          lerp(1, presetSettings.gamma[0]),
+          lerp(1, presetSettings.gamma[1]),
+          lerp(1, presetSettings.gamma[2]),
+        ]
+      : undefined,
+  };
+}
+
 /** Reset to neutral settings. */
 export function resetFilter(): FilterSettings {
   return { ...NEUTRAL_SETTINGS };

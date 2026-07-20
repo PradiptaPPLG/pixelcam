@@ -55,14 +55,22 @@ export default function FilmLabExperience() {
 
   // Local override gives instant preview updates (same-tab storage writes
   // don't fire the store's "storage" listener); persisted for later stages.
-  const [override, setOverride] = useState<string | null>(null);
-  const selectedId = override ?? filterState.filterId;
+  const [overrideId, setOverrideId] = useState<string | null>(null);
+  const [overrideIntensity, setOverrideIntensity] = useState<number | null>(null);
+
+  const selectedId = overrideId ?? filterState.filterId;
+  const intensity = overrideIntensity ?? filterState.intensity ?? 100;
 
   const theme = getThemeById(themeState.themeId);
 
   const selectFilter = (id: string) => {
-    setOverride(id);
-    saveFilterState({ filterId: id });
+    setOverrideId(id);
+    saveFilterState({ filterId: id, intensity });
+  };
+
+  const handleIntensityChange = (val: number) => {
+    setOverrideIntensity(val);
+    saveFilterState({ filterId: selectedId, intensity: val });
   };
 
   if (photos.length === 0) {
@@ -96,13 +104,20 @@ export default function FilmLabExperience() {
             customization={themeState.customization}
             photos={photos}
             filterId={selectedId}
+            intensity={intensity}
           />
 
           {/* Right — Film Lab panel */}
           <div className="flex flex-col gap-5 lg:sticky lg:top-24 lg:max-h-[calc(100vh-7rem)]">
             <FilmHeader />
             <div className="-mr-1 min-h-0 flex-1 overflow-y-auto pr-1">
-              <FilterSidebar selectedId={selectedId} onSelect={selectFilter} firstPhoto={photos[0]} />
+              <FilterSidebar
+                selectedId={selectedId}
+                onSelect={selectFilter}
+                intensity={intensity}
+                onIntensityChange={handleIntensityChange}
+                firstPhoto={photos[0]}
+              />
             </div>
             <FilterFooter
               onBack={() => router.push("/theme")}

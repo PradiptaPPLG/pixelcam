@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import PreviewCanvas from "@/components/preview/PreviewCanvas";
 import { getFilterById } from "@/utils/filter";
 import { getFilterPreset } from "@/data/filterPresets";
+import { interpolateFilterSettings } from "@/lib/filterEngine";
 import { useFilteredPhotos } from "@/hooks/useFilteredPhotos";
 import type { StripCustomization, ThemePreset } from "@/utils/theme";
 
@@ -12,6 +13,7 @@ interface FilterPreviewProps {
   customization: StripCustomization;
   photos: string[];
   filterId: string;
+  intensity?: number;
 }
 
 /**
@@ -24,10 +26,12 @@ export default function FilterPreview({
   customization,
   photos,
   filterId,
+  intensity = 100,
 }: FilterPreviewProps) {
-  const filter = getFilterById(filterId);
+  const filter = getFilterById(filterId, intensity);
   const filterPreset = getFilterPreset(filterId);
-  const filteredPhotos = useFilteredPhotos(photos, filterPreset.settings);
+  const settings = interpolateFilterSettings(filterPreset.settings, intensity);
+  const filteredPhotos = useFilteredPhotos(photos, settings);
 
   return (
     <motion.div
@@ -37,10 +41,10 @@ export default function FilterPreview({
       className="flex justify-center rounded-[24px] p-8 ring-1 ring-black/5 sm:p-12"
     >
       <motion.div
-        key={filterId}
-        initial={{ opacity: 0.55 }}
+        key={`${filterId}-${intensity}`}
+        initial={{ opacity: 0.85 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 0.28, ease: [0.4, 0, 0.2, 1] }}
+        transition={{ duration: 0.15, ease: [0.4, 0, 0.2, 1] }}
       >
         <PreviewCanvas
           theme={theme}
