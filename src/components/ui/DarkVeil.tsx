@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { Renderer, Program, Mesh, Triangle, Vec2 } from "ogl";
 import { isWebGLAvailable } from "@/lib/webgl";
 
@@ -110,6 +110,8 @@ export default function DarkVeil({
   isDarkMode = true,
 }: DarkVeilProps) {
   const ref = useRef<HTMLCanvasElement | null>(null);
+  const webglOk = useRef<boolean | null>(null);
+  const [useCssFallback, setUseCssFallback] = useState(false);
 
   // Store active props in a mutable ref to read inside the loop without recreating WebGL context
   const propsRef = useRef({
@@ -144,7 +146,13 @@ export default function DarkVeil({
   ]);
 
   useEffect(() => {
-    if (!isWebGLAvailable()) return;
+    if (webglOk.current === null) {
+      webglOk.current = isWebGLAvailable();
+    }
+    if (!webglOk.current) {
+      setUseCssFallback(true);
+      return;
+    }
     const canvas = ref.current;
     if (!canvas) return;
     const parent = canvas.parentElement;
@@ -159,11 +167,12 @@ export default function DarkVeil({
         premultipliedAlpha: false,
       });
     } catch {
+      setUseCssFallback(true);
       return;
     }
 
     const gl = renderer.gl;
-    if (!gl) return;
+    if (!gl) { setUseCssFallback(true); return; }
     const geometry = new Triangle(gl);
 
     const program = new Program(gl, {
@@ -227,5 +236,76 @@ export default function DarkVeil({
     };
   }, [resolutionScale]);
 
+  if (useCssFallback) {
+    return (
+      <>
+        <style>{`
+          @keyframes darkveil-aurora-a {
+            0%   { transform: translate(-20%, -30%) scale(1.0) rotate(0deg); }
+            33%  { transform: translate(10%, -10%) scale(1.2) rotate(15deg); }
+            66%  { transform: translate(-10%, 20%) scale(0.9) rotate(-10deg); }
+            100% { transform: translate(-20%, -30%) scale(1.0) rotate(0deg); }
+          }
+          @keyframes darkveil-aurora-b {
+            0%   { transform: translate(20%, 10%) scale(1.1) rotate(0deg); }
+            33%  { transform: translate(-15%, 25%) scale(0.85) rotate(-20deg); }
+            66%  { transform: translate(25%, -15%) scale(1.2) rotate(10deg); }
+            100% { transform: translate(20%, 10%) scale(1.1) rotate(0deg); }
+          }
+          @keyframes darkveil-aurora-c {
+            0%   { transform: translate(0%, 20%) scale(1.0) rotate(0deg); }
+            50%  { transform: translate(-10%, -20%) scale(1.15) rotate(20deg); }
+            100% { transform: translate(0%, 20%) scale(1.0) rotate(0deg); }
+          }
+        `}</style>
+        <div style={{ position: "absolute", inset: 0, overflow: "hidden", borderRadius: "inherit" }}>
+          {/* Aurora blob A */}
+          <div style={{
+            position: "absolute",
+            width: "70%",
+            height: "80%",
+            top: "10%",
+            left: "10%",
+            borderRadius: "60% 40% 70% 30% / 50% 60% 40% 50%",
+            background: isDarkMode
+              ? "radial-gradient(ellipse, rgba(52,211,153,0.18) 0%, rgba(96,165,250,0.12) 50%, transparent 75%)"
+              : "radial-gradient(ellipse, rgba(244,114,182,0.22) 0%, rgba(167,139,250,0.14) 50%, transparent 75%)",
+            animation: "darkveil-aurora-a 12s ease-in-out infinite",
+            filter: "blur(32px)",
+          }} />
+          {/* Aurora blob B */}
+          <div style={{
+            position: "absolute",
+            width: "60%",
+            height: "70%",
+            top: "20%",
+            right: "5%",
+            borderRadius: "40% 60% 30% 70% / 60% 40% 60% 40%",
+            background: isDarkMode
+              ? "radial-gradient(ellipse, rgba(124,58,237,0.20) 0%, rgba(52,211,153,0.10) 50%, transparent 70%)"
+              : "radial-gradient(ellipse, rgba(167,139,250,0.25) 0%, rgba(244,114,182,0.12) 50%, transparent 70%)",
+            animation: "darkveil-aurora-b 15s ease-in-out infinite",
+            filter: "blur(40px)",
+          }} />
+          {/* Aurora blob C */}
+          <div style={{
+            position: "absolute",
+            width: "50%",
+            height: "60%",
+            bottom: "5%",
+            left: "25%",
+            borderRadius: "50% 50% 40% 60% / 40% 50% 60% 50%",
+            background: isDarkMode
+              ? "radial-gradient(ellipse, rgba(96,165,250,0.15) 0%, rgba(124,58,237,0.10) 60%, transparent 80%)"
+              : "radial-gradient(ellipse, rgba(232,121,249,0.18) 0%, rgba(96,165,250,0.10) 60%, transparent 80%)",
+            animation: "darkveil-aurora-c 10s ease-in-out infinite",
+            filter: "blur(36px)",
+          }} />
+        </div>
+      </>
+    );
+  }
+
   return <canvas ref={ref} className="w-full h-full block" />;
 }
+
