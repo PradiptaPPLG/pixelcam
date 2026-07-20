@@ -60,6 +60,9 @@ export const viewport: Viewport = {
   maximumScale: 5,
 };
 
+import { MAINTENANCE_CONFIG } from "@/config/maintenance";
+import MaintenanceScreen from "@/components/ui/MaintenanceScreen";
+
 /* ----------------------------------------------------------------
    Root Layout
    ---------------------------------------------------------------- */
@@ -80,6 +83,8 @@ export default function RootLayout({
         className="min-h-screen flex flex-col antialiased"
         style={{ backgroundColor: "var(--bg)", color: "var(--fg)" }}
       >
+        {MAINTENANCE_CONFIG.enabled && <MaintenanceScreen />}
+
         {/* Skip to content — accessibility */}
         <a
           href="#main-content"
