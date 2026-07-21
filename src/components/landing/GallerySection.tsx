@@ -135,7 +135,7 @@ export default function GallerySection() {
               Explore the themes
             </h2>
             <p className="text-[#6b7280] text-[16px] max-w-sm leading-relaxed mt-3">
-              25 hand-crafted aesthetics, each designed to make your photos feel intentional.
+              {THEMES.length} hand-crafted aesthetics, each designed to make your photos feel intentional.
             </p>
           </div>
           <div className="hidden md:flex gap-3">
