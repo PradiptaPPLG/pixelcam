@@ -13,7 +13,7 @@ function GalleryStrip({
   theme: ThemePreset;
   index: number;
 }) {
-  const ref    = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-40px" });
 
   return (
@@ -27,7 +27,7 @@ function GalleryStrip({
       aria-label={`Photo strip theme: ${theme.name}`}
     >
       {/* Strip card */}
-      <div 
+      <div
         className="w-full rounded-[16px] overflow-hidden border border-[#e5e7eb] shadow-[0_4px_16px_rgba(0,0,0,0.06)]"
         style={{
           background: theme.style.paperPattern ?? theme.style.paper,
@@ -38,7 +38,7 @@ function GalleryStrip({
           className="h-8 flex items-center justify-center gap-2 px-3 mt-1"
         >
           <div className="w-1.5 h-1.5 rounded-full opacity-50" style={{ background: theme.style.accent }} />
-          <span 
+          <span
             className="text-[8px] font-mono tracking-[0.2em] uppercase"
             style={{ color: theme.style.topLabel }}
           >
@@ -79,7 +79,7 @@ function GalleryStrip({
 
         {/* Footer */}
         <div className="h-8 flex items-center justify-center mb-1">
-          <span 
+          <span
             className="text-[8px] font-mono tracking-[0.15em] uppercase"
             style={{ color: theme.style.bottomLabel }}
           >
@@ -98,8 +98,8 @@ function GalleryStrip({
 
 /* ── GallerySection ─────────────────────────────────────────── */
 export default function GallerySection() {
-  const titleRef   = useRef<HTMLDivElement>(null);
-  const scrollRef  = useRef<HTMLDivElement>(null);
+  const titleRef = useRef<HTMLDivElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
   const titleInView = useInView(titleRef, { once: true, margin: "-40px" });
 
   const scrollLeft = () => {
@@ -135,7 +135,7 @@ export default function GallerySection() {
               Explore the themes
             </h2>
             <p className="text-[#6b7280] text-[16px] max-w-sm leading-relaxed mt-3">
-              {THEMES.length} hand-crafted aesthetics, each designed to make your photos feel intentional.
+              34 hand-crafted aesthetics, each designed to make your photos feel intentional.
             </p>
           </div>
           <div className="hidden md:flex gap-3">
@@ -158,7 +158,7 @@ export default function GallerySection() {
 
         {/* Slider */}
         <div className="relative -mx-6 px-6 lg:mx-0 lg:px-0">
-          <div 
+          <div
             ref={scrollRef}
             className="flex gap-6 overflow-x-auto snap-x snap-mandatory hide-scrollbar pb-8"
             style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
