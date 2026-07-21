@@ -69,6 +69,9 @@ import MaintenanceScreen from "@/components/ui/MaintenanceScreen";
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const isDev = process.env.NODE_ENV === "development";
+  const showMaintenance = MAINTENANCE_CONFIG.enabled && !isDev;
+
   return (
     <html lang="en" suppressHydrationWarning className={geistSans.variable}>
       <head>
@@ -83,7 +86,7 @@ export default function RootLayout({
         className="min-h-screen flex flex-col antialiased"
         style={{ backgroundColor: "var(--bg)", color: "var(--fg)" }}
       >
-        {MAINTENANCE_CONFIG.enabled && <MaintenanceScreen />}
+        {showMaintenance && <MaintenanceScreen />}
 
         {/* Skip to content — accessibility */}
         <a
