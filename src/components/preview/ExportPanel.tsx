@@ -19,13 +19,14 @@ interface ExportPanelProps {
   isExporting: boolean;
   onDownloadPng: () => void;
   onDownloadJpg: () => void;
+  onBack: () => void;
 }
 
 function InfoRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex items-center justify-between gap-3 py-2">
       <span className="text-[13px] text-[#6B7280]">{label}</span>
-      <span className="text-right text-[13px] font-semibold text-[#111111]">
+      <span className="text-right text-[13px] font-semibold text-[#111111] dark:text-[#f4f4f5]">
         {value}
       </span>
     </div>
@@ -45,6 +46,7 @@ export default function ExportPanel({
   isExporting,
   onDownloadPng,
   onDownloadJpg,
+  onBack,
 }: ExportPanelProps) {
   const measured = size.width > 0 && size.height > 0;
   const stripSize = measured ? `${size.width} × ${size.height} px` : "-";
@@ -53,15 +55,15 @@ export default function ExportPanel({
     : "-";
 
   return (
-    <div className="flex flex-col gap-5 rounded-[24px] border border-[#E5E7EB] bg-white p-6 shadow-[0_4px_12px_rgba(0,0,0,0.04)]">
+    <div className="flex flex-col gap-5 rounded-[24px] border border-[#E5E7EB] dark:border-[#2a2a2e] bg-white dark:bg-[#18181b] p-6 shadow-[0_4px_12px_rgba(0,0,0,0.04)]">
       <div>
-        <h2 className="text-[15px] font-semibold text-[#111111]">Export</h2>
-        <p className="mt-0.5 text-[13px] text-[#6B7280]">
+        <h2 className="text-[15px] font-semibold text-[#111111] dark:text-[#f4f4f5]">Export</h2>
+        <p className="mt-0.5 text-[13px] text-[#6B7280] dark:text-[#a1a1aa]">
           Your photostrip, ready to download.
         </p>
       </div>
 
-      <div className="divide-y divide-[#F0F0F0] rounded-[16px] bg-[#FAFAFA] px-4">
+      <div className="divide-y divide-[#F0F0F0] dark:divide-[#2a2a2e] rounded-[16px] bg-[#FAFAFA] dark:bg-[#111114] px-4">
         <InfoRow label="Theme" value={`${theme.emoji} ${theme.name}`} />
         <InfoRow label="Filter" value={filter.name} />
         <InfoRow label="Photos" value={String(photoCount)} />
@@ -86,6 +88,13 @@ export default function ExportPanel({
         >
           Download JPG
         </DownloadButton>
+        
+        <button
+          onClick={onBack}
+          className="mt-1 w-full py-2.5 rounded-xl border border-[#E5E7EB] dark:border-[#2a2a2e] text-[13px] font-semibold text-[#6B7280] dark:text-[#a1a1aa] bg-white dark:bg-[#18181b] hover:bg-gray-50 dark:hover:bg-[#232327] hover:text-[#111111] dark:hover:text-[#f4f4f5] transition-colors"
+        >
+          Back to Stickers
+        </button>
       </div>
     </div>
   );

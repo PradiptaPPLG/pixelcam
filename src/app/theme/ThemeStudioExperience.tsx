@@ -6,7 +6,6 @@ import { AnimatePresence, motion } from "framer-motion";
 import Container from "@/components/ui/Container";
 import {
   CustomizationPanel,
-  PreviewHeader,
   ThemePreview,
   ThemeSelector,
 } from "@/components/theme";
@@ -16,6 +15,8 @@ import {
   getSessionPhotosSnapshot,
   subscribeSessionPhotos,
 } from "@/utils/session";
+
+import { Palette } from "lucide-react";
 
 /**
  * Theme Studio — preview the captured photostrip and restyle it in real time.
@@ -46,13 +47,7 @@ export default function ThemeStudioExperience() {
 
   return (
     <section className="flex-1 bg-[#FAFAFA] py-8 sm:py-12">
-      <Container size="xl" className="flex flex-col gap-8">
-        <PreviewHeader
-          themeName={theme.name}
-          emoji={theme.emoji}
-          onContinue={handleContinue}
-        />
-
+      <Container size="xl">
         <div className="grid gap-6 lg:grid-cols-[minmax(0,7fr)_minmax(0,3fr)] lg:items-start">
           {/* Left — live preview + customization */}
           <div className="flex flex-col gap-6">
@@ -77,13 +72,45 @@ export default function ThemeStudioExperience() {
             />
           </div>
 
-          {/* Right — theme selector (scrollable) */}
-          <div className="lg:sticky lg:top-24">
-            <h2 className="mb-3 text-[13px] font-semibold uppercase tracking-[0.08em] text-[#6B7280]">
-              Themes
-            </h2>
-            <div className="-mr-1 pr-1 lg:max-h-[calc(100vh-9rem)] lg:overflow-y-auto">
-              <ThemeSelector selectedId={themeId} onSelect={selectTheme} />
+          {/* Right — theme selector (scrollable) + Footer */}
+          <div className="lg:sticky lg:top-24 flex flex-col lg:max-h-[calc(100vh-7rem)] justify-between h-full">
+            <div className="flex flex-col min-h-0">
+              {/* Header inside the sidebar */}
+              <div className="flex flex-col gap-1 mb-5">
+                <span className="flex items-center gap-1.5 text-[13px] font-semibold uppercase tracking-[0.08em] text-[#6B7280] dark:text-[#a1a1aa]">
+                  <Palette className="h-3.5 w-3.5" aria-hidden="true" />
+                  Theme Studio
+                </span>
+                <h1 className="text-[28px] font-semibold tracking-[-0.02em] text-[#111111] dark:text-[#f4f4f5] sm:text-[30px]">
+                  Theme Studio
+                </h1>
+                <p className="text-[14px] leading-relaxed text-[#6B7280] dark:text-[#a1a1aa]">
+                  Style your photostrip frame.
+                </p>
+              </div>
+
+              <h2 className="mb-3 text-[13px] font-semibold uppercase tracking-[0.08em] text-[#6B7280]">
+                Themes
+              </h2>
+              <div className="-mr-1 pr-1 lg:max-h-[calc(100vh-17rem)] lg:overflow-y-auto">
+                <ThemeSelector selectedId={themeId} onSelect={selectTheme} />
+              </div>
+            </div>
+
+            {/* Consistent Footer for Theme */}
+            <div className="mt-6 flex items-center justify-between bg-white dark:bg-[#18181b] rounded-[24px] p-5 shadow-sm border border-[#E5E7EB] dark:border-[#2a2a2e] w-full gap-3">
+              <button
+                onClick={() => router.push("/review")}
+                className="px-4 py-2.5 rounded-xl border border-[#E5E7EB] dark:border-[#2a2a2e] text-[13px] font-semibold text-[#111111] dark:text-[#f4f4f5] bg-white dark:bg-[#18181b] hover:bg-gray-50 dark:hover:bg-[#232327] transition-colors whitespace-nowrap"
+              >
+                Back
+              </button>
+              <button
+                onClick={handleContinue}
+                className="px-5 py-2.5 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] dark:bg-[#6366F1] dark:hover:bg-[#4F46E5] text-[13px] font-semibold text-white transition-colors shadow-sm min-w-[80px] text-center whitespace-nowrap"
+              >
+                Continue
+              </button>
             </div>
           </div>
         </div>

@@ -6,7 +6,7 @@ import { ArrowRight, Palette } from "lucide-react";
 interface PreviewHeaderProps {
   themeName: string;
   emoji: string;
-  onContinue: () => void;
+  onContinue?: () => void;
 }
 
 /**
@@ -25,7 +25,7 @@ export default function PreviewHeader({
           <Palette className="h-3.5 w-3.5" aria-hidden="true" />
           Theme Studio
         </span>
-        <h1 className="text-[28px] font-semibold tracking-[-0.02em] text-[#111111] sm:text-[32px]">
+        <h1 className="text-[28px] font-semibold tracking-[-0.02em] text-[#111111] dark:text-[#f4f4f5] sm:text-[32px]">
           Style your strip
         </h1>
         <div className="flex items-center gap-1.5 text-[14px] text-[#6B7280]">
@@ -37,7 +37,7 @@ export default function PreviewHeader({
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -4 }}
               transition={{ duration: 0.2 }}
-              className="font-semibold text-[#111111]"
+              className="font-semibold text-[#111111] dark:text-[#f4f4f5]"
             >
               {emoji} {themeName}
             </motion.span>
@@ -45,14 +45,16 @@ export default function PreviewHeader({
         </div>
       </div>
 
-      <button
-        type="button"
-        onClick={onContinue}
-        className="inline-flex h-11 shrink-0 items-center gap-2 rounded-[14px] bg-[#111111] px-5 text-sm font-medium text-white transition-colors hover:bg-[#222222] active:bg-[#333333] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4F46E5] focus-visible:ring-offset-2"
-      >
-        Continue
-        <ArrowRight className="h-4 w-4" aria-hidden="true" />
-      </button>
+      {onContinue && (
+        <button
+          type="button"
+          onClick={onContinue}
+          className="inline-flex h-11 shrink-0 items-center gap-2 rounded-[14px] bg-[#111111] px-5 text-sm font-medium text-white transition-colors hover:bg-[#222222] active:bg-[#333333] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4F46E5] focus-visible:ring-offset-2"
+        >
+          Continue
+          <ArrowRight className="h-4 w-4" aria-hidden="true" />
+        </button>
+      )}
     </header>
   );
 }

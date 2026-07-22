@@ -60,6 +60,7 @@ export const viewport: Viewport = {
   maximumScale: 5,
 };
 
+import Script from "next/script";
 import { MAINTENANCE_CONFIG } from "@/config/maintenance";
 import MaintenanceScreen from "@/components/ui/MaintenanceScreen";
 
@@ -74,18 +75,18 @@ export default function RootLayout({
 
   return (
     <html lang="en" suppressHydrationWarning className={geistSans.variable}>
-      <head>
-        {/* Apply saved color mode before paint to avoid a flash */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `(function(){try{var m=localStorage.getItem('pixelcam:theme-mode')||'system';var d=m==='dark'||(m==='system'&&window.matchMedia('(prefers-color-scheme: dark)').matches);var r=document.documentElement;r.classList.toggle('dark',d);r.style.colorScheme=d?'dark':'light';}catch(e){}})();`,
-          }}
-        />
-      </head>
+      <head />
       <body
         className="min-h-screen flex flex-col antialiased"
         style={{ backgroundColor: "var(--bg)", color: "var(--fg)" }}
       >
+        <Script
+          id="theme-loader"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var m=localStorage.getItem('pixelcam:theme-mode')||'system';var d=m==='dark'||(m==='system'&&window.matchMedia('(prefers-color-scheme: dark)').matches);var r=document.documentElement;r.classList.toggle('dark',d);r.style.colorScheme=d?'dark':'light';}catch(e){}})();`,
+          }}
+        />
         {showMaintenance && <MaintenanceScreen />}
 
         {/* Skip to content — accessibility */}

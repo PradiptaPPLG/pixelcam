@@ -421,6 +421,7 @@ export default function PreviewExperience() {
               isExporting={isPrinting}
               onDownloadPng={() => handleDownload("png")}
               onDownloadJpg={() => handleDownload("jpeg")}
+              onBack={() => router.push("/stickers")}
             />
           </div>
         </div>
