@@ -44,6 +44,7 @@ import {
   getThemeStateSnapshot,
   subscribeThemeState,
 } from "@/utils/theme";
+import { getStickerStateSnapshot } from "@/utils/sticker";
 import { getFilterPreset } from "@/data/filterPresets";
 import { interpolateFilterSettings } from "@/lib/filterEngine";
 import { useFilteredPhotos } from "@/hooks/useFilteredPhotos";
@@ -403,6 +404,7 @@ export default function PreviewExperience() {
                   customization={customization}
                   filter={filter}
                   photos={filteredPhotos}
+                  placements={getStickerStateSnapshot()}
                 />
               </motion.div>
             </div>

@@ -182,7 +182,7 @@ export default function FilmLabExperience() {
 
             <FilterFooter
               onBack={() => router.push("/theme")}
-              onContinue={() => router.push("/preview")}
+              onContinue={() => router.push("/stickers")}
             />
           </div>
         </div>

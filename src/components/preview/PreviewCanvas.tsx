@@ -4,12 +4,14 @@ import { forwardRef } from "react";
 import Logo from "@/components/ui/Logo";
 import type { FilterPreset } from "@/utils/filter";
 import type { StripCustomization, ThemePreset } from "@/utils/theme";
+import type { StickerPlacement } from "@/utils/sticker";
 
 interface PreviewCanvasProps {
   theme: ThemePreset;
   customization: StripCustomization;
   filter: FilterPreset;
   photos: string[];
+  placements?: StickerPlacement[];
   /** Base strip width in CSS px. */
   width?: number;
 }
@@ -26,7 +28,7 @@ const PHOTO_ASPECT = 3 / 4; // height / width (4:3 landscape frames)
  */
 const PreviewCanvas = forwardRef<HTMLDivElement, PreviewCanvasProps>(
   function PreviewCanvas(
-    { theme, customization, filter, photos, width = DEFAULT_WIDTH },
+    { theme, customization, filter, photos, placements, width = DEFAULT_WIDTH },
     ref,
   ) {
     const { style } = theme;
@@ -52,14 +54,39 @@ const PreviewCanvas = forwardRef<HTMLDivElement, PreviewCanvasProps>(
         ref={ref}
         style={{
           width,
+          position: "relative",
           boxSizing: "border-box",
           background: style.paperPattern ?? style.paper,
           borderRadius: stripRadius,
           padding: style.padding,
           boxShadow: showShadow ? style.shadow : "none",
           fontFamily: style.mono ? MONO_STACK : undefined,
+          overflow: "hidden", // Ensure stickers don't bleed out of the rounded corners
         }}
       >
+        {/* Render Stickers */}
+        {placements && placements.length > 0 && (
+          <div style={{ position: "absolute", inset: 0, pointerEvents: "none", zIndex: 10 }}>
+            {placements.map((p) => (
+              <img
+                key={p.id}
+                src={p.url}
+                alt="Sticker"
+                style={{
+                  position: "absolute",
+                  left: "50%",
+                  top: "50%",
+                  width: 100,
+                  height: 100,
+                  marginLeft: -50,
+                  marginTop: -50,
+                  transform: `translate(${p.x}px, ${p.y}px) scale(${p.scale}) rotate(${p.rotation}deg)`,
+                  objectFit: "contain",
+                }}
+              />
+            ))}
+          </div>
+        )}
         {title.trim() && (
           <p
             style={{
