@@ -26,6 +26,7 @@ export function saveSessionPhotos(photos: string[]): void {
   if (typeof window === "undefined") return;
   try {
     window.sessionStorage.setItem(SESSION_PHOTOS_KEY, JSON.stringify(photos));
+    window.dispatchEvent(new Event("storage"));
   } catch {
     // Storage may be unavailable (private mode / quota) — fail silently.
   }

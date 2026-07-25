@@ -100,7 +100,7 @@ export default function ThemeStudioExperience() {
             {/* Consistent Footer for Theme */}
             <div className="mt-6 flex items-center justify-between bg-white dark:bg-[#18181b] rounded-[24px] p-5 shadow-sm border border-[#E5E7EB] dark:border-[#2a2a2e] w-full gap-3">
               <button
-                onClick={() => router.push("/review")}
+                onClick={() => router.push("/template")}
                 className="px-4 py-2.5 rounded-xl border border-[#E5E7EB] dark:border-[#2a2a2e] text-[13px] font-semibold text-[#111111] dark:text-[#f4f4f5] bg-white dark:bg-[#18181b] hover:bg-gray-50 dark:hover:bg-[#232327] transition-colors whitespace-nowrap"
               >
                 Back

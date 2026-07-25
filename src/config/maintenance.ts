@@ -4,7 +4,7 @@ export const MAINTENANCE_CONFIG = {
    * set to true to display the maintenance screen on production for all visitors.
    * set to false to resume normal application operations.
    */
-  enabled: true,
+  enabled: false,
 
   title: "Scheduled Maintenance & Optimization",
   message:
@@ -13,3 +13,4 @@ export const MAINTENANCE_CONFIG = {
   role: "Founder of PixelCam",
   email: "pradipta02032009@gmail.com",
 };
+

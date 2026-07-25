@@ -44,6 +44,11 @@ import {
   getThemeStateSnapshot,
   subscribeThemeState,
 } from "@/utils/theme";
+import {
+  getTemplateStateServerSnapshot,
+  getTemplateStateSnapshot,
+  subscribeTemplateState,
+} from "@/utils/template";
 import { getStickerStateSnapshot } from "@/utils/sticker";
 import { getFilterPreset } from "@/data/filterPresets";
 import { interpolateFilterSettings } from "@/lib/filterEngine";
@@ -263,6 +268,11 @@ export default function PreviewExperience() {
     getFilterStateSnapshot,
     getFilterStateServerSnapshot,
   );
+  const templateId = useSyncExternalStore(
+    subscribeTemplateState,
+    getTemplateStateSnapshot,
+    getTemplateStateServerSnapshot,
+  );
 
   const filterIntensity = filterState.intensity ?? 100;
   const theme = getThemeById(themeState.themeId);
@@ -306,12 +316,14 @@ export default function PreviewExperience() {
       const node = canvasRef.current;
       if (!node || isPrinting) return;
 
+      const exportBg = templateId ? "#ffffff" : theme.style.paper;
+
       // 1. Capture a quick snapshot of the strip to display inside the animation
       try {
         const { default: html2canvas } = await import("html2canvas");
         const snap = await html2canvas(node, {
           scale: 1,
-          backgroundColor: theme.style.paper,
+          backgroundColor: exportBg,
           useCORS: true,
           logging: false,
         });
@@ -328,7 +340,7 @@ export default function PreviewExperience() {
       try {
         dataUrl = await exportNodeToImage(node, format, {
           scale: EXPORT_SCALE,
-          background: theme.style.paper,
+          background: exportBg,
           quality: 0.95,
         });
       } catch {
@@ -348,7 +360,7 @@ export default function PreviewExperience() {
       }
       setShowSuccess(true);
     },
-    [isPrinting, theme.style.paper],
+    [isPrinting, theme.style.paper, templateId],
   );
 
   if (!hasPhotos) {
@@ -384,13 +396,14 @@ export default function PreviewExperience() {
           <div className="flex flex-col gap-4">
             <PreviewToolbar
               onRetake={() => router.push("/session")}
-              onBackToThemes={() => router.push("/theme")}
+              onBackToThemes={() => router.push(templateId ? "/template" : "/theme")}
               onBackToFilters={() => router.push("/filter")}
+              isTemplate={!!templateId}
             />
 
             <div
               className="relative flex min-h-[420px] items-center justify-center rounded-[24px] p-8 ring-1 ring-black/5 sm:p-12"
-              style={{ background: theme.style.canvasPattern ?? theme.style.canvas }}
+              style={{ background: templateId ? "#f4f4f5" : (theme.style.canvasPattern ?? theme.style.canvas) }}
             >
               <LoadingOverlay show={false} />
               <motion.div
@@ -405,6 +418,7 @@ export default function PreviewExperience() {
                   filter={filter}
                   photos={filteredPhotos}
                   placements={getStickerStateSnapshot()}
+                  templateId={templateId}
                 />
               </motion.div>
             </div>

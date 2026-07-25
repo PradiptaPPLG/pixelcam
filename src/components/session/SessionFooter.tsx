@@ -17,6 +17,7 @@ interface SessionFooterProps {
   onCountdownSeconds: (seconds: number) => void;
   onStart: () => void;
   canStart: boolean;
+  isTemplateActive?: boolean;
 }
 
 /** Segmented option control. */
@@ -75,6 +76,7 @@ export default function SessionFooter({
   onCountdownSeconds,
   onStart,
   canStart,
+  isTemplateActive,
 }: SessionFooterProps) {
   if (phase !== "setup") {
     return (
@@ -89,13 +91,24 @@ export default function SessionFooter({
   return (
     <div className="flex flex-col items-center gap-8">
       <div className="flex flex-wrap items-start justify-center gap-x-10 gap-y-6">
-        <Segmented
-          label="Photos"
-          options={PHOTO_COUNT_OPTIONS}
-          value={photoCount as (typeof PHOTO_COUNT_OPTIONS)[number]}
-          format={(option) => String(option)}
-          onChange={onPhotoCount}
-        />
+        {isTemplateActive ? (
+          <div className="flex flex-col items-center gap-2">
+            <span className="text-[12px] font-semibold uppercase tracking-[0.08em] text-[#6B7280]">
+              Photos
+            </span>
+            <div className="inline-flex h-11 items-center justify-center rounded-[14px] border border-[#E5E7EB] bg-white px-5 text-sm font-medium text-[#111111]">
+              {photoCount} Photos (Locked by Template)
+            </div>
+          </div>
+        ) : (
+          <Segmented
+            label="Photos"
+            options={PHOTO_COUNT_OPTIONS}
+            value={photoCount as (typeof PHOTO_COUNT_OPTIONS)[number]}
+            format={(option) => String(option)}
+            onChange={onPhotoCount}
+          />
+        )}
         <Segmented
           label="Countdown"
           options={COUNTDOWN_OPTIONS}

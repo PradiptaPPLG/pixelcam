@@ -6,6 +6,7 @@ interface PreviewToolbarProps {
   onRetake: () => void;
   onBackToThemes: () => void;
   onBackToFilters: () => void;
+  isTemplate?: boolean;
 }
 
 const buttonClass =
@@ -19,6 +20,7 @@ export default function PreviewToolbar({
   onRetake,
   onBackToThemes,
   onBackToFilters,
+  isTemplate,
 }: PreviewToolbarProps) {
   return (
     <div className="flex flex-wrap items-center justify-center gap-2">
@@ -28,7 +30,7 @@ export default function PreviewToolbar({
       </button>
       <button type="button" onClick={onBackToThemes} className={buttonClass}>
         <Palette className="h-3.5 w-3.5" aria-hidden="true" />
-        Back to Themes
+        {isTemplate ? "Back to Templates" : "Back to Themes"}
       </button>
       <button type="button" onClick={onBackToFilters} className={buttonClass}>
         <SlidersHorizontal className="h-3.5 w-3.5" aria-hidden="true" />

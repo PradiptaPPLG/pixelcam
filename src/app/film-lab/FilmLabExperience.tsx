@@ -28,6 +28,11 @@ import {
   getThemeStateSnapshot,
   subscribeThemeState,
 } from "@/utils/theme";
+import {
+  getTemplateStateServerSnapshot,
+  getTemplateStateSnapshot,
+  subscribeTemplateState,
+} from "@/utils/template";
 
 /**
  * Film Lab — choose the visual style (filter) of the photos before export.
@@ -52,6 +57,11 @@ export default function FilmLabExperience() {
     subscribeFilterState,
     getFilterStateSnapshot,
     getFilterStateServerSnapshot,
+  );
+  const templateId = useSyncExternalStore(
+    subscribeTemplateState,
+    getTemplateStateSnapshot,
+    getTemplateStateServerSnapshot,
   );
 
   // Local override gives instant preview updates (same-tab storage writes
@@ -181,7 +191,7 @@ export default function FilmLabExperience() {
             </AnimatePresence>
 
             <FilterFooter
-              onBack={() => router.push("/theme")}
+              onBack={() => router.push(templateId ? "/template" : "/theme")}
               onContinue={() => router.push("/stickers")}
             />
           </div>

@@ -5,6 +5,8 @@ import Logo from "@/components/ui/Logo";
 import type { FilterPreset } from "@/utils/filter";
 import type { StripCustomization, ThemePreset } from "@/utils/theme";
 import type { StickerPlacement } from "@/utils/sticker";
+import { getTemplateById } from "@/data/templatesData";
+import { loadTemplateId } from "@/utils/template";
 
 interface PreviewCanvasProps {
   theme: ThemePreset;
@@ -14,6 +16,7 @@ interface PreviewCanvasProps {
   placements?: StickerPlacement[];
   /** Base strip width in CSS px. */
   width?: number;
+  templateId?: string | null;
 }
 
 const MONO_STACK =
@@ -28,12 +31,120 @@ const PHOTO_ASPECT = 3 / 4; // height / width (4:3 landscape frames)
  */
 const PreviewCanvas = forwardRef<HTMLDivElement, PreviewCanvasProps>(
   function PreviewCanvas(
-    { theme, customization, filter, photos, placements, width = DEFAULT_WIDTH },
+    { theme, customization, filter, photos, placements, width = DEFAULT_WIDTH, templateId },
     ref,
   ) {
     const { style } = theme;
     const { rounded, showShadow, showDate, showLogo, title, footerText } =
       customization;
+
+    const resolvedTemplateId = templateId !== undefined ? templateId : loadTemplateId();
+    const template = resolvedTemplateId ? getTemplateById(resolvedTemplateId) : null;
+
+    if (template) {
+      const contentHeight = Math.round(width / template.aspectRatio);
+
+      return (
+        <div
+          ref={ref}
+          style={{
+            width,
+            height: contentHeight,
+            position: "relative",
+            boxSizing: "border-box",
+            borderRadius: rounded ? 16 : 4,
+            boxShadow: showShadow ? style.shadow : "none",
+            overflow: "hidden",
+            backgroundColor: "#ffffff",
+          }}
+        >
+          {/* Photo slots — sit beneath the overlay */}
+          {template.slots.map((slot, i) => {
+            const src = photos[i];
+            return (
+              <div
+                key={i}
+                style={{
+                  position: "absolute",
+                  left: `${slot.xPct}%`,
+                  top: `${slot.yPct}%`,
+                  width: `${slot.widthPct}%`,
+                  height: `${slot.heightPct}%`,
+                  overflow: "hidden",
+                  backgroundColor: "#111111",
+                }}
+              >
+                {src ? (
+                  /* Plain img (not next/image) so html2canvas captures it reliably. */
+                  /* eslint-disable-next-line @next/next/no-img-element */
+                  <img
+                    src={src}
+                    alt={`Photo ${i + 1}`}
+                    style={{
+                      display: "block",
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                    }}
+                  />
+                ) : (
+                  <div
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      backgroundColor: "rgba(0,0,0,0.1)",
+                    }}
+                  />
+                )}
+              </div>
+            );
+          })}
+
+          {/* Template overlay — sits on top of photos */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={template.overlaySrc}
+            alt={template.name}
+            style={{
+              position: "absolute",
+              top: 0,
+              bottom: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              objectFit: "fill",
+              pointerEvents: "none",
+              ...template.overlayStyle,
+            }}
+          />
+
+          {/* Render Stickers */}
+          {placements && placements.length > 0 && (
+            <div style={{ position: "absolute", inset: 0, pointerEvents: "none", zIndex: 10 }}>
+              {placements.map((p) => (
+                /* eslint-disable-next-line @next/next/no-img-element */
+                <img
+                  key={p.id}
+                  src={p.url}
+                  alt="Sticker"
+                  style={{
+                    position: "absolute",
+                    left: "50%",
+                    top: "50%",
+                    width: 100,
+                    height: 100,
+                    marginLeft: -50,
+                    marginTop: -50,
+                    transform: `translate(${p.x}px, ${p.y}px) scale(${p.scale}) rotate(${p.rotation}deg)`,
+                    objectFit: "contain",
+                  }}
+                />
+              ))}
+            </div>
+          )}
+        </div>
+      );
+    }
 
     const stripRadius = rounded ? style.radius : 4;
     const photoRadius = rounded ? Math.max(style.radius - 4, 6) : 2;

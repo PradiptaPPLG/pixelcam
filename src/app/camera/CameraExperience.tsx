@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import Container from "@/components/ui/Container";
@@ -12,6 +12,13 @@ import {
 } from "@/components/camera";
 import UploadFlow from "@/components/upload/UploadFlow";
 import { useCamera } from "@/hooks/useCamera";
+import {
+  getTemplateStateServerSnapshot,
+  getTemplateStateSnapshot,
+  subscribeTemplateState,
+} from "@/utils/template";
+import { getTemplateById } from "@/data/templatesData";
+import { saveSessionPhotos } from "@/utils/session";
 
 /**
  * Camera booth experience — orchestrates the useCamera hook with the local
@@ -39,6 +46,14 @@ export default function CameraExperience() {
   const [isFlashing, setIsFlashing] = useState(false);
   const [toast, setToast] = useState<string | null>(null);
   const [uploadOpen, setUploadOpen] = useState(false);
+
+  const templateId = useSyncExternalStore(
+    subscribeTemplateState,
+    getTemplateStateSnapshot,
+    getTemplateStateServerSnapshot,
+  );
+
+  const activeTemplate = templateId ? getTemplateById(templateId) : null;
 
   // Ask for camera permission as soon as the page is entered.
   useEffect(() => {
@@ -166,7 +181,15 @@ export default function CameraExperience() {
         )}
       </AnimatePresence>
 
-      <UploadFlow open={uploadOpen} onClose={() => setUploadOpen(false)} />
+      <UploadFlow
+        open={uploadOpen}
+        onClose={() => setUploadOpen(false)}
+        fixedCount={activeTemplate ? activeTemplate.slots.length : undefined}
+        onFinish={activeTemplate ? (all) => {
+          saveSessionPhotos(all);
+          router.push("/film-lab");
+        } : undefined}
+      />
     </section>
   );
 }

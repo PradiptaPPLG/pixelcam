@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useSyncExternalStore } from "react";
 import { useRouter } from "next/navigation";
 import Container from "@/components/ui/Container";
 import { PermissionCard } from "@/components/camera";
@@ -14,6 +14,13 @@ import {
 import { useCamera } from "@/hooks/useCamera";
 import { useSession } from "@/hooks/useSession";
 import { saveSessionPhotos } from "@/utils/session";
+import {
+  getTemplateStateServerSnapshot,
+  getTemplateStateSnapshot,
+  subscribeTemplateState,
+  loadTemplateId,
+} from "@/utils/template";
+import { getTemplateById } from "@/data/templatesData";
 
 const MIRRORED = true;
 
@@ -26,10 +33,24 @@ export default function SessionExperience() {
   const router = useRouter();
   const { videoRef, status, errorMessage, start, retry, capture } = useCamera();
 
+  const templateId = useSyncExternalStore(
+    subscribeTemplateState,
+    getTemplateStateSnapshot,
+    getTemplateStateServerSnapshot,
+  );
+
+  const activeTemplate = templateId ? getTemplateById(templateId) : null;
+  const initialPhotoCount = activeTemplate ? activeTemplate.slots.length : undefined;
+
   const handleComplete = useCallback(
     (photos: string[]) => {
       saveSessionPhotos(photos);
-      router.push("/review");
+      const activeId = loadTemplateId();
+      if (activeId) {
+        router.push("/film-lab");
+      } else {
+        router.push("/review");
+      }
     },
     [router],
   );
@@ -38,6 +59,7 @@ export default function SessionExperience() {
     capture,
     mirrored: MIRRORED,
     onComplete: handleComplete,
+    initialPhotoCount,
   });
 
   // Ask for camera permission as soon as the page is entered.
@@ -95,6 +117,7 @@ export default function SessionExperience() {
               onCountdownSeconds={session.setCountdownSeconds}
               onStart={session.start}
               canStart={canStart}
+              isTemplateActive={!!templateId}
             />
           </>
         )}

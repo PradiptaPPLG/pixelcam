@@ -1,12 +1,15 @@
 "use client";
 
-import { useRef } from "react";
+import { useMemo, useRef } from "react";
 import PreviewCanvas from "@/components/preview/PreviewCanvas";
 import DraggableSticker from "@/components/stickers/DraggableSticker";
 import { StickerPlacement } from "@/utils/sticker";
 import { getThemeById } from "@/utils/theme";
 import type { StripCustomization } from "@/utils/theme";
-import { getFilterById } from "@/utils/filter";
+import { getFilterById, getFilterStateSnapshot } from "@/utils/filter";
+import { getFilterPreset } from "@/data/filterPresets";
+import { interpolateFilterSettings } from "@/lib/filterEngine";
+import { useFilteredPhotos } from "@/hooks/useFilteredPhotos";
 
 interface InteractivePreviewCanvasProps {
   theme: string;
@@ -35,6 +38,14 @@ export default function InteractivePreviewCanvas({
   
   const themeData = getThemeById(theme);
   const filterData = getFilterById(filter);
+  const filterState = getFilterStateSnapshot();
+  const intensity = filterState.intensity ?? 100;
+  const filterPreset = getFilterPreset(filter);
+  const settings = useMemo(
+    () => interpolateFilterSettings(filterPreset.settings, intensity),
+    [filter, intensity],
+  );
+  const filteredPhotos = useFilteredPhotos(photos, settings);
 
   return (
     <div className="relative inline-block" ref={containerRef}>
@@ -43,7 +54,7 @@ export default function InteractivePreviewCanvas({
         theme={themeData}
         customization={customization}
         filter={filterData}
-        photos={photos}
+        photos={filteredPhotos}
       />
 
       {/* Interactive Sticker Overlay */}

@@ -12,15 +12,19 @@ import ImageCropper from "./ImageCropper";
 interface UploadFlowProps {
   open: boolean;
   onClose: () => void;
+  /** If set, skip the count picker and lock to this number of photos. */
+  fixedCount?: number;
+  /** Called with the cropped data-URLs when done. Defaults to saving + navigating to /theme. */
+  onFinish?: (photos: string[]) => void;
 }
 
-type Phase = "count" | "crop";
+type Phase = "count" | "pick" | "crop";
 
 /**
  * Upload path: choose how many photos, pick that many images, crop each to the
  * photobooth ratio, then hand the set to the Theme Studio.
  */
-export default function UploadFlow({ open, onClose }: UploadFlowProps) {
+export default function UploadFlow({ open, onClose, fixedCount, onFinish }: UploadFlowProps) {
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
   const urlsRef = useRef<string[]>([]);
@@ -42,8 +46,9 @@ export default function UploadFlow({ open, onClose }: UploadFlowProps) {
   if (open !== wasOpen) {
     setWasOpen(open);
     if (open) {
-      setPhase("count");
-      setCount(4);
+      // If fixedCount is provided, skip straight to file picker phase.
+      setPhase(fixedCount !== undefined ? "pick" : "count");
+      setCount(fixedCount ?? 4);
       setUrls([]);
       setIndex(0);
       setCropped([]);
@@ -97,7 +102,11 @@ export default function UploadFlow({ open, onClose }: UploadFlowProps) {
     saveSessionPhotos(all);
     revokeUrls();
     onClose();
-    router.push("/theme");
+    if (onFinish) {
+      onFinish(all);
+    } else {
+      router.push("/theme");
+    }
   };
 
   const handleCropped = (dataUrl: string) => {
@@ -153,7 +162,7 @@ export default function UploadFlow({ open, onClose }: UploadFlowProps) {
               }}
             />
 
-            {phase === "count" ? (
+            {phase === "count" || phase === "pick" ? (
               <div className="flex flex-col items-center gap-6 pt-2 text-center">
                 <span className="grid h-14 w-14 place-items-center rounded-[18px] bg-[#EEF2FF] text-[#4F46E5]">
                   <Upload className="h-6 w-6" aria-hidden="true" />
@@ -163,34 +172,37 @@ export default function UploadFlow({ open, onClose }: UploadFlowProps) {
                     Upload your photos
                   </h2>
                   <p className="text-[14px] leading-relaxed text-[#6B7280]">
-                    Choose how many photos your strip should have, then pick your
-                    images to crop.
+                    {fixedCount !== undefined
+                      ? `This template needs ${fixedCount} photo${fixedCount > 1 ? "s" : ""}. Pick them from your device.`
+                      : "Choose how many photos your strip should have, then pick your images to crop."}
                   </p>
                 </div>
 
-                <div className="flex flex-col items-center gap-2">
-                  <span className="text-[12px] font-semibold uppercase tracking-[0.08em] text-[#6B7280]">
-                    Photos
-                  </span>
-                  <div className="inline-flex gap-1 rounded-[14px] border border-[#E5E7EB] bg-white p-1">
-                    {PHOTO_COUNT_OPTIONS.map((option) => (
-                      <button
-                        key={option}
-                        type="button"
-                        onClick={() => setCount(option)}
-                        aria-pressed={count === option}
-                        className={cn(
-                          "h-9 min-w-11 rounded-[10px] px-3 text-sm font-medium transition-colors",
-                          count === option
-                            ? "bg-[#111111] text-white"
-                            : "text-[#6B7280] hover:text-[#111111]",
-                        )}
-                      >
-                        {option}
-                      </button>
-                    ))}
+                {fixedCount === undefined && (
+                  <div className="flex flex-col items-center gap-2">
+                    <span className="text-[12px] font-semibold uppercase tracking-[0.08em] text-[#6B7280]">
+                      Photos
+                    </span>
+                    <div className="inline-flex gap-1 rounded-[14px] border border-[#E5E7EB] bg-white p-1">
+                      {PHOTO_COUNT_OPTIONS.map((option) => (
+                        <button
+                          key={option}
+                          type="button"
+                          onClick={() => setCount(option)}
+                          aria-pressed={count === option}
+                          className={cn(
+                            "h-9 min-w-11 rounded-[10px] px-3 text-sm font-medium transition-colors",
+                            count === option
+                              ? "bg-[#111111] text-white"
+                              : "text-[#6B7280] hover:text-[#111111]",
+                          )}
+                        >
+                          {option}
+                        </button>
+                      ))}
+                    </div>
                   </div>
-                </div>
+                )}
 
                 <button
                   type="button"
@@ -198,7 +210,7 @@ export default function UploadFlow({ open, onClose }: UploadFlowProps) {
                   className="inline-flex h-11 items-center gap-2 rounded-[14px] bg-[#111111] px-5 text-sm font-medium text-white transition-colors hover:bg-[#222222] active:bg-[#333333] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4F46E5] focus-visible:ring-offset-2"
                 >
                   <ImagePlus className="h-4 w-4" aria-hidden="true" />
-                  Choose {count} photos
+                  Choose {count} photo{count > 1 ? "s" : ""}
                 </button>
 
                 {error && (

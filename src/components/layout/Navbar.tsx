@@ -75,8 +75,8 @@ export default function Navbar() {
         className={cn(
           "fixed top-0 inset-x-0 z-50 transition-all duration-300",
           scrolled
-            ? "backdrop-blur-md bg-[rgba(250,250,250,0.88)] border-b border-[#e5e7eb]"
-            : "bg-transparent",
+            ? "backdrop-blur-md bg-[rgba(250,250,250,0.92)] dark:bg-[rgba(13,13,15,0.92)] border-b border-[#e5e7eb] dark:border-[#2a2a2e] shadow-[0_1px_0_rgba(0,0,0,0.04)]"
+            : "bg-[#fafafa] dark:bg-[#0d0d0f] border-b border-[#e5e7eb] dark:border-[#2a2a2e]",
         )}
       >
         <Container>

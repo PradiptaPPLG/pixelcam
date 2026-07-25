@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
+/* Make Tailwind's dark: variant follow the .dark class (toggled by ThemeToggle)
+   instead of the OS prefers-color-scheme media query. */
+@variant dark (&:where(.dark, .dark *));
+
+
 /* ============================================================
    PIXELCAM — DESIGN SYSTEM
    Minimal Apple-inspired premium photobooth

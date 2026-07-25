@@ -308,6 +308,19 @@ export default function HeroSection() {
                 <path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </Link>
+            <Link
+              href="/template"
+              id="hero-browse-templates"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-[14px] bg-white border border-[#e5e7eb] text-[#111111] text-[15px] font-medium hover:bg-[#f5f5f5] active:bg-[#eeeeee] transition-colors duration-150 shadow-[var(--shadow-sm)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4f46e5] focus-visible:ring-offset-2"
+            >
+              <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true">
+                <rect x="1.5" y="1.5" width="5" height="5" rx="1" stroke="#6b7280" strokeWidth="1.2" />
+                <rect x="8.5" y="1.5" width="5" height="5" rx="1" stroke="#6b7280" strokeWidth="1.2" />
+                <rect x="1.5" y="8.5" width="5" height="5" rx="1" stroke="#6b7280" strokeWidth="1.2" />
+                <rect x="8.5" y="8.5" width="5" height="5" rx="1" stroke="#6b7280" strokeWidth="1.2" />
+              </svg>
+              Browse Templates
+            </Link>
             <button
               id="hero-watch-demo"
               type="button"

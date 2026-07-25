@@ -65,10 +65,10 @@ export default function StickerSidebar({
                 key={file}
                 onClick={() => onAddSticker(url)}
                 disabled={stickerCount >= maxStickers}
-                className="group relative aspect-square bg-white dark:bg-[#18181b] border border-[#E5E7EB] dark:border-[#2a2a2e] rounded-xl flex items-center justify-center p-2.5 hover:border-[#4F46E5] dark:hover:border-[#818CF8] hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none"
+                className="group relative aspect-square bg-[#18181b] dark:bg-[#121215] border border-[#27272a] dark:border-[#222226] rounded-xl flex items-center justify-center p-2.5 hover:border-[#4F46E5] dark:hover:border-[#818CF8] hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none"
               >
                 {/* Checkered pattern on hover */}
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-10 dark:group-hover:opacity-[0.03] transition-opacity duration-200 rounded-[11px] bg-[radial-gradient(#000_1px,transparent_1px)] dark:bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:8px_8px]" />
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-20 dark:group-hover:opacity-[0.05] transition-opacity duration-200 rounded-[11px] bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:8px_8px]" />
 
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img

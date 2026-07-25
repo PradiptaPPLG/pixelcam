@@ -142,10 +142,18 @@ export default function DraggableSticker({
       ref={stickerRef}
       drag
       dragControls={dragControls}
+      dragListener={false}
       dragConstraints={boundsRef}
       dragElastic={0}
       dragMomentum={false}
       onDragStart={onSelect}
+      onPointerDown={(e) => {
+        const target = e.target as HTMLElement;
+        if (!target.closest(".control-handle")) {
+          onSelect();
+          dragControls.start(e);
+        }
+      }}
       onDragEnd={(e, info) => {
         if (!stickerRef.current) return;
         const style = window.getComputedStyle(stickerRef.current);
@@ -190,19 +198,19 @@ export default function DraggableSticker({
           {/* Corner Resize Handles */}
           <div
             onPointerDown={handleResizeStart}
-            className="absolute -top-1.5 -left-1.5 w-3.5 h-3.5 bg-white border-2 border-[#4F46E5] rounded-full cursor-nwse-resize z-50 shadow-sm"
+            className="control-handle absolute -top-1.5 -left-1.5 w-3.5 h-3.5 bg-white border-2 border-[#4F46E5] rounded-full cursor-nwse-resize z-50 shadow-sm"
           />
           <div
             onPointerDown={handleResizeStart}
-            className="absolute -top-1.5 -right-1.5 w-3.5 h-3.5 bg-white border-2 border-[#4F46E5] rounded-full cursor-nesw-resize z-50 shadow-sm"
+            className="control-handle absolute -top-1.5 -right-1.5 w-3.5 h-3.5 bg-white border-2 border-[#4F46E5] rounded-full cursor-nesw-resize z-50 shadow-sm"
           />
           <div
             onPointerDown={handleResizeStart}
-            className="absolute -bottom-1.5 -left-1.5 w-3.5 h-3.5 bg-white border-2 border-[#4F46E5] rounded-full cursor-nesw-resize z-50 shadow-sm"
+            className="control-handle absolute -bottom-1.5 -left-1.5 w-3.5 h-3.5 bg-white border-2 border-[#4F46E5] rounded-full cursor-nesw-resize z-50 shadow-sm"
           />
           <div
             onPointerDown={handleResizeStart}
-            className="absolute -bottom-1.5 -right-1.5 w-3.5 h-3.5 bg-white border-2 border-[#4F46E5] rounded-full cursor-nwse-resize z-50 shadow-sm"
+            className="control-handle absolute -bottom-1.5 -right-1.5 w-3.5 h-3.5 bg-white border-2 border-[#4F46E5] rounded-full cursor-nwse-resize z-50 shadow-sm"
           />
 
           {/* Delete Button (Top Middle / slightly offset) */}
@@ -212,14 +220,14 @@ export default function DraggableSticker({
               e.stopPropagation();
               onDelete(id);
             }}
-            className="absolute -top-10 left-1/2 -translate-x-1/2 w-7 h-7 bg-red-500 hover:bg-red-600 text-white rounded-full flex items-center justify-center shadow-lg hover:scale-110 active:scale-95 transition-all duration-150 z-50"
+            className="control-handle absolute -top-10 left-1/2 -translate-x-1/2 w-7 h-7 bg-red-500 hover:bg-red-600 text-white rounded-full flex items-center justify-center shadow-lg hover:scale-110 active:scale-95 transition-all duration-150 z-50"
             title="Delete Sticker"
           >
             <Trash2 className="w-3.5 h-3.5" />
           </button>
 
           {/* Rotate Handle (Bottom center stem and button) */}
-          <div className="absolute -bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center z-50">
+          <div className="control-handle absolute -bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center z-50">
             <div className="w-0.5 h-4 bg-[#4F46E5]" />
             <div
               onPointerDown={handleRotateStart}

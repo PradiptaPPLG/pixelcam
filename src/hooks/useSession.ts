@@ -13,6 +13,7 @@ interface UseSessionParams {
   mirrored: boolean;
   /** Called once the final shot is taken, with the full strip. */
   onComplete: (photos: string[]) => void;
+  initialPhotoCount?: number;
 }
 
 export interface UseSessionResult {
@@ -40,14 +41,21 @@ export function useSession({
   capture,
   mirrored,
   onComplete,
+  initialPhotoCount,
 }: UseSessionParams): UseSessionResult {
   const [phase, setPhase] = useState<SessionPhase>("setup");
-  const [photoCount, setPhotoCount] = useState(DEFAULT_PHOTO_COUNT);
+  const [photoCount, setPhotoCount] = useState(initialPhotoCount ?? DEFAULT_PHOTO_COUNT);
   const [countdownSeconds, setCountdownSeconds] = useState(DEFAULT_COUNTDOWN);
   const [currentShot, setCurrentShot] = useState(0);
   const [countdownValue, setCountdownValue] = useState<number | null>(null);
   const [isFlashing, setIsFlashing] = useState(false);
   const [photos, setPhotos] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (initialPhotoCount !== undefined) {
+      setPhotoCount(initialPhotoCount);
+    }
+  }, [initialPhotoCount]);
 
   const runningRef = useRef(false);
   const cancelledRef = useRef(false);
