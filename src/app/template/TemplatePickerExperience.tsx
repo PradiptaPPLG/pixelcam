@@ -92,34 +92,34 @@ export default function TemplatePickerExperience() {
                 aria-label={`Use template: ${template.name}`}
                 aria-pressed={isSelected}
               >
-                {/* Full-bleed thumbnail */}
-                <div
-                  className="relative w-full overflow-hidden bg-[#1a1a1a]"
-                  style={{
-                    // For portrait strips show as portrait, for wide ones adapt
-                    aspectRatio: isWide ? "4/3" : isPortrait ? "9/14" : "3/4",
-                  }}
-                >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={template.previewSrc}
-                    alt={template.name}
-                    className="absolute inset-0 w-full h-full object-cover object-top group-hover:scale-[1.03] transition-transform duration-300"
-                    loading="lazy"
-                  />
+              {/* Full-bleed thumbnail with aspect ratio containment */}
+              <div
+                className="relative w-full overflow-hidden bg-[#121214] dark:bg-[#0D0D0F]"
+                style={{
+                  // Fixed aspect ratio container for uniform card grid
+                  aspectRatio: isWide ? "4/3" : "3/4",
+                }}
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={template.previewSrc}
+                  alt={template.name}
+                  className="absolute inset-0 w-full h-full object-contain p-4 group-hover:scale-[1.03] transition-transform duration-300"
+                  loading="lazy"
+                />
 
-                  {/* Bottom gradient overlay for text */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent" />
+                {/* Bottom gradient overlay for text */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent pointer-events-none" />
 
-                  {/* Name + description overlaid at bottom */}
-                  <div className="absolute bottom-0 left-0 right-0 p-3">
-                    <p className="text-[13px] font-bold text-white leading-tight drop-shadow-sm">
-                      {template.name}
-                    </p>
-                    <p className="text-[11px] text-white/70 mt-0.5 leading-snug line-clamp-2">
-                      {template.description}
-                    </p>
-                  </div>
+                {/* Name + description overlaid at bottom */}
+                <div className="absolute bottom-0 left-0 right-0 p-3 pointer-events-none">
+                  <p className="text-[12px] font-bold text-white leading-tight drop-shadow-sm">
+                    {template.name}
+                  </p>
+                  <p className="text-[10px] text-white/70 mt-0.5 leading-snug line-clamp-1">
+                    {template.description}
+                  </p>
+                </div>
 
                   {/* Selected checkmark badge */}
                   <AnimatePresence>
