@@ -29,9 +29,50 @@ export interface TemplatePreset {
   aspectRatio: number;
   /** Optional inline styles to apply to the overlay img */
   overlayStyle?: Record<string, string | number>;
+  /** If true, shown in the Trending section at the top */
+  trending?: boolean;
+  /** Display label for usage count e.g. "1.5k used" */
+  usedCount?: string;
 }
 
+/** Standard 3-slot strip slots (portrait ~0.55 ratio) used for all trending templates */
+const STRIP_3_SLOTS: PhotoSlot[] = [
+  { xPct: 8.0, yPct: 4.5,  widthPct: 84.0, heightPct: 27.5 },
+  { xPct: 8.0, yPct: 36.0, widthPct: 84.0, heightPct: 27.5 },
+  { xPct: 8.0, yPct: 67.5, widthPct: 84.0, heightPct: 27.5 },
+];
+
 export const TEMPLATE_PRESETS: TemplatePreset[] = [
+  /* ── TRENDING ─────────────────────────────────────────────── */
+  { id: "trending1",  trending: true, usedCount: "1.5k used",  name: "Trending #1",  description: "Popular 3-frame photo strip.", previewSrc: "/templates/trending1.png",  overlaySrc: "/templates/trending1.png",  aspectRatio: 855/1839,  slots: STRIP_3_SLOTS },
+  { id: "trending2",  trending: true, usedCount: "1.4k used",  name: "Trending #2",  description: "Popular 3-frame photo strip.", previewSrc: "/templates/trending2.png",  overlaySrc: "/templates/trending2.png",  aspectRatio: 929/1693,  slots: STRIP_3_SLOTS },
+  { id: "trending3",  trending: true, usedCount: "1.3k used",  name: "Trending #3",  description: "Popular 3-frame photo strip.", previewSrc: "/templates/trending3.png",  overlaySrc: "/templates/trending3.png",  aspectRatio: 1024/1536, slots: STRIP_3_SLOTS },
+  { id: "trending4",  trending: true, usedCount: "1.2k used",  name: "Trending #4",  description: "Popular 3-frame photo strip.", previewSrc: "/templates/trending4.png",  overlaySrc: "/templates/trending4.png",  aspectRatio: 1086/1448, slots: STRIP_3_SLOTS },
+  { id: "trending5",  trending: true, usedCount: "1.2k used",  name: "Trending #5",  description: "Popular 3-frame photo strip.", previewSrc: "/templates/trending5.png",  overlaySrc: "/templates/trending5.png",  aspectRatio: 929/1694,  slots: STRIP_3_SLOTS },
+  { id: "trending6",  trending: true, usedCount: "1.1k used",  name: "Trending #6",  description: "Popular 3-frame photo strip.", previewSrc: "/templates/trending6.png",  overlaySrc: "/templates/trending6.png",  aspectRatio: 929/1693,  slots: STRIP_3_SLOTS },
+  { id: "trending7",  trending: true, usedCount: "1.1k used",  name: "Trending #7",  description: "Popular 3-frame photo strip.", previewSrc: "/templates/trending7.png",  overlaySrc: "/templates/trending7.png",  aspectRatio: 853/1844,  slots: STRIP_3_SLOTS },
+  { id: "trending8",  trending: true, usedCount: "1.0k used",  name: "Trending #8",  description: "Popular 3-frame photo strip.", previewSrc: "/templates/trending8.png",  overlaySrc: "/templates/trending8.png",  aspectRatio: 851/1847,  slots: STRIP_3_SLOTS },
+  { id: "trending9",  trending: true, usedCount: "980 used",   name: "Trending #9",  description: "Popular 3-frame photo strip.", previewSrc: "/templates/trending9.png",  overlaySrc: "/templates/trending9.png",  aspectRatio: 929/1694,  slots: STRIP_3_SLOTS },
+  { id: "trending10", trending: true, usedCount: "950 used",   name: "Trending #10", description: "Popular 3-frame photo strip.", previewSrc: "/templates/trending10.png", overlaySrc: "/templates/trending10.png", aspectRatio: 929/1694,  slots: STRIP_3_SLOTS },
+  { id: "trending11", trending: true, usedCount: "920 used",   name: "Trending #11", description: "Popular 3-frame photo strip.", previewSrc: "/templates/trending11.png", overlaySrc: "/templates/trending11.png", aspectRatio: 929/1694,  slots: STRIP_3_SLOTS },
+  { id: "trending12", trending: true, usedCount: "900 used",   name: "Trending #12", description: "Popular 3-frame photo strip.", previewSrc: "/templates/trending12.png", overlaySrc: "/templates/trending12.png", aspectRatio: 929/1693,  slots: STRIP_3_SLOTS },
+  { id: "trending13", trending: true, usedCount: "880 used",   name: "Trending #13", description: "Popular 3-frame photo strip.", previewSrc: "/templates/trending13.png", overlaySrc: "/templates/trending13.png", aspectRatio: 929/1692,  slots: STRIP_3_SLOTS },
+  { id: "trending14", trending: true, usedCount: "860 used",   name: "Trending #14", description: "Popular 3-frame photo strip.", previewSrc: "/templates/trending14.png", overlaySrc: "/templates/trending14.png", aspectRatio: 929/1693,  slots: STRIP_3_SLOTS },
+  { id: "trending15", trending: true, usedCount: "840 used",   name: "Trending #15", description: "Popular 3-frame photo strip.", previewSrc: "/templates/trending15.png", overlaySrc: "/templates/trending15.png", aspectRatio: 929/1693,  slots: STRIP_3_SLOTS },
+  { id: "trending16", trending: true, usedCount: "820 used",   name: "Trending #16", description: "Popular 3-frame photo strip.", previewSrc: "/templates/trending16.png", overlaySrc: "/templates/trending16.png", aspectRatio: 929/1692,  slots: STRIP_3_SLOTS },
+  { id: "trending17", trending: true, usedCount: "800 used",   name: "Trending #17", description: "Popular 3-frame photo strip.", previewSrc: "/templates/trending17.png", overlaySrc: "/templates/trending17.png", aspectRatio: 929/1692,  slots: STRIP_3_SLOTS },
+  { id: "trending18", trending: true, usedCount: "780 used",   name: "Trending #18", description: "Popular 3-frame photo strip.", previewSrc: "/templates/trending18.png", overlaySrc: "/templates/trending18.png", aspectRatio: 929/1692,  slots: STRIP_3_SLOTS },
+  { id: "trending19", trending: true, usedCount: "760 used",   name: "Trending #19", description: "Popular 3-frame photo strip.", previewSrc: "/templates/trending19.png", overlaySrc: "/templates/trending19.png", aspectRatio: 929/1692,  slots: STRIP_3_SLOTS },
+  { id: "trending20", trending: true, usedCount: "740 used",   name: "Trending #20", description: "Popular 3-frame photo strip.", previewSrc: "/templates/trending20.png", overlaySrc: "/templates/trending20.png", aspectRatio: 822/1913,  slots: STRIP_3_SLOTS },
+  { id: "trending21", trending: true, usedCount: "720 used",   name: "Trending #21", description: "Popular 3-frame photo strip.", previewSrc: "/templates/trending21.png", overlaySrc: "/templates/trending21.png", aspectRatio: 887/1774,  slots: STRIP_3_SLOTS },
+  { id: "trending23", trending: true, usedCount: "700 used",   name: "Trending #23", description: "Popular 3-frame photo strip.", previewSrc: "/templates/trending23.png", overlaySrc: "/templates/trending23.png", aspectRatio: 887/1774,  slots: STRIP_3_SLOTS },
+  { id: "trending24", trending: true, usedCount: "680 used",   name: "Trending #24", description: "Popular 3-frame photo strip.", previewSrc: "/templates/trending24.png", overlaySrc: "/templates/trending24.png", aspectRatio: 929/1693,  slots: STRIP_3_SLOTS },
+  { id: "trending25", trending: true, usedCount: "660 used",   name: "Trending #25", description: "Popular 3-frame photo strip.", previewSrc: "/templates/trending25.png", overlaySrc: "/templates/trending25.png", aspectRatio: 928/1695,  slots: STRIP_3_SLOTS },
+  { id: "trending26", trending: true, usedCount: "640 used",   name: "Trending #26", description: "Popular 3-frame photo strip.", previewSrc: "/templates/trending26.png", overlaySrc: "/templates/trending26.png", aspectRatio: 933/1686,  slots: STRIP_3_SLOTS },
+  { id: "trending27", trending: true, usedCount: "620 used",   name: "Trending #27", description: "Popular 3-frame photo strip.", previewSrc: "/templates/trending27.png", overlaySrc: "/templates/trending27.png", aspectRatio: 725/2167,  slots: STRIP_3_SLOTS },
+  { id: "trending28", trending: true, usedCount: "600 used",   name: "Trending #28", description: "Popular 3-frame photo strip.", previewSrc: "/templates/trending28.png", overlaySrc: "/templates/trending28.png", aspectRatio: 735/2140,  slots: STRIP_3_SLOTS },
+  { id: "trending29", trending: true, usedCount: "580 used",   name: "Trending #29", description: "Popular 3-frame photo strip.", previewSrc: "/templates/trending29.png", overlaySrc: "/templates/trending29.png", aspectRatio: 887/1774,  slots: STRIP_3_SLOTS },
+  /* ── CLASSIC ──────────────────────────────────────────────── */
   {
     id: "template1",
     name: "Airmail Love",

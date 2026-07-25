@@ -6,23 +6,22 @@ import { motion, AnimatePresence } from "framer-motion";
 import Container from "@/components/ui/Container";
 import { TEMPLATE_PRESETS } from "@/data/templatesData";
 import { saveTemplateId } from "@/utils/template";
-import { LayoutTemplate, ChevronLeft, SkipForward, Check } from "lucide-react";
+import { LayoutTemplate, ChevronLeft, SkipForward, Check, TrendingUp } from "lucide-react";
 
 export default function TemplatePickerExperience() {
   const router = useRouter();
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
-  /** Select a template and navigate to camera */
+  const trendingTemplates = TEMPLATE_PRESETS.filter((t) => t.trending);
+  const classicTemplates = TEMPLATE_PRESETS.filter((t) => !t.trending);
+
   const handlePick = (id: string) => {
     setSelectedId(id);
     saveTemplateId(id);
     router.push("/camera");
   };
 
-  const handleBack = () => {
-    router.back();
-  };
-
+  const handleBack = () => router.back();
   const handleSkip = () => {
     saveTemplateId(null);
     router.push("/booth");
@@ -32,9 +31,8 @@ export default function TemplatePickerExperience() {
     <section className="flex-1 bg-[#FAFAFA] dark:bg-[#0D0D0F] min-h-screen">
       <Container className="py-8 sm:py-12">
 
-        {/* ── Page Header ───────────────────────────────────────── */}
+        {/* ── Page Header ─────────────────────────────────────── */}
         <div className="flex items-start justify-between gap-6 mb-8">
-          {/* Left: labels */}
           <div>
             <span className="flex items-center gap-1.5 text-[12px] font-semibold uppercase tracking-[0.1em] text-[#6B7280] dark:text-[#71717a] mb-2">
               <LayoutTemplate className="h-3 w-3" aria-hidden="true" />
@@ -49,7 +47,6 @@ export default function TemplatePickerExperience() {
             </p>
           </div>
 
-          {/* Right: Back + Skip */}
           <div className="flex items-center gap-2 shrink-0 pt-1">
             <button
               onClick={handleBack}
@@ -68,79 +65,129 @@ export default function TemplatePickerExperience() {
           </div>
         </div>
 
-        {/* ── Template Grid ──────────────────────────────────────── */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 sm:gap-5">
-          {TEMPLATE_PRESETS.map((template) => {
-            const isSelected = selectedId === template.id;
-            // Use the template's natural aspect ratio to size the card correctly
-            // aspectRatio is width/height from data, so for portrait strips it will be < 1
-            const isPortrait = template.aspectRatio < 1;
-            const isWide = template.aspectRatio > 1.2;
+        {/* ── Trending Section ─────────────────────────────────── */}
+        <div className="mb-10">
+          <div className="flex items-center gap-2 mb-4">
+            <TrendingUp className="w-4 h-4 text-[#F59E0B]" />
+            <h2 className="text-[15px] font-bold text-[#111111] dark:text-[#f4f4f5] tracking-[-0.01em]">
+              Trending
+            </h2>
+            <span className="text-[11px] font-semibold text-[#F59E0B] bg-[#FEF3C7] dark:bg-[#78350f]/30 px-2 py-0.5 rounded-full">
+              HOT
+            </span>
+          </div>
 
-            return (
-              <motion.button
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 sm:gap-5">
+            {trendingTemplates.map((template) => (
+              <TemplateCard
                 key={template.id}
-                onClick={() => handlePick(template.id)}
-                whileHover={{ scale: 1.02, y: -2 }}
-                whileTap={{ scale: 0.97 }}
-                transition={{ type: "spring", stiffness: 380, damping: 28 }}
-                className={`relative flex flex-col rounded-[16px] overflow-hidden text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4F46E5] focus-visible:ring-offset-2 shadow-[0_2px_12px_rgba(0,0,0,0.08)] dark:shadow-[0_2px_12px_rgba(0,0,0,0.4)] transition-shadow hover:shadow-[0_8px_28px_rgba(0,0,0,0.15)] dark:hover:shadow-[0_8px_28px_rgba(0,0,0,0.6)] ${
-                  isSelected
-                    ? "ring-[3px] ring-[#4F46E5] ring-offset-2"
-                    : "ring-0"
-                }`}
-                aria-label={`Use template: ${template.name}`}
-                aria-pressed={isSelected}
-              >
-              {/* Full-bleed thumbnail with aspect ratio containment */}
-              <div
-                className="relative w-full overflow-hidden bg-[#121214] dark:bg-[#0D0D0F]"
-                style={{
-                  // Fixed aspect ratio container for uniform card grid
-                  aspectRatio: isWide ? "4/3" : "3/4",
-                }}
-              >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={template.previewSrc}
-                  alt={template.name}
-                  className="absolute inset-0 w-full h-full object-contain p-4 group-hover:scale-[1.03] transition-transform duration-300"
-                  loading="lazy"
-                />
+                template={template}
+                isSelected={selectedId === template.id}
+                onPick={handlePick}
+              />
+            ))}
+          </div>
+        </div>
 
-                {/* Bottom gradient overlay for text */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent pointer-events-none" />
+        {/* ── Classic Section ──────────────────────────────────── */}
+        <div>
+          <div className="flex items-center gap-2 mb-4">
+            <h2 className="text-[15px] font-bold text-[#111111] dark:text-[#f4f4f5] tracking-[-0.01em]">
+              Classic
+            </h2>
+          </div>
 
-                {/* Name + description overlaid at bottom */}
-                <div className="absolute bottom-0 left-0 right-0 p-3 pointer-events-none">
-                  <p className="text-[12px] font-bold text-white leading-tight drop-shadow-sm">
-                    {template.name}
-                  </p>
-                  <p className="text-[10px] text-white/70 mt-0.5 leading-snug line-clamp-1">
-                    {template.description}
-                  </p>
-                </div>
-
-                  {/* Selected checkmark badge */}
-                  <AnimatePresence>
-                    {isSelected && (
-                      <motion.div
-                        initial={{ opacity: 0, scale: 0.5 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 0.5 }}
-                        transition={{ type: "spring", stiffness: 480, damping: 28 }}
-                        className="absolute top-2.5 right-2.5 w-7 h-7 rounded-full bg-[#4F46E5] flex items-center justify-center shadow-lg"
-                      >
-                        <Check className="w-4 h-4 text-white" strokeWidth={2.5} />
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-              </motion.button>
-            );
-          })}
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 sm:gap-5">
+            {classicTemplates.map((template) => (
+              <TemplateCard
+                key={template.id}
+                template={template}
+                isSelected={selectedId === template.id}
+                onPick={handlePick}
+              />
+            ))}
+          </div>
         </div>
       </Container>
     </section>
+  );
+}
+
+/* ── Template Card Component ──────────────────────────────────── */
+function TemplateCard({
+  template,
+  isSelected,
+  onPick,
+}: {
+  template: (typeof TEMPLATE_PRESETS)[number];
+  isSelected: boolean;
+  onPick: (id: string) => void;
+}) {
+  const isWide = template.aspectRatio > 1.2;
+
+  return (
+    <motion.button
+      onClick={() => onPick(template.id)}
+      whileHover={{ scale: 1.02, y: -2 }}
+      whileTap={{ scale: 0.97 }}
+      transition={{ type: "spring", stiffness: 380, damping: 28 }}
+      className={`relative flex flex-col rounded-[16px] overflow-hidden text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4F46E5] focus-visible:ring-offset-2 shadow-[0_2px_12px_rgba(0,0,0,0.08)] dark:shadow-[0_2px_12px_rgba(0,0,0,0.4)] transition-shadow hover:shadow-[0_8px_28px_rgba(0,0,0,0.15)] dark:hover:shadow-[0_8px_28px_rgba(0,0,0,0.6)] ${
+        isSelected ? "ring-[3px] ring-[#4F46E5] ring-offset-2" : "ring-0"
+      }`}
+      aria-label={`Use template: ${template.name}`}
+      aria-pressed={isSelected}
+    >
+      {/* Thumbnail */}
+      <div
+        className="relative w-full overflow-hidden bg-[#121214] dark:bg-[#0D0D0F]"
+        style={{ aspectRatio: isWide ? "4/3" : "3/4" }}
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={template.previewSrc}
+          alt={template.name}
+          className="absolute inset-0 w-full h-full object-contain"
+          loading="lazy"
+        />
+
+        {/* Gradient overlay for text readability */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent pointer-events-none" />
+
+        {/* Bottom text overlay */}
+        <div className="absolute bottom-0 left-0 right-0 p-2.5 pointer-events-none">
+          <div className="flex items-end justify-between gap-1">
+            <div className="min-w-0">
+              <p className="text-[12px] font-bold text-white leading-tight truncate">
+                {template.name}
+              </p>
+              <p className="text-[10px] text-white/65 mt-0.5 leading-snug line-clamp-1">
+                {template.description}
+              </p>
+            </div>
+            {/* "used" badge for trending */}
+            {template.usedCount && (
+              <span className="shrink-0 text-[9px] font-bold text-[#FDE68A] bg-[#92400E]/70 px-1.5 py-0.5 rounded-md whitespace-nowrap backdrop-blur-sm">
+                {template.usedCount}
+              </span>
+            )}
+          </div>
+        </div>
+
+        {/* Selected checkmark */}
+        <AnimatePresence>
+          {isSelected && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.5 }}
+              transition={{ type: "spring", stiffness: 480, damping: 28 }}
+              className="absolute top-2.5 right-2.5 w-7 h-7 rounded-full bg-[#4F46E5] flex items-center justify-center shadow-lg"
+            >
+              <Check className="w-4 h-4 text-white" strokeWidth={2.5} />
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    </motion.button>
   );
 }
