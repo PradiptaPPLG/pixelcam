@@ -53,11 +53,11 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     previewSrc: "/templates/trending1.png",
     overlaySrc: "/templates/trending1.png",
     aspectRatio: 855 / 1839,
-    slots: [
-      { xPct: 15.44, yPct: 8.21, widthPct: 69.71, heightPct: 23.71 },
-      { xPct: 6.78, yPct: 33.88, widthPct: 82.11, heightPct: 32.14 },
-      { xPct: 6.43, yPct: 66.01, widthPct: 68.77, heightPct: 15.28 }
-    ]
+           slots: [
+             { xPct: 15.44, yPct: 8.21,  widthPct: 69.60,heightPct: 22.10 }, // Slot 1 (Biru) - Tetap
+             { xPct: 5.50,  yPct: 33.50, widthPct: 87.00, heightPct: 30.00 }, // Slot 2 (Hijau) - Diperlebar maksimal ke kiri & kanan
+             { xPct: 6.00,  yPct: 56.50, widthPct: 79.00, heightPct: 32.50 }  // Slot 3 (Merah) - Naik jauh & geser kiri drastis
+           ]
   },
   {
     id: "trending2",
@@ -144,8 +144,8 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     overlaySrc: "/templates/trending7.png",
     aspectRatio: 853 / 1844,
     slots: [
-      { xPct: 21.34, yPct: 18.55, widthPct: 59.79, heightPct: 14.48 },
-      { xPct: 20.05, yPct: 33.03, widthPct: 62.02, heightPct: 32.27 },
+      { xPct: 21.34, yPct: 18.55, widthPct: 59.79, heightPct: 20.48 },
+      { xPct: 20.00, yPct: 44.00, widthPct: 62.10, heightPct: 21.30 },
       { xPct: 20.05, yPct: 70.88, widthPct: 61.55, heightPct: 20.61 }
     ]
   },
