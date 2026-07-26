@@ -69,9 +69,9 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     overlaySrc: "/templates/trending2.png",
     aspectRatio: 929 / 1693,
     slots: [
-      { xPct: 24.33, yPct: 17.19, widthPct: 56.84, heightPct: 15.83 },
-      { xPct: 24.22, yPct: 33.02, widthPct: 56.94, heightPct: 32.96 },
-      { xPct: 24.22, yPct: 65.98, widthPct: 56.94, heightPct: 14.83 }
+      { xPct: 24.33, yPct: 17.19, widthPct: 56.84, heightPct: 20.14 },
+      { xPct: 24.22, yPct: 38.87, widthPct: 56.94, heightPct: 20.14 },
+      { xPct: 24.22, yPct: 60.66, widthPct: 56.94, heightPct: 20.14 }
     ]
   },
   {
@@ -84,9 +84,9 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     overlaySrc: "/templates/trending3.png",
     aspectRatio: 1024 / 1536,
     slots: [
-      { xPct: 26.95, yPct: 18.1, widthPct: 46.0, heightPct: 14.91 },
-      { xPct: 26.95, yPct: 33.01, widthPct: 46.19, heightPct: 33.01 },
-      { xPct: 27.05, yPct: 66.02, widthPct: 45.9, heightPct: 18.42 }
+      { xPct: 26.95, yPct: 18.1, widthPct: 46.09, heightPct: 21.03 },
+      { xPct: 26.95, yPct: 40.69, widthPct: 46.19, heightPct: 21.03 },
+      { xPct: 27.05, yPct: 63.41, widthPct: 45.9, heightPct: 21.03 }
     ]
   },
   {
@@ -99,9 +99,9 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     overlaySrc: "/templates/trending4.png",
     aspectRatio: 1086 / 1448,
     slots: [
-      { xPct: 29.83, yPct: 26.45, widthPct: 41.53, heightPct: 6.56 },
-      { xPct: 29.83, yPct: 33.01, widthPct: 41.44, heightPct: 31.15 },
-      { xPct: 29.65, yPct: 66.02, widthPct: 41.71, heightPct: 17.4 }
+      { xPct: 29.83, yPct: 26.45, widthPct: 41.53, heightPct: 18.02 },
+      { xPct: 29.93, yPct: 46.69, widthPct: 41.34, heightPct: 17.47 },
+      { xPct: 29.65, yPct: 66.02, widthPct: 41.71, heightPct: 17.40 }
     ]
   },
   {
@@ -114,8 +114,8 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     overlaySrc: "/templates/trending5.png",
     aspectRatio: 929 / 1694,
     slots: [
-      { xPct: 15.93, yPct: 12.87, widthPct: 66.42, heightPct: 20.13 },
-      { xPct: 15.93, yPct: 33.0, widthPct: 68.25, heightPct: 32.59 },
+      { xPct: 15.93, yPct: 12.87, widthPct: 66.42, heightPct: 24.09 },
+      { xPct: 15.93, yPct: 42.09, widthPct: 68.25, heightPct: 23.49 },
       { xPct: 16.79, yPct: 71.49, widthPct: 67.28, heightPct: 20.31 }
     ]
   },
@@ -129,9 +129,9 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     overlaySrc: "/templates/trending6.png",
     aspectRatio: 929 / 1693,
     slots: [
-      { xPct: 17.87, yPct: 12.82, widthPct: 65.12, heightPct: 20.2 },
-      { xPct: 17.87, yPct: 33.02, widthPct: 65.12, heightPct: 32.96 },
-      { xPct: 18.19, yPct: 65.98, widthPct: 64.91, heightPct: 29.12 }
+      { xPct: 17.87, yPct: 12.82, widthPct: 65.12, heightPct: 24.99 },
+      { xPct: 17.87, yPct: 41.29, widthPct: 65.12, heightPct: 26.40 },
+      { xPct: 18.19, yPct: 71.35, widthPct: 64.91, heightPct: 23.74 }
     ]
   },
   {
@@ -159,9 +159,9 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     overlaySrc: "/templates/trending8.png",
     aspectRatio: 851 / 1847,
     slots: [
-      { xPct: 16.8, yPct: 24.53, widthPct: 67.33, heightPct: 8.5 },
-      { xPct: 15.04, yPct: 33.03, widthPct: 70.86, heightPct: 32.11 },
-      { xPct: 14.92, yPct: 69.9, widthPct: 70.74, heightPct: 17.43 }
+      { xPct: 16.80, yPct: 24.53, widthPct: 67.33, heightPct: 18.35 },
+      { xPct: 15.04, yPct: 47.54, widthPct: 70.86, heightPct: 17.60 },
+      { xPct: 14.92, yPct: 69.90, widthPct: 70.74, heightPct: 17.43 }
     ]
   },
   {
@@ -174,9 +174,9 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     overlaySrc: "/templates/trending9.png",
     aspectRatio: 929 / 1694,
     slots: [
-      { xPct: 19.05, yPct: 14.4, widthPct: 62.0, heightPct: 18.6 },
-      { xPct: 19.05, yPct: 33.0, widthPct: 62.0, heightPct: 33.0 },
-      { xPct: 20.78, yPct: 66.0, widthPct: 57.8, heightPct: 20.01 }
+      { xPct: 19.05, yPct: 14.40, widthPct: 62.00, heightPct: 23.26 },
+      { xPct: 20.45, yPct: 40.50, widthPct: 59.53, heightPct: 21.25 },
+      { xPct: 20.78, yPct: 64.58, widthPct: 57.80, heightPct: 21.43 }
     ]
   },
   {
@@ -189,9 +189,9 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     overlaySrc: "/templates/trending10.png",
     aspectRatio: 929 / 1694,
     slots: [
-      { xPct: 16.15, yPct: 12.93, widthPct: 66.52, heightPct: 20.07 },
-      { xPct: 16.15, yPct: 33.0, widthPct: 66.09, heightPct: 32.7 },
-      { xPct: 16.47, yPct: 71.19, widthPct: 64.8, heightPct: 23.02 }
+      { xPct: 16.15, yPct: 12.93, widthPct: 66.52, heightPct: 24.03 },
+      { xPct: 16.15, yPct: 42.15, widthPct: 66.09, heightPct: 23.55 },
+      { xPct: 16.47, yPct: 71.19, widthPct: 64.80, heightPct: 23.02 }
     ]
   },
   {
@@ -204,9 +204,9 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     overlaySrc: "/templates/trending11.png",
     aspectRatio: 929 / 1694,
     slots: [
-      { xPct: 18.41, yPct: 14.7, widthPct: 59.96, heightPct: 18.3 },
-      { xPct: 18.84, yPct: 33.0, widthPct: 59.42, heightPct: 29.87 },
-      { xPct: 19.05, yPct: 66.06, widthPct: 58.88, heightPct: 26.8 }
+      { xPct: 18.41, yPct: 14.70, widthPct: 59.96, heightPct: 22.49 },
+      { xPct: 18.84, yPct: 40.32, widthPct: 59.42, heightPct: 22.55 },
+      { xPct: 19.05, yPct: 66.06, widthPct: 58.88, heightPct: 26.80 }
     ]
   },
   {
@@ -219,9 +219,9 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     overlaySrc: "/templates/trending12.png",
     aspectRatio: 929 / 1693,
     slots: [
-      { xPct: 25.4, yPct: 15.3, widthPct: 50.91, heightPct: 17.72 },
-      { xPct: 25.4, yPct: 33.02, widthPct: 50.91, heightPct: 32.96 },
-      { xPct: 25.4, yPct: 65.98, widthPct: 50.81, heightPct: 10.57 }
+      { xPct: 25.4,  yPct: 15.30, widthPct: 50.91, heightPct: 19.26 },
+      { xPct: 25.4,  yPct: 36.56, widthPct: 50.81, heightPct: 19.02 },
+      { xPct: 25.4,  yPct: 57.47, widthPct: 50.81, heightPct: 19.14 }
     ]
   },
   {
@@ -234,9 +234,9 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     overlaySrc: "/templates/trending13.png",
     aspectRatio: 929 / 1692,
     slots: [
-      { xPct: 28.09, yPct: 15.72, widthPct: 46.07, heightPct: 17.26 },
-      { xPct: 27.99, yPct: 32.98, widthPct: 46.18, heightPct: 33.04 },
-      { xPct: 27.99, yPct: 66.02, widthPct: 46.18, heightPct: 13.12 }
+      { xPct: 28.20, yPct: 15.66, widthPct: 45.96, heightPct: 20.15 },
+      { xPct: 27.99, yPct: 37.23, widthPct: 46.18, heightPct: 20.27 },
+      { xPct: 27.99, yPct: 58.87, widthPct: 46.18, heightPct: 20.33 }
     ]
   },
   {
@@ -249,9 +249,9 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     overlaySrc: "/templates/trending14.png",
     aspectRatio: 929 / 1693,
     slots: [
-      { xPct: 24.87, yPct: 16.13, widthPct: 49.62, heightPct: 16.89 },
-      { xPct: 24.87, yPct: 33.02, widthPct: 49.52, heightPct: 32.96 },
-      { xPct: 24.87, yPct: 65.98, widthPct: 49.41, heightPct: 14.59 }
+      { xPct: 24.97, yPct: 16.13, widthPct: 49.41, heightPct: 20.61 },
+      { xPct: 24.87, yPct: 38.22, widthPct: 49.52, heightPct: 20.61 },
+      { xPct: 24.97, yPct: 60.37, widthPct: 49.52, heightPct: 20.26 }
     ]
   },
   {
@@ -264,9 +264,9 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     overlaySrc: "/templates/trending15.png",
     aspectRatio: 929 / 1693,
     slots: [
-      { xPct: 27.45, yPct: 16.3, widthPct: 45.86, heightPct: 16.72 },
-      { xPct: 27.45, yPct: 33.02, widthPct: 45.86, heightPct: 32.96 },
-      { xPct: 27.56, yPct: 65.98, widthPct: 45.75, heightPct: 16.54 }
+      { xPct: 27.34, yPct: 16.24, widthPct: 46.07, heightPct: 21.03 },
+      { xPct: 27.56, yPct: 38.92, widthPct: 45.75, heightPct: 20.97 },
+      { xPct: 27.45, yPct: 61.31, widthPct: 45.96, heightPct: 21.26 }
     ]
   },
   {
@@ -279,9 +279,9 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     overlaySrc: "/templates/trending16.png",
     aspectRatio: 929 / 1692,
     slots: [
-      { xPct: 25.3, yPct: 7.8, widthPct: 60.17, heightPct: 25.18 },
-      { xPct: 18.84, yPct: 32.98, widthPct: 61.36, heightPct: 33.04 },
-      { xPct: 21.21, yPct: 66.02, widthPct: 58.99, heightPct: 21.51 }
+      { xPct: 25.19, yPct: 7.74,  widthPct: 60.17, heightPct: 25.41 },
+      { xPct: 18.73, yPct: 34.93, widthPct: 55.22, heightPct: 24.47 },
+      { xPct: 21.10, yPct: 61.11, widthPct: 59.20, heightPct: 26.48 }
     ]
   },
   {
@@ -294,9 +294,9 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     overlaySrc: "/templates/trending17.png",
     aspectRatio: 929 / 1692,
     slots: [
-      { xPct: 18.08, yPct: 13.95, widthPct: 65.88, heightPct: 19.03 },
-      { xPct: 17.98, yPct: 32.98, widthPct: 66.09, heightPct: 33.04 },
-      { xPct: 17.98, yPct: 66.02, widthPct: 66.09, heightPct: 27.25 }
+      { xPct: 17.98, yPct: 13.89, widthPct: 66.09, heightPct: 25.53 },
+      { xPct: 19.38, yPct: 42.79, widthPct: 64.69, heightPct: 23.88 },
+      { xPct: 17.87, yPct: 70.04, widthPct: 66.20, heightPct: 23.23 }
     ]
   },
   {
@@ -309,9 +309,9 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     overlaySrc: "/templates/trending18.png",
     aspectRatio: 929 / 1692,
     slots: [
-      { xPct: 23.04, yPct: 9.16, widthPct: 58.23, heightPct: 23.82 },
-      { xPct: 20.99, yPct: 32.98, widthPct: 59.42, heightPct: 33.04 },
-      { xPct: 21.21, yPct: 66.02, widthPct: 59.2, heightPct: 23.11 }
+      { xPct: 23.04, yPct: 9.16,  widthPct: 58.34, heightPct: 23.94 },
+      { xPct: 20.88, yPct: 35.87, widthPct: 58.99, heightPct: 25.06 },
+      { xPct: 21.21, yPct: 63.71, widthPct: 59.31, heightPct: 25.47 }
     ]
   },
   {
@@ -324,9 +324,9 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     overlaySrc: "/templates/trending19.png",
     aspectRatio: 929 / 1692,
     slots: [
-      { xPct: 13.89, yPct: 12.0, widthPct: 64.48, heightPct: 20.98 },
-      { xPct: 19.81, yPct: 32.98, widthPct: 57.7, heightPct: 31.8 },
-      { xPct: 19.27, yPct: 67.61, widthPct: 57.27, heightPct: 26.36 }
+      { xPct: 13.89, yPct: 12.12, widthPct: 64.48, heightPct: 25.30 },
+      { xPct: 19.70, yPct: 39.48, widthPct: 57.37, heightPct: 25.30 },
+      { xPct: 19.27, yPct: 67.55, widthPct: 56.30, heightPct: 26.48 }
     ]
   },
   {
@@ -339,9 +339,9 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     overlaySrc: "/templates/trending20.png",
     aspectRatio: 822 / 1913,
     slots: [
-      { xPct: 14.72, yPct: 19.29, widthPct: 70.56, heightPct: 13.7 },
-      { xPct: 14.72, yPct: 32.98, widthPct: 70.56, heightPct: 30.68 },
-      { xPct: 14.72, yPct: 68.84, widthPct: 70.68, heightPct: 19.34 }
+      { xPct: 14.60, yPct: 19.24, widthPct: 70.80, heightPct: 19.65 },
+      { xPct: 14.60, yPct: 44.07, widthPct: 70.80, heightPct: 19.60 },
+      { xPct: 14.60, yPct: 68.90, widthPct: 70.80, heightPct: 19.34 }
     ]
   },
   {
@@ -354,9 +354,9 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     overlaySrc: "/templates/trending21.png",
     aspectRatio: 887 / 1774,
     slots: [
-      { xPct: 14.99, yPct: 19.0, widthPct: 70.01, heightPct: 13.98 },
-      { xPct: 14.99, yPct: 32.98, widthPct: 70.12, heightPct: 33.03 },
-      { xPct: 14.99, yPct: 66.01, widthPct: 70.24, heightPct: 24.07 }
+      { xPct: 14.88, yPct: 18.94, widthPct: 70.24, heightPct: 20.86 },
+      { xPct: 14.88, yPct: 42.16, widthPct: 70.35, heightPct: 20.91 },
+      { xPct: 14.88, yPct: 65.67, widthPct: 70.46, heightPct: 24.46 }
     ]
   },
   {
@@ -369,9 +369,9 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     overlaySrc: "/templates/trending23.png",
     aspectRatio: 887 / 1774,
     slots: [
-      { xPct: 11.84, yPct: 18.49, widthPct: 76.44, heightPct: 14.49 },
-      { xPct: 11.84, yPct: 32.98, widthPct: 76.44, heightPct: 32.36 },
-      { xPct: 11.84, yPct: 67.02, widthPct: 76.44, heightPct: 23.9 }
+      { xPct: 11.72, yPct: 18.49, widthPct: 76.66, heightPct: 22.49 },
+      { xPct: 11.72, yPct: 42.56, widthPct: 76.66, heightPct: 22.83 },
+      { xPct: 11.84, yPct: 66.97, widthPct: 76.44, heightPct: 24.07 }
     ]
   },
   {
@@ -384,9 +384,9 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     overlaySrc: "/templates/trending24.png",
     aspectRatio: 929 / 1693,
     slots: [
-      { xPct: 20.78, yPct: 9.1, widthPct: 58.34, heightPct: 23.92 },
-      { xPct: 24.33, yPct: 33.02, widthPct: 54.68, heightPct: 32.49 },
-      { xPct: 24.97, yPct: 69.29, widthPct: 53.71, heightPct: 26.76 }
+      { xPct: 20.67, yPct: 9.04,  widthPct: 58.56, heightPct: 25.22 },
+      { xPct: 24.87, yPct: 37.80, widthPct: 54.25, heightPct: 27.76 },
+      { xPct: 24.97, yPct: 69.23, widthPct: 53.71, heightPct: 26.93 }
     ]
   },
   {
@@ -399,9 +399,9 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     overlaySrc: "/templates/trending25.png",
     aspectRatio: 928 / 1695,
     slots: [
-      { xPct: 16.06, yPct: 12.51, widthPct: 59.27, heightPct: 20.47 },
-      { xPct: 18.64, yPct: 32.98, widthPct: 59.91, heightPct: 31.15 },
-      { xPct: 25.43, yPct: 68.02, widthPct: 52.48, heightPct: 23.01 }
+      { xPct: 17.03, yPct: 12.45, widthPct: 58.30, heightPct: 23.78 },
+      { xPct: 26.83, yPct: 39.53, widthPct: 51.72, heightPct: 24.66 },
+      { xPct: 25.43, yPct: 67.96, widthPct: 52.48, heightPct: 23.19 }
     ]
   },
   {
@@ -414,9 +414,9 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     overlaySrc: "/templates/trending26.png",
     aspectRatio: 933 / 1686,
     slots: [
-      { xPct: 23.15, yPct: 9.96, widthPct: 49.41, heightPct: 23.01 },
-      { xPct: 23.26, yPct: 32.98, widthPct: 50.05, heightPct: 33.04 },
-      { xPct: 21.54, yPct: 66.01, widthPct: 51.55, heightPct: 26.22 }
+      { xPct: 23.15, yPct: 9.91,  widthPct: 49.52, heightPct: 26.28 },
+      { xPct: 23.26, yPct: 38.37, widthPct: 50.05, heightPct: 27.94 },
+      { xPct: 21.44, yPct: 68.33, widthPct: 51.77, heightPct: 23.96 }
     ]
   },
   {
@@ -444,9 +444,9 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     overlaySrc: "/templates/trending28.png",
     aspectRatio: 735 / 2140,
     slots: [
-      { xPct: 8.0, yPct: 4.5, widthPct: 84.0, heightPct: 27.5 },
-      { xPct: 8.0, yPct: 36.0, widthPct: 84.0, heightPct: 27.5 },
-      { xPct: 8.0, yPct: 67.5, widthPct: 84.0, heightPct: 27.5 }
+      { xPct: 11.56, yPct: 9.35,  widthPct: 65.31, heightPct: 20.70 },
+      { xPct: 11.56, yPct: 38.27, widthPct: 65.58, heightPct: 21.87 },
+      { xPct: 13.88, yPct: 66.26, widthPct: 72.79, heightPct: 20.56 }
     ]
   },
   {
@@ -459,9 +459,9 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     overlaySrc: "/templates/trending29.png",
     aspectRatio: 887 / 1774,
     slots: [
-      { xPct: 13.42, yPct: 18.32, widthPct: 75.87, heightPct: 14.66 },
-      { xPct: 13.42, yPct: 32.98, widthPct: 75.87, heightPct: 32.07 },
-      { xPct: 13.19, yPct: 66.52, widthPct: 76.1, heightPct: 26.49 }
+      { xPct: 13.30, yPct: 18.32, widthPct: 76.10, heightPct: 22.49 },
+      { xPct: 13.30, yPct: 42.16, widthPct: 76.10, heightPct: 22.94 },
+      { xPct: 13.42, yPct: 66.46, widthPct: 75.87, heightPct: 26.66 }
     ]
   },
   /* ── CLASSIC ──────────────────────────────────────────────── */
