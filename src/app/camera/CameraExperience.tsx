@@ -1,29 +1,41 @@
 "use client";
 
-import { useEffect, useState, useSyncExternalStore } from "react";
+import { useCallback, useEffect, useState, useSyncExternalStore } from "react";
 import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
+import { FlipHorizontal2, Upload, SwitchCamera } from "lucide-react";
 import Container from "@/components/ui/Container";
+import { PermissionCard, CameraSelector, CaptureButton } from "@/components/camera";
 import {
-  CameraControls,
-  CameraView,
-  PermissionCard,
-  PreviewCard,
-} from "@/components/camera";
+  Countdown,
+  LiveCamera,
+  PreviewStrip,
+  SessionFooter,
+} from "@/components/session";
 import UploadFlow from "@/components/upload/UploadFlow";
 import { useCamera } from "@/hooks/useCamera";
+import { useSession } from "@/hooks/useSession";
+import { saveSessionPhotos } from "@/utils/session";
+import { cn } from "@/lib/utils";
 import {
   getTemplateStateServerSnapshot,
   getTemplateStateSnapshot,
   subscribeTemplateState,
+  loadTemplateId,
 } from "@/utils/template";
 import { getTemplateById } from "@/data/templatesData";
-import { saveSessionPhotos } from "@/utils/session";
 
 /**
- * Camera booth experience — orchestrates the useCamera hook with the local
- * capture / preview state. Ask for permission on entry, capture with a shutter
- * flash, or upload an image to replace the live feed.
+ * Merged Camera + Session experience.
+ *
+ * Previously the app had two separate pages:
+ *  1. /camera  — single test shot → review → continue
+ *  2. /session — actual multi-photo session
+ *
+ * Those have been unified here:  the user lands straight on the
+ * full-session view (live camera left, strip slots right, controls
+ * bottom) and presses "Start Session" once to begin capturing.
+ * The redundant single-shot review step has been removed entirely.
  */
 export default function CameraExperience() {
   const {
@@ -41,9 +53,7 @@ export default function CameraExperience() {
   } = useCamera();
 
   const router = useRouter();
-  const [capturedImage, setCapturedImage] = useState<string | null>(null);
   const [mirrored, setMirrored] = useState(true);
-  const [isFlashing, setIsFlashing] = useState(false);
   const [toast, setToast] = useState<string | null>(null);
   const [uploadOpen, setUploadOpen] = useState(false);
 
@@ -54,118 +64,162 @@ export default function CameraExperience() {
   );
 
   const activeTemplate = templateId ? getTemplateById(templateId) : null;
+  const initialPhotoCount = activeTemplate ? activeTemplate.slots.length : undefined;
 
-  // Ask for camera permission as soon as the page is entered.
+  const handleComplete = useCallback(
+    (photos: string[]) => {
+      saveSessionPhotos(photos);
+      const activeId = loadTemplateId();
+      router.push(activeId ? "/film-lab" : "/review");
+    },
+    [router],
+  );
+
+  const session = useSession({
+    capture,
+    mirrored,
+    onComplete: handleComplete,
+    initialPhotoCount,
+  });
+
+  // Request camera access on mount.
   useEffect(() => {
     void start();
   }, [start]);
 
-  // Auto-dismiss transient toasts.
+  // Auto-dismiss toasts.
   useEffect(() => {
     if (!toast) return;
-    const timer = window.setTimeout(() => setToast(null), 2800);
-    return () => window.clearTimeout(timer);
+    const t = window.setTimeout(() => setToast(null), 2800);
+    return () => window.clearTimeout(t);
   }, [toast]);
-
-  const handleCapture = () => {
-    const shot = capture(mirrored);
-    setIsFlashing(true);
-    window.setTimeout(() => setIsFlashing(false), 200);
-    if (shot) {
-      window.setTimeout(() => setCapturedImage(shot), 120);
-    }
-  };
-
-  // Continue leaves the single-shot preview and enters the photo session.
-  const handleContinue = () => router.push("/session");
 
   const showPermissionCard =
     status === "denied" || status === "error" || status === "unsupported";
   const isLoadingCamera = status === "idle" || status === "requesting";
-
+  const canStart = status === "ready";
   return (
-    <section className="flex-1 bg-[#FAFAFA] py-12 sm:py-16">
-      <Container size="lg" className="flex flex-col items-center gap-8 sm:gap-10">
-        <header className="flex flex-col items-center gap-2 text-center">
-          <span className="text-[13px] font-semibold uppercase tracking-[0.08em] text-[#6B7280]">
+    <section className="flex-1 bg-[#FAFAFA] dark:bg-[#0D0D0F] py-4 sm:py-6">
+      <Container size="xl" className="flex flex-col gap-4 sm:gap-5">
+        <header className="flex flex-col items-center text-center">
+          <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#6B7280] dark:text-[#a1a1aa]">
             Camera Booth
           </span>
-          <h1 className="text-[28px] font-semibold tracking-[-0.02em] text-[#111111] sm:text-[32px]">
+          <h1 className="text-[22px] sm:text-[26px] font-semibold tracking-[-0.02em] text-[#111111] dark:text-[#f4f4f5] leading-tight">
             Take your shot
           </h1>
-          <p className="max-w-md text-[15px] leading-relaxed text-[#6B7280]">
-            Line yourself up in frame and capture the moment, or upload a photo
-            you already have.
-          </p>
         </header>
 
-        <div className="w-full max-w-3xl">
-          <AnimatePresence mode="wait">
-            {capturedImage ? (
-              <motion.div
-                key="preview"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.25 }}
-              >
-                <PreviewCard
-                  imageSrc={capturedImage}
-                  onRetake={() => setCapturedImage(null)}
-                  onContinue={handleContinue}
-                />
-              </motion.div>
-            ) : showPermissionCard ? (
-              <motion.div
-                key="permission"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.25 }}
-              >
-                <PermissionCard
-                  denied={status === "denied"}
-                  message={errorMessage}
-                  onEnable={retry}
-                  onRetry={retry}
-                />
-              </motion.div>
-            ) : (
-              <motion.div
-                key="live"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.25 }}
-                className="flex flex-col gap-8"
-              >
-                <CameraView
+        {showPermissionCard ? (
+          <PermissionCard
+            denied={status === "denied"}
+            message={errorMessage}
+            onEnable={retry}
+            onRetry={retry}
+          />
+        ) : (
+          <>
+            {/* ── Camera + strip side-by-side ───────────────── */}
+            <div className="flex flex-col items-center gap-4 lg:flex-row lg:items-start lg:justify-center lg:gap-6">
+
+              {/* Live camera */}
+              <div className="w-full max-w-3xl">
+                <LiveCamera
                   videoRef={videoRef}
                   mirrored={mirrored}
-                  isFlashing={isFlashing}
+                  isFlashing={session.isFlashing}
                   isLoading={isLoadingCamera}
-                />
-                <CameraControls
-                  onCapture={handleCapture}
-                  captureDisabled={status !== "ready"}
-                  mirrored={mirrored}
-                  onToggleMirror={() => setMirrored((value) => !value)}
-                  onUpload={setCapturedImage}
-                  onUploadError={setToast}
-                  onUploadClick={() => setUploadOpen(true)}
-                  devices={devices}
-                  activeDeviceId={activeDeviceId}
-                  hasMultipleCameras={hasMultipleCameras}
-                  onSelectDevice={selectDevice}
-                  onSwitchCamera={switchCamera}
-                />
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
+                >
+                  <Countdown value={session.countdownValue} />
+                </LiveCamera>
+              </div>
+
+              {/* Photo strip preview slots */}
+              <PreviewStrip
+                photos={session.photos}
+                total={session.photoCount}
+              />
+            </div>
+
+            {/* ── Bottom controls ───────────────────────────── */}
+            <div className="flex flex-col items-center gap-2 -mt-2">
+              {/* Circular Shutter/Start Button */}
+              {session.phase === "setup" && (
+                <div className="flex justify-center">
+                  <CaptureButton onCapture={session.start} disabled={!canStart} />
+                </div>
+              )}
+
+              {/* Secondary controls: Upload + Mirror + Camera switch */}
+              {session.phase === "setup" && (
+                <div className="flex flex-wrap items-center justify-center gap-3">
+                  {/* Upload */}
+                  <button
+                    type="button"
+                    onClick={() => setUploadOpen(true)}
+                    className="inline-flex h-10 items-center gap-2 rounded-[14px] border border-[#E5E7EB] dark:border-[#2a2a2e] bg-white dark:bg-[#18181b] px-4 text-sm font-medium text-[#111111] dark:text-[#f4f4f5] transition-colors hover:bg-[#F5F5F5] dark:hover:bg-[#232327] active:bg-[#EEEEEE] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4F46E5] focus-visible:ring-offset-2"
+                  >
+                    <Upload className="h-4 w-4" aria-hidden="true" />
+                    Upload
+                  </button>
+
+                  {/* Mirror toggle */}
+                  <button
+                    type="button"
+                    onClick={() => setMirrored((v) => !v)}
+                    aria-pressed={mirrored}
+                    className={cn(
+                      "inline-flex h-10 items-center gap-2 rounded-[14px] border px-4 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4F46E5] focus-visible:ring-offset-2",
+                      mirrored
+                        ? "border-[#4F46E5] bg-[#EEF2FF] dark:bg-[#1e1b3a] text-[#4F46E5]"
+                        : "border-[#E5E7EB] dark:border-[#2a2a2e] bg-white dark:bg-[#18181b] text-[#111111] dark:text-[#f4f4f5] hover:bg-[#F5F5F5] dark:hover:bg-[#232327] active:bg-[#EEEEEE]",
+                    )}
+                  >
+                    <FlipHorizontal2 className="h-4 w-4" aria-hidden="true" />
+                    Mirror
+                  </button>
+
+                  {/* Camera switch (mobile / multi-cam) */}
+                  {hasMultipleCameras && (
+                    <>
+                      <button
+                        type="button"
+                        onClick={switchCamera}
+                        aria-label="Switch camera"
+                        className="inline-flex h-10 items-center gap-2 rounded-[14px] border border-[#E5E7EB] dark:border-[#2a2a2e] bg-white dark:bg-[#18181b] px-4 text-sm font-medium text-[#111111] dark:text-[#f4f4f5] transition-colors hover:bg-[#F5F5F5] dark:hover:bg-[#232327] active:bg-[#EEEEEE] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4F46E5] focus-visible:ring-offset-2"
+                      >
+                        <SwitchCamera className="h-4 w-4" aria-hidden="true" />
+                        Flip
+                      </button>
+
+                      <CameraSelector
+                        devices={devices}
+                        activeDeviceId={activeDeviceId}
+                        onSelect={selectDevice}
+                      />
+                    </>
+                  )}
+                </div>
+              )}
+
+              {/* Primary controls: photo count + countdown */}
+              <SessionFooter
+                phase={session.phase}
+                photoCount={session.photoCount}
+                countdownSeconds={session.countdownSeconds}
+                onPhotoCount={session.setPhotoCount}
+                onCountdownSeconds={session.setCountdownSeconds}
+                onStart={session.start}
+                canStart={canStart}
+                isTemplateActive={!!templateId}
+                showStartButton={false}
+              />
+            </div>
+          </>
+        )}
       </Container>
 
-      {/* Toast */}
+      {/* ── Toast notification ────────────────────────────── */}
       <AnimatePresence>
         {toast && (
           <motion.div
@@ -181,14 +235,19 @@ export default function CameraExperience() {
         )}
       </AnimatePresence>
 
+      {/* ── Upload multi-photo modal ──────────────────────── */}
       <UploadFlow
         open={uploadOpen}
         onClose={() => setUploadOpen(false)}
         fixedCount={activeTemplate ? activeTemplate.slots.length : undefined}
-        onFinish={activeTemplate ? (all) => {
-          saveSessionPhotos(all);
-          router.push("/film-lab");
-        } : undefined}
+        onFinish={
+          activeTemplate
+            ? (all) => {
+                saveSessionPhotos(all);
+                router.push("/film-lab");
+              }
+            : undefined
+        }
       />
     </section>
   );

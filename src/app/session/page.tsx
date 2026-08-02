@@ -1,12 +1,9 @@
-import type { Metadata } from "next";
-import SessionExperience from "./SessionExperience";
+import { redirect } from "next/navigation";
 
-export const metadata: Metadata = {
-  title: "Photo Session",
-  description:
-    "Strike a pose. PixelCam captures your photobooth strip automatically.",
-};
-
+/**
+ * The old /session route has been merged into /camera.
+ * This redirect keeps any existing links working.
+ */
 export default function SessionPage() {
-  return <SessionExperience />;
+  redirect("/camera");
 }

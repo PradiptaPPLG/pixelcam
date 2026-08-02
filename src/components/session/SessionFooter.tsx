@@ -2,6 +2,7 @@
 
 import { Camera } from "lucide-react";
 import { cn } from "@/lib/utils";
+import CaptureButton from "../camera/CaptureButton";
 import {
   COUNTDOWN_OPTIONS,
   PHOTO_COUNT_OPTIONS,
@@ -18,6 +19,7 @@ interface SessionFooterProps {
   onStart: () => void;
   canStart: boolean;
   isTemplateActive?: boolean;
+  showStartButton?: boolean;
 }
 
 /** Segmented option control. */
@@ -77,6 +79,7 @@ export default function SessionFooter({
   onStart,
   canStart,
   isTemplateActive,
+  showStartButton = true,
 }: SessionFooterProps) {
   if (phase !== "setup") {
     return (
@@ -89,10 +92,10 @@ export default function SessionFooter({
   }
 
   return (
-    <div className="flex flex-col items-center gap-8">
-      <div className="flex flex-wrap items-start justify-center gap-x-10 gap-y-6">
+    <div className="flex flex-col items-center gap-1.5">
+      <div className="flex flex-wrap items-start justify-center gap-x-10 gap-y-1">
         {isTemplateActive ? (
-          <div className="flex flex-col items-center gap-2">
+          <div className="flex flex-col items-center gap-1">
             <span className="text-[12px] font-semibold uppercase tracking-[0.08em] text-[#6B7280]">
               Photos
             </span>
@@ -118,18 +121,9 @@ export default function SessionFooter({
         />
       </div>
 
-      <button
-        type="button"
-        onClick={onStart}
-        disabled={!canStart}
-        className={cn(
-          "inline-flex h-12 items-center gap-2 rounded-[14px] bg-[#111111] px-7 text-[15px] font-medium text-white transition-colors hover:bg-[#222222] active:bg-[#333333] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4F46E5] focus-visible:ring-offset-2",
-          !canStart && "cursor-not-allowed opacity-40",
-        )}
-      >
-        <Camera className="h-[18px] w-[18px]" aria-hidden="true" />
-        {canStart ? "Start Session" : "Preparing camera…"}
-      </button>
+      {showStartButton && (
+        <CaptureButton onCapture={onStart} disabled={!canStart} />
+      )}
     </div>
   );
 }
