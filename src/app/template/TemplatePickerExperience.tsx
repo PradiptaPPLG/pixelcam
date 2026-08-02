@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Container from "@/components/ui/Container";
 import { TEMPLATE_PRESETS } from "@/data/templatesData";
 import { saveTemplateId } from "@/utils/template";
-import { LayoutTemplate, ChevronLeft, SkipForward, Check, TrendingUp } from "lucide-react";
+import { LayoutTemplate, ChevronLeft, SkipForward, Check, TrendingUp, Camera } from "lucide-react";
 
 export default function TemplatePickerExperience() {
   const router = useRouter();
@@ -131,7 +131,7 @@ function TemplateCard({
       whileHover={{ scale: 1.02, y: -2 }}
       whileTap={{ scale: 0.97 }}
       transition={{ type: "spring", stiffness: 380, damping: 28 }}
-      className={`relative flex flex-col rounded-[16px] overflow-hidden text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4F46E5] focus-visible:ring-offset-2 shadow-[0_2px_12px_rgba(0,0,0,0.08)] dark:shadow-[0_2px_12px_rgba(0,0,0,0.4)] transition-shadow hover:shadow-[0_8px_28px_rgba(0,0,0,0.15)] dark:hover:shadow-[0_8px_28px_rgba(0,0,0,0.6)] ${
+      className={`group relative flex flex-col rounded-[16px] overflow-hidden text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4F46E5] focus-visible:ring-offset-2 shadow-[0_2px_12px_rgba(0,0,0,0.08)] dark:shadow-[0_2px_12px_rgba(0,0,0,0.4)] transition-shadow hover:shadow-[0_8px_28px_rgba(0,0,0,0.15)] dark:hover:shadow-[0_8px_28px_rgba(0,0,0,0.6)] ${
         isSelected ? "ring-[3px] ring-[#4F46E5] ring-offset-2" : "ring-0"
       }`}
       aria-label={`Use template: ${template.name}`}
@@ -152,6 +152,17 @@ function TemplateCard({
 
         {/* Gradient overlay for text readability */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent pointer-events-none" />
+
+        {/* Hover overlay with 'Start Creating' badge */}
+        <div className="absolute inset-0 bg-black/45 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center pointer-events-none">
+          <div
+            style={{ backgroundColor: "#ffffff", color: "#111111" }}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full font-semibold text-[11px] sm:text-[12px] shadow-lg transform translate-y-2 group-hover:translate-y-0 transition-transform duration-200"
+          >
+            <Camera className="w-3.5 h-3.5" />
+            <span>Start Creating</span>
+          </div>
+        </div>
 
         {/* Bottom text overlay */}
         <div className="absolute bottom-0 left-0 right-0 p-2.5 pointer-events-none">
