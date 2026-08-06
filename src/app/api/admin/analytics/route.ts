@@ -96,6 +96,26 @@ export async function GET(req: NextRequest) {
       `,
     ]);
 
+    // Build a map of dates from query results (using YYYY-MM-DD string keys)
+    const dailyViewsMap = new Map<string, number>();
+    for (const d of dailyViews) {
+      if (d.date) {
+        const dateStr = new Date(d.date).toISOString().split("T")[0];
+        dailyViewsMap.set(dateStr, Number(d.count));
+      }
+    }
+
+    // Zero-fill all 30 days up to today
+    const dailyViewsFilled = [];
+    for (let i = 29; i >= 0; i--) {
+      const targetDate = new Date(now.getTime() - i * 24 * 60 * 60 * 1000);
+      const dateStr = targetDate.toISOString().split("T")[0];
+      dailyViewsFilled.push({
+        date: dateStr,
+        count: dailyViewsMap.get(dateStr) ?? 0,
+      });
+    }
+
     return NextResponse.json({
       summary: {
         totalViews,
@@ -116,10 +136,7 @@ export async function GET(req: NextRequest) {
       deviceBreakdown: deviceBreakdown.map((d: typeof deviceBreakdown[0]) => ({ device: d.device ?? "Unknown", count: d._count.device })),
       browserBreakdown: browserBreakdown.map((b: typeof browserBreakdown[0]) => ({ browser: b.browser ?? "Unknown", count: b._count.browser })),
       countryBreakdown: countryBreakdown.map((c: typeof countryBreakdown[0]) => ({ country: c.country ?? "Unknown", count: c._count.country })),
-      dailyViews: dailyViews.map((d: { date: string; count: bigint }) => ({
-        date: d.date,
-        count: Number(d.count),
-      })),
+      dailyViews: dailyViewsFilled,
     });
   } catch (err) {
     console.error("[/api/admin/analytics] Error:", err);
