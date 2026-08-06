@@ -3,6 +3,7 @@
 import { useState, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { Lock, Camera, ArrowRight, AlertCircle, Loader2 } from "lucide-react";
+import ThemeToggle from "@/components/ui/ThemeToggle";
 
 export default function AdminLoginPage() {
   const router = useRouter();
@@ -36,7 +37,10 @@ export default function AdminLoginPage() {
   }
 
   return (
-    <div className="flex-1 flex items-center justify-center min-h-[calc(100vh-4rem)] px-6 py-12 bg-[#fafafa] dark:bg-[#0d0d0f] transition-colors duration-300">
+    <div className="flex-1 flex items-center justify-center min-h-[calc(100vh-4rem)] px-6 py-12 bg-[#fafafa] dark:bg-[#0d0d0f] transition-colors duration-300 relative">
+      <div className="absolute top-6 right-6 z-50">
+        <ThemeToggle />
+      </div>
       <div className="w-full max-w-[400px] bg-white dark:bg-[#18181b] border border-[#e5e7eb] dark:border-[#2a2a2e] rounded-2xl shadow-sm p-8 transition-colors duration-300">
         
         {/* Brand Header */}

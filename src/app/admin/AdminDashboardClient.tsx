@@ -21,6 +21,7 @@ import {
   AlertCircle,
   Camera
 } from "lucide-react";
+import ThemeToggle from "@/components/ui/ThemeToggle";
 
 // ──────────────────────────────────────────────────────────────
 // Types for analytics API response
@@ -231,6 +232,7 @@ export default function AdminDashboardClient() {
               <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
               Live
             </span>
+            <ThemeToggle />
             <button
               id="admin-refresh-btn"
               onClick={() => fetchData(true)}
