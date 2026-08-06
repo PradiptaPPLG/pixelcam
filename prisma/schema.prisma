@@ -1,0 +1,43 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ──────────────────────────────────────────────────────────────
+// Session: A unique visitor identified by a UUID stored in
+// their localStorage. Allows grouping page views per user.
+// ──────────────────────────────────────────────────────────────
+model Session {
+  id         String     @id @default(cuid())
+  visitorId  String     @unique // UUID generated on client, stored in localStorage
+  country    String?    // from Vercel header x-vercel-ip-country
+  device     String?    // "Mobile" | "Tablet" | "Desktop"
+  browser    String?    // e.g. "Chrome", "Safari"
+  os         String?    // e.g. "Windows", "macOS", "Android"
+  createdAt  DateTime   @default(now())
+  lastSeenAt DateTime   @updatedAt
+  pageViews  PageView[]
+}
+
+// ──────────────────────────────────────────────────────────────
+// PageView: Every single page open or refresh is one record.
+// ──────────────────────────────────────────────────────────────
+model PageView {
+  id        String   @id @default(cuid())
+  sessionId String
+  session   Session  @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  path      String   // e.g. "/camera", "/editor"
+  referrer  String?  // where they came from
+  createdAt DateTime @default(now())
+
+  @@index([path])
+  @@index([sessionId])
+  @@index([createdAt])
+}

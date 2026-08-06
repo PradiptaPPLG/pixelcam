@@ -3,6 +3,7 @@ import { Geist } from "next/font/google";
 import { siteConfig } from "@/config/site";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import AnalyticsTracker from "@/components/AnalyticsTracker";
 import "./globals.css";
 
 /* ----------------------------------------------------------------
@@ -104,6 +105,9 @@ export default function RootLayout({
         </main>
 
         <Footer />
+
+        {/* Analytics tracker — fires asynchronously after each page render */}
+        <AnalyticsTracker />
       </body>
     </html>
   );
