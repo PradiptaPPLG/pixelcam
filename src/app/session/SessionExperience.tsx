@@ -102,21 +102,36 @@ export default function SessionExperience() {
                   <Countdown value={session.countdownValue} />
                 </LiveCamera>
 
-                <SessionFooter
-                  phase={session.phase}
-                  photoCount={session.photoCount}
-                  countdownSeconds={session.countdownSeconds}
-                  onPhotoCount={session.setPhotoCount}
-                  onCountdownSeconds={session.setCountdownSeconds}
-                  onStart={session.start}
-                  canStart={canStart}
-                  isTemplateActive={!!templateId}
-                />
+                {session.photos.length === session.photoCount ? (
+                  <div className="flex justify-center w-full my-2">
+                    <button
+                      type="button"
+                      onClick={() => handleComplete(session.photos)}
+                      className="inline-flex h-11 sm:h-12 items-center justify-center gap-2 rounded-[14px] bg-[#4F46E5] hover:bg-[#4338CA] active:bg-[#3730A3] px-8 text-sm font-semibold text-white transition-all shadow-[0_4px_12px_rgba(79,70,229,0.2)] hover:shadow-[0_6px_20px_rgba(79,70,229,0.3)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4F46E5] focus-visible:ring-offset-2"
+                    >
+                      Continue to Edit
+                    </button>
+                  </div>
+                ) : (
+                  <SessionFooter
+                    phase={session.phase}
+                    photoCount={session.photoCount}
+                    countdownSeconds={session.countdownSeconds}
+                    onPhotoCount={session.setPhotoCount}
+                    onCountdownSeconds={session.setCountdownSeconds}
+                    onStart={session.start}
+                    canStart={canStart}
+                    isTemplateActive={!!templateId}
+                  />
+                )}
               </div>
 
               <PreviewStrip
                 photos={session.photos}
                 total={session.photoCount}
+                onRemovePhoto={(idx) => {
+                  session.setPhotos((prev) => prev.filter((_, i) => i !== idx));
+                }}
               />
             </div>
           </>

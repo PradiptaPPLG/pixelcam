@@ -135,77 +135,83 @@ export default function CameraExperience() {
 
                 {/* ── Controls (directly attached below the camera) ────────────────── */}
                 <div className="flex w-full flex-col items-center gap-2">
-                  {/* Circular Shutter/Start Button */}
-                  {session.phase === "setup" && (
-                    <div className="flex justify-center">
-                      <CaptureButton onCapture={session.start} disabled={!canStart} />
+                  {session.photos.length === session.photoCount ? (
+                    <div className="flex justify-center w-full my-2">
+                      <button
+                        type="button"
+                        onClick={() => handleComplete(session.photos)}
+                        className="inline-flex h-11 sm:h-12 items-center justify-center gap-2 rounded-[14px] bg-[#4F46E5] hover:bg-[#4338CA] active:bg-[#3730A3] px-8 text-sm font-semibold text-white transition-all shadow-[0_4px_12px_rgba(79,70,229,0.2)] hover:shadow-[0_6px_20px_rgba(79,70,229,0.3)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4F46E5] focus-visible:ring-offset-2"
+                      >
+                        Continue to Edit
+                      </button>
                     </div>
-                  )}
+                  ) : (
+                    <>
+                      {/* Circular Shutter/Start Button */}
+                      {session.phase === "setup" && (
+                        <div className="flex justify-center">
+                          <CaptureButton onCapture={session.start} disabled={!canStart} />
+                        </div>
+                      )}
 
-                  {/* Secondary controls: Upload + Mirror + Camera switch */}
-                  {session.phase === "setup" && (
-                    <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
-                      {/* Upload */}
-                      <button
-                        type="button"
-                        onClick={() => setUploadOpen(true)}
-                        className="inline-flex h-9 sm:h-10 items-center gap-1.5 sm:gap-2 rounded-[12px] sm:rounded-[14px] border border-[#E5E7EB] dark:border-[#2a2a2e] bg-white dark:bg-[#18181b] px-3 sm:px-4 text-xs sm:text-sm font-medium text-[#111111] dark:text-[#f4f4f5] transition-colors hover:bg-[#F5F5F5] dark:hover:bg-[#232327] active:bg-[#EEEEEE] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4F46E5] focus-visible:ring-offset-2"
-                      >
-                        <Upload className="h-3.5 w-3.5 sm:h-4 sm:w-4" aria-hidden="true" />
-                        Upload
-                      </button>
-
-                      {/* Mirror toggle */}
-                      <button
-                        type="button"
-                        onClick={() => setMirrored((v) => !v)}
-                        aria-pressed={mirrored}
-                        className={cn(
-                          "inline-flex h-9 sm:h-10 items-center gap-1.5 sm:gap-2 rounded-[12px] sm:rounded-[14px] border px-3 sm:px-4 text-xs sm:text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4F46E5] focus-visible:ring-offset-2",
-                          mirrored
-                            ? "border-[#4F46E5] bg-[#EEF2FF] dark:bg-[#1e1b3a] text-[#4F46E5]"
-                            : "border-[#E5E7EB] dark:border-[#2a2a2e] bg-white dark:bg-[#18181b] text-[#111111] dark:text-[#f4f4f5] hover:bg-[#F5F5F5] dark:hover:bg-[#232327] active:bg-[#EEEEEE]",
-                        )}
-                      >
-                        <FlipHorizontal2 className="h-3.5 w-3.5 sm:h-4 sm:w-4" aria-hidden="true" />
-                        Mirror
-                      </button>
-
-                      {/* Camera switch (mobile / multi-cam) */}
-                      {hasMultipleCameras && (
-                        <>
+                      {/* Secondary controls: Upload + Mirror + Camera switch */}
+                      {session.phase === "setup" && (
+                        <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
+                          {/* Upload */}
                           <button
                             type="button"
-                            onClick={switchCamera}
-                            aria-label="Switch camera"
+                            onClick={() => setUploadOpen(true)}
                             className="inline-flex h-9 sm:h-10 items-center gap-1.5 sm:gap-2 rounded-[12px] sm:rounded-[14px] border border-[#E5E7EB] dark:border-[#2a2a2e] bg-white dark:bg-[#18181b] px-3 sm:px-4 text-xs sm:text-sm font-medium text-[#111111] dark:text-[#f4f4f5] transition-colors hover:bg-[#F5F5F5] dark:hover:bg-[#232327] active:bg-[#EEEEEE] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4F46E5] focus-visible:ring-offset-2"
                           >
-                            <SwitchCamera className="h-3.5 w-3.5 sm:h-4 sm:w-4" aria-hidden="true" />
-                            Flip
+                            <Upload className="h-3.5 w-3.5 sm:h-4 sm:w-4" aria-hidden="true" />
+                            Upload
                           </button>
 
-                          <CameraSelector
-                            devices={devices}
-                            activeDeviceId={activeDeviceId}
-                            onSelect={selectDevice}
-                          />
-                        </>
-                      )}
-                    </div>
-                  )}
+                          {/* Mirror toggle */}
+                          <button
+                            type="button"
+                            onClick={() => setMirrored((v) => !v)}
+                            aria-pressed={mirrored}
+                            className={cn(
+                              "inline-flex h-9 sm:h-10 items-center gap-1.5 sm:gap-2 rounded-[12px] sm:rounded-[14px] border px-3 sm:px-4 text-xs sm:text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4F46E5] focus-visible:ring-offset-2",
+                              mirrored
+                                ? "border-[#4F46E5] bg-[#EEF2FF] dark:bg-[#1e1b3a] text-[#4F46E5]"
+                                : "border-[#E5E7EB] dark:border-[#2a2a2e] bg-white dark:bg-[#18181b] text-[#111111] dark:text-[#f4f4f5] hover:bg-[#F5F5F5] dark:hover:bg-[#232327] active:bg-[#EEEEEE]",
+                            )}
+                          >
+                            <FlipHorizontal2 className="h-3.5 w-3.5 sm:h-4 sm:w-4" aria-hidden="true" />
+                            Mirror
+                          </button>
 
-                  {/* Primary controls: photo count + countdown */}
-                  <SessionFooter
-                    phase={session.phase}
-                    photoCount={session.photoCount}
-                    countdownSeconds={session.countdownSeconds}
-                    onPhotoCount={session.setPhotoCount}
-                    onCountdownSeconds={session.setCountdownSeconds}
-                    onStart={session.start}
-                    canStart={canStart}
-                    isTemplateActive={!!templateId}
-                    showStartButton={false}
-                  />
+                          {/* Camera switch (mobile / multi-cam) - Dropdown removed for clean single Flip action */}
+                          {hasMultipleCameras && (
+                            <button
+                              type="button"
+                              onClick={switchCamera}
+                              aria-label="Switch camera"
+                              className="inline-flex h-9 sm:h-10 items-center gap-1.5 sm:gap-2 rounded-[12px] sm:rounded-[14px] border border-[#E5E7EB] dark:border-[#2a2a2e] bg-white dark:bg-[#18181b] px-3 sm:px-4 text-xs sm:text-sm font-medium text-[#111111] dark:text-[#f4f4f5] transition-colors hover:bg-[#F5F5F5] dark:hover:bg-[#232327] active:bg-[#EEEEEE] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4F46E5] focus-visible:ring-offset-2"
+                            >
+                              <SwitchCamera className="h-3.5 w-3.5 sm:h-4 sm:w-4" aria-hidden="true" />
+                              Flip
+                            </button>
+                          )}
+                        </div>
+                      )}
+
+                      {/* Primary controls: photo count + countdown */}
+                      <SessionFooter
+                        phase={session.phase}
+                        photoCount={session.photoCount}
+                        countdownSeconds={session.countdownSeconds}
+                        onPhotoCount={session.setPhotoCount}
+                        onCountdownSeconds={session.setCountdownSeconds}
+                        onStart={session.start}
+                        canStart={canStart}
+                        isTemplateActive={!!templateId}
+                        showStartButton={false}
+                      />
+                    </>
+                  )}
                 </div>
               </div>
 
@@ -213,6 +219,9 @@ export default function CameraExperience() {
               <PreviewStrip
                 photos={session.photos}
                 total={session.photoCount}
+                onRemovePhoto={(idx) => {
+                  session.setPhotos((prev) => prev.filter((_, i) => i !== idx));
+                }}
               />
             </div>
           </>
@@ -239,15 +248,13 @@ export default function CameraExperience() {
       <UploadFlow
         open={uploadOpen}
         onClose={() => setUploadOpen(false)}
-        fixedCount={activeTemplate ? activeTemplate.slots.length : undefined}
-        onFinish={
-          activeTemplate
-            ? (all) => {
-                saveSessionPhotos(all);
-                router.push("/film-lab");
-              }
-            : undefined
-        }
+        fixedCount={session.photoCount - session.photos.length}
+        onFinish={(newPhotos) => {
+          session.setPhotos((prev) => {
+            const updated = [...prev, ...newPhotos].slice(0, session.photoCount);
+            return updated;
+          });
+        }}
       />
     </section>
   );

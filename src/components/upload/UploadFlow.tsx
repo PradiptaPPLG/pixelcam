@@ -56,6 +56,16 @@ export default function UploadFlow({ open, onClose, fixedCount, onFinish }: Uplo
     }
   }
 
+  // Auto-trigger file explorer when fixedCount is active
+  useEffect(() => {
+    if (open && fixedCount !== undefined) {
+      const timer = setTimeout(() => {
+        inputRef.current?.click();
+      }, 150);
+      return () => clearTimeout(timer);
+    }
+  }, [open, fixedCount]);
+
   // Revoke any object URLs when unmounting.
   useEffect(() => () => revokeUrls(), []);
 

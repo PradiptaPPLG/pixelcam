@@ -29,6 +29,7 @@ export interface UseSessionResult {
   isRunning: boolean;
   setPhotoCount: (count: number) => void;
   setCountdownSeconds: (seconds: number) => void;
+  setPhotos: React.Dispatch<React.SetStateAction<string[]>>;
   start: () => Promise<void>;
 }
 
@@ -69,15 +70,16 @@ export function useSession({
 
   const start = useCallback(async () => {
     if (runningRef.current) return;
+    if (photos.length >= photoCount) return;
+
     runningRef.current = true;
     cancelledRef.current = false;
 
-    setPhotos([]);
     setPhase("running");
 
-    const collected: string[] = [];
+    const collected: string[] = [...photos];
 
-    for (let shot = 0; shot < photoCount; shot++) {
+    for (let shot = collected.length; shot < photoCount; shot++) {
       if (cancelledRef.current) return;
       setCurrentShot(shot);
 
@@ -110,8 +112,7 @@ export function useSession({
     if (cancelledRef.current) return;
     runningRef.current = false;
     setPhase("complete");
-    onComplete(collected);
-  }, [photoCount, countdownSeconds, capture, mirrored, onComplete]);
+  }, [photoCount, countdownSeconds, capture, mirrored, photos]);
 
   return {
     phase,
@@ -124,6 +125,7 @@ export function useSession({
     isRunning: phase === "running",
     setPhotoCount,
     setCountdownSeconds,
+    setPhotos,
     start,
   };
 }
