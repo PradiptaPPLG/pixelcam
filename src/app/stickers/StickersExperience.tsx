@@ -197,7 +197,7 @@ export default function StickersExperience() {
   }
 
   return (
-    <section className="relative flex flex-col flex-1 pb-24 lg:pb-0 overflow-hidden">
+    <section className="relative isolate flex flex-col flex-1 pb-24 lg:pb-0 overflow-hidden">
       <div className="absolute inset-0 bg-[#F9FAFB] dark:bg-[#0D0D0F]" />
 
       <Container className="relative h-full flex flex-col lg:flex-row lg:overflow-hidden">

@@ -10,10 +10,9 @@ import {
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
-import { Camera, Download } from "lucide-react";
+import { Camera } from "lucide-react";
 import Container from "@/components/ui/Container";
 import {
-  DownloadButton,
   ExportPanel,
   LoadingOverlay,
   PreviewCanvas,
@@ -386,7 +385,7 @@ export default function PreviewExperience() {
   }
 
   return (
-    <section className="flex-1 bg-[#FAFAFA] py-8 pb-28 sm:py-12 lg:pb-12">
+    <section className="flex-1 bg-[#FAFAFA] dark:bg-[#0D0D0F] py-6 sm:py-8 lg:py-12 pb-8">
       {/* Printing overlay */}
       <PrintAnimation visible={isPrinting} stripSnapshot={stripSnapshot} />
 
@@ -402,7 +401,7 @@ export default function PreviewExperience() {
             />
 
             <div
-              className="relative flex min-h-[420px] items-center justify-center rounded-[24px] p-8 ring-1 ring-black/5 sm:p-12"
+              className="relative flex min-h-[300px] sm:min-h-[420px] items-center justify-center rounded-[20px] lg:rounded-[24px] p-4 sm:p-8 lg:p-12 ring-1 ring-black/5"
               style={{ background: templateId ? "#f4f4f5" : (theme.style.canvasPattern ?? theme.style.canvas) }}
             >
               <LoadingOverlay show={false} />
@@ -424,7 +423,7 @@ export default function PreviewExperience() {
             </div>
           </div>
 
-          {/* Right — export panel */}
+          {/* Right — export panel (always visible, on mobile shows below preview) */}
           <div className="lg:sticky lg:top-24">
             <ExportPanel
               theme={theme}
@@ -440,17 +439,6 @@ export default function PreviewExperience() {
           </div>
         </div>
       </Container>
-
-      {/* Sticky download — mobile only */}
-      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-[#E5E7EB] bg-white/90 p-3 backdrop-blur-md lg:hidden">
-        <DownloadButton
-          onClick={() => handleDownload("png")}
-          loading={isPrinting}
-          icon={<Download className="h-4 w-4" aria-hidden="true" />}
-        >
-          Download PNG
-        </DownloadButton>
-      </div>
 
       <SuccessToast show={showSuccess} onDone={() => setShowSuccess(false)} />
 
