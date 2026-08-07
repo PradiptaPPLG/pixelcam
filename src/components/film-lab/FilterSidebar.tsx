@@ -20,7 +20,7 @@ export default function FilterSidebar({
   const thumbnails = useFilterThumbnails(firstPhoto || null);
 
   return (
-    <div className="flex flex-col gap-2.5">
+    <div className="flex flex-row gap-2.5 overflow-x-auto pb-2 lg:flex-col lg:overflow-visible lg:pb-0">
       {FILTER_PRESETS.map((preset) => (
         <FilterCard
           key={preset.id}

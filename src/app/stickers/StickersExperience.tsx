@@ -176,7 +176,7 @@ export default function StickersExperience() {
         {/* Right: Sidebar / Controls */}
         <div className="w-full lg:w-[440px] flex-shrink-0 lg:h-full lg:overflow-y-auto hide-scrollbar pb-safe">
           <div className="p-4 lg:p-6 lg:pl-0 h-full flex flex-col">
-            <div className="flex-1 min-h-[400px] mb-6">
+            <div className="flex-1 min-h-[280px] lg:min-h-[400px] mb-6">
               <StickerSidebar
                 onAddSticker={handleAddSticker}
                 stickerCount={placements.length}

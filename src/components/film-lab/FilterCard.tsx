@@ -37,11 +37,11 @@ export default function FilterCard({
       transition={{ type: "spring", stiffness: 400, damping: 26 }}
       aria-pressed={selected}
       className={cn(
-        "group relative flex w-full items-center gap-3 rounded-[16px] border bg-white p-3 text-left transition-shadow",
+        "group relative flex w-full shrink-0 min-w-[200px] lg:min-w-0 items-center gap-3 rounded-[16px] border bg-white dark:bg-[#18181b] p-3 text-left transition-shadow",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4F46E5] focus-visible:ring-offset-2",
         selected
           ? "border-[#4F46E5] shadow-[0_8px_24px_rgba(79,70,229,0.16)]"
-          : "border-[#E5E7EB] hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)]",
+          : "border-[#E5E7EB] dark:border-[#2a2a2e] hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)]",
       )}
     >
       {/* Thumbnail placeholder */}
@@ -60,10 +60,10 @@ export default function FilterCard({
 
       {/* Text */}
       <div className="min-w-0 flex-1">
-        <p className="truncate text-[14px] font-semibold text-[#111111]">
+        <p className="truncate text-[14px] font-semibold text-[#111111] dark:text-[#f4f4f5]">
           {preset.name}
         </p>
-        <p className="truncate text-[12px] text-[#6B7280]">
+        <p className="truncate text-[12px] text-[#6B7280] dark:text-[#a1a1aa]">
           {preset.description}
         </p>
       </div>

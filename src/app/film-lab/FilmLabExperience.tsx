@@ -141,13 +141,13 @@ export default function FilmLabExperience() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 8 }}
                   transition={{ duration: 0.22, ease: "easeOut" }}
-                  className="rounded-2xl border border-[#E5E7EB] bg-white p-4 shadow-sm"
+                  className="rounded-2xl border border-[#E5E7EB] dark:border-[#2a2a2e] bg-white dark:bg-[#18181b] p-4 shadow-sm"
                 >
                   <div className="mb-3 flex items-center justify-between">
-                    <span className="text-xs font-semibold uppercase tracking-wider text-[#111111]">
+                    <span className="text-xs font-semibold uppercase tracking-wider text-[#111111] dark:text-[#f4f4f5]">
                       Filter Intensity
                     </span>
-                    <span className="inline-flex items-center rounded-full bg-[#4F46E5]/10 px-2.5 py-0.5 text-xs font-bold text-[#4F46E5]">
+                    <span className="inline-flex items-center rounded-full bg-[#4F46E5]/10 px-2.5 py-0.5 text-xs font-bold text-[#4F46E5] dark:text-[#818cf8]">
                       {Math.round(intensity)}%
                     </span>
                   </div>
@@ -164,7 +164,7 @@ export default function FilmLabExperience() {
                       onChange={(e) => handleIntensityChange(Number(e.target.value))}
                       className="h-2 w-full cursor-pointer appearance-none rounded-lg accent-[#4F46E5] focus:outline-none focus:ring-2 focus:ring-[#4F46E5]/40"
                       style={{
-                        background: `linear-gradient(to right, #4F46E5 0%, #4F46E5 ${intensity}%, #E5E7EB ${intensity}%, #E5E7EB 100%)`,
+                        background: `linear-gradient(to right, #4F46E5 0%, #4F46E5 ${intensity}%, #2a2a2e ${intensity}%, #2a2a2e 100%)`,
                       }}
                     />
                   </div>
@@ -178,8 +178,8 @@ export default function FilmLabExperience() {
                         onClick={() => handleIntensityChange(val)}
                         className={`flex-1 rounded-lg py-1 text-[11px] font-semibold transition-all ${
                           Math.round(intensity) === val
-                            ? "bg-[#111111] text-white shadow-sm"
-                            : "bg-[#F3F4F6] text-[#6B7280] hover:bg-[#E5E7EB] hover:text-[#111111]"
+                            ? "bg-[#111111] dark:bg-white text-white dark:text-[#111111] shadow-sm"
+                            : "bg-[#F3F4F6] dark:bg-[#232327] text-[#6B7280] dark:text-[#a1a1aa] hover:bg-[#E5E7EB] dark:hover:bg-[#2a2a2e] hover:text-[#111111] dark:hover:text-white"
                         }`}
                       >
                         {val}%

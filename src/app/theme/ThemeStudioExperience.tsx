@@ -57,7 +57,7 @@ export default function ThemeStudioExperience() {
               style={{
                 background: theme.style.canvasPattern ?? theme.style.canvas,
               }}
-              className="flex justify-center rounded-[24px] p-8 ring-1 ring-black/5 sm:p-12"
+              className="flex justify-center rounded-[24px] p-3 ring-1 ring-black/5 sm:p-12"
             >
               <ThemePreview
                 theme={theme}

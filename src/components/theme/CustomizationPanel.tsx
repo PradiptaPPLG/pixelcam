@@ -36,7 +36,7 @@ function Field({
 }) {
   return (
     <label className="flex flex-col gap-1.5">
-      <span className="flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.06em] text-[#6B7280]">
+      <span className="flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.06em] text-[#6B7280] dark:text-[#a1a1aa]">
         {icon}
         {label}
       </span>
@@ -46,7 +46,7 @@ function Field({
         placeholder={placeholder}
         maxLength={maxLength}
         onChange={(event) => onChange(event.target.value)}
-        className="h-10 rounded-[12px] border border-[#E5E7EB] bg-white px-3 text-[14px] text-[#111111] transition-colors placeholder:text-[#9CA3AF] focus-visible:border-[#4F46E5] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4F46E5]/30"
+        className="h-10 rounded-[12px] border border-[#E5E7EB] dark:border-[#2a2a2e] bg-white dark:bg-[#18181b] px-3 text-[14px] text-[#111111] dark:text-[#f4f4f5] transition-colors placeholder:text-[#9CA3AF] dark:placeholder:text-zinc-500 focus-visible:border-[#4F46E5] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4F46E5]/30"
       />
     </label>
   );
@@ -69,16 +69,16 @@ function Toggle({
       role="switch"
       aria-checked={checked}
       onClick={() => onChange(!checked)}
-      className="flex w-full items-center justify-between gap-3 rounded-[12px] px-2 py-2 text-left transition-colors hover:bg-[#F5F5F5] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4F46E5] focus-visible:ring-offset-2"
+      className="flex w-full items-center justify-between gap-3 rounded-[12px] px-2 py-2 text-left transition-colors hover:bg-[#F5F5F5] dark:hover:bg-[#232327] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4F46E5] focus-visible:ring-offset-2"
     >
-      <span className="flex items-center gap-2.5 text-[14px] font-medium text-[#111111]">
+      <span className="flex items-center gap-2.5 text-[14px] font-medium text-[#111111] dark:text-[#f4f4f5]">
         {icon}
         {label}
       </span>
       <span
         className={cn(
           "relative h-6 w-10 shrink-0 rounded-full transition-colors",
-          checked ? "bg-[#4F46E5]" : "bg-[#E5E7EB]",
+          checked ? "bg-[#4F46E5]" : "bg-[#E5E7EB] dark:bg-[#2a2a2e]",
         )}
       >
         <motion.span
@@ -107,8 +107,8 @@ export default function CustomizationPanel({
   ];
 
   return (
-    <div className="flex flex-col gap-5 rounded-[24px] border border-[#E5E7EB] bg-white p-5 shadow-[0_4px_12px_rgba(0,0,0,0.04)]">
-      <h2 className="text-[13px] font-semibold uppercase tracking-[0.08em] text-[#6B7280]">
+    <div className="flex flex-col gap-5 rounded-[24px] border border-[#E5E7EB] dark:border-[#2a2a2e] bg-white dark:bg-[#18181b] p-5 shadow-[0_4px_12px_rgba(0,0,0,0.04)]">
+      <h2 className="text-[13px] font-semibold uppercase tracking-[0.08em] text-[#6B7280] dark:text-[#a1a1aa]">
         Customize
       </h2>
 
@@ -132,11 +132,11 @@ export default function CustomizationPanel({
 
       {/* Corners */}
       <div className="flex flex-col gap-1.5">
-        <span className="flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.06em] text-[#6B7280]">
+        <span className="flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.06em] text-[#6B7280] dark:text-[#a1a1aa]">
           <LayoutGrid className="h-3.5 w-3.5" aria-hidden="true" />
           Corners
         </span>
-        <div className="inline-flex gap-1 rounded-[12px] border border-[#E5E7EB] bg-white p-1">
+        <div className="inline-flex gap-1 rounded-[12px] border border-[#E5E7EB] dark:border-[#2a2a2e] bg-white dark:bg-[#18181b] p-1">
           {cornerOptions.map((option) => {
             const active = customization.rounded === option.value;
             return (
@@ -148,8 +148,8 @@ export default function CustomizationPanel({
                 className={cn(
                   "h-9 flex-1 rounded-[9px] text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4F46E5] focus-visible:ring-offset-2",
                   active
-                    ? "bg-[#111111] text-white"
-                    : "text-[#6B7280] hover:text-[#111111]",
+                    ? "bg-[#111111] dark:bg-white text-white dark:text-[#111111]"
+                    : "text-[#6B7280] dark:text-[#a1a1aa] hover:text-[#111111] dark:hover:text-white",
                 )}
               >
                 {option.label}
@@ -163,19 +163,19 @@ export default function CustomizationPanel({
       <div className="flex flex-col gap-0.5">
         <Toggle
           label="Show date"
-          icon={<CalendarDays className="h-4 w-4 text-[#6B7280]" aria-hidden="true" />}
+          icon={<CalendarDays className="h-4 w-4 text-[#6B7280] dark:text-[#a1a1aa]" aria-hidden="true" />}
           checked={customization.showDate}
           onChange={(showDate) => onChange({ showDate })}
         />
         <Toggle
           label="Show logo"
-          icon={<Sparkles className="h-4 w-4 text-[#6B7280]" aria-hidden="true" />}
+          icon={<Sparkles className="h-4 w-4 text-[#6B7280] dark:text-[#a1a1aa]" aria-hidden="true" />}
           checked={customization.showLogo}
           onChange={(showLogo) => onChange({ showLogo })}
         />
         <Toggle
           label="Frame shadow"
-          icon={<Droplet className="h-4 w-4 text-[#6B7280]" aria-hidden="true" />}
+          icon={<Droplet className="h-4 w-4 text-[#6B7280] dark:text-[#a1a1aa]" aria-hidden="true" />}
           checked={customization.showShadow}
           onChange={(showShadow) => onChange({ showShadow })}
         />
