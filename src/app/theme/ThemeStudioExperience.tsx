@@ -46,18 +46,36 @@ export default function ThemeStudioExperience() {
   const handleContinue = () => router.push("/film-lab");
 
   return (
-    <section className="flex-1 bg-[#FAFAFA] py-8 sm:py-12">
+    <section className="flex-1 bg-[#FAFAFA] dark:bg-[#0D0D0F] py-6 sm:py-8 lg:py-12">
       <Container size="xl">
+        {/* ─── Mobile-only header ─────────────────────────────── */}
+        <div className="lg:hidden mb-4">
+          <span className="flex items-center gap-1.5 text-[12px] font-semibold uppercase tracking-[0.08em] text-[#6B7280] dark:text-[#a1a1aa] mb-1">
+            <Palette className="h-3.5 w-3.5" aria-hidden="true" />
+            Theme Studio
+          </span>
+          <h1 className="text-[22px] font-semibold tracking-[-0.02em] text-[#111111] dark:text-[#f4f4f5]">
+            Choose a Theme
+          </h1>
+        </div>
+
+        {/* ─── Mobile-only: Theme selector (horizontal pills) ─── */}
+        <div className="lg:hidden mb-4">
+          <ThemeSelector selectedId={themeId} onSelect={selectTheme} />
+        </div>
+
+        {/* ─── Desktop: 2-column grid (original layout) ────────── */}
         <div className="grid gap-6 lg:grid-cols-[minmax(0,7fr)_minmax(0,3fr)] lg:items-start">
           {/* Left — live preview + customization */}
-          <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-4 lg:gap-6">
+            {/* Preview canvas */}
             <motion.div
               animate={{ backgroundColor: theme.style.canvas }}
               transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
               style={{
                 background: theme.style.canvasPattern ?? theme.style.canvas,
               }}
-              className="flex justify-center rounded-[24px] p-3 ring-1 ring-black/5 sm:p-12"
+              className="flex justify-center rounded-[20px] lg:rounded-[24px] p-4 sm:p-8 lg:p-12 ring-1 ring-black/5"
             >
               <ThemePreview
                 theme={theme}
@@ -70,10 +88,26 @@ export default function ThemeStudioExperience() {
               customization={customization}
               onChange={updateCustomization}
             />
+
+            {/* Mobile-only footer */}
+            <div className="lg:hidden flex items-center justify-between bg-white dark:bg-[#18181b] rounded-[20px] p-4 shadow-sm border border-[#E5E7EB] dark:border-[#2a2a2e] w-full gap-3">
+              <button
+                onClick={() => router.push("/template")}
+                className="px-4 py-2.5 rounded-xl border border-[#E5E7EB] dark:border-[#2a2a2e] text-[13px] font-semibold text-[#111111] dark:text-[#f4f4f5] bg-white dark:bg-[#18181b] hover:bg-gray-50 dark:hover:bg-[#232327] transition-colors whitespace-nowrap"
+              >
+                Back
+              </button>
+              <button
+                onClick={handleContinue}
+                className="flex-1 px-5 py-2.5 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] dark:bg-[#6366F1] dark:hover:bg-[#4F46E5] text-[13px] font-semibold text-white transition-colors shadow-sm text-center whitespace-nowrap"
+              >
+                Continue
+              </button>
+            </div>
           </div>
 
-          {/* Right — theme selector (scrollable) + Footer */}
-          <div className="lg:sticky lg:top-24 flex flex-col lg:max-h-[calc(100vh-7rem)] justify-between h-full">
+          {/* Right — theme selector (desktop only) + Footer */}
+          <div className="hidden lg:flex lg:flex-col lg:sticky lg:top-24 lg:max-h-[calc(100vh-7rem)] justify-between h-full">
             <div className="flex flex-col min-h-0">
               {/* Header inside the sidebar */}
               <div className="flex flex-col gap-1 mb-5">
@@ -89,7 +123,7 @@ export default function ThemeStudioExperience() {
                 </p>
               </div>
 
-              <h2 className="mb-3 text-[13px] font-semibold uppercase tracking-[0.08em] text-[#6B7280]">
+              <h2 className="mb-3 text-[13px] font-semibold uppercase tracking-[0.08em] text-[#6B7280] dark:text-[#a1a1aa]">
                 Themes
               </h2>
               <div className="-mr-1 pr-1 lg:max-h-[calc(100vh-17rem)] lg:overflow-y-auto">
@@ -97,7 +131,7 @@ export default function ThemeStudioExperience() {
               </div>
             </div>
 
-            {/* Consistent Footer for Theme */}
+            {/* Desktop Footer */}
             <div className="mt-6 flex items-center justify-between bg-white dark:bg-[#18181b] rounded-[24px] p-5 shadow-sm border border-[#E5E7EB] dark:border-[#2a2a2e] w-full gap-3">
               <button
                 onClick={() => router.push("/template")}

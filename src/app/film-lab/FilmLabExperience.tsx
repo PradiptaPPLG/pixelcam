@@ -107,8 +107,73 @@ export default function FilmLabExperience() {
   }
 
   return (
-    <section className="flex-1 bg-[#FAFAFA] py-8 sm:py-12">
+    <section className="flex-1 bg-[#FAFAFA] dark:bg-[#0D0D0F] py-6 sm:py-8 lg:py-12">
       <Container size="xl">
+        {/* ─── Mobile-only header ─────────────────────────────── */}
+        <div className="lg:hidden mb-4">
+          <span className="flex items-center gap-1.5 text-[12px] font-semibold uppercase tracking-[0.08em] text-[#6B7280] dark:text-[#a1a1aa] mb-1">
+            Film Lab
+          </span>
+          <h1 className="text-[22px] font-semibold tracking-[-0.02em] text-[#111111] dark:text-[#f4f4f5]">
+            Choose a Filter
+          </h1>
+        </div>
+
+        {/* ─── Mobile-only: Filter selector (horizontal pills) ─── */}
+        <div className="lg:hidden mb-3">
+          <FilterSidebar
+            selectedId={selectedId}
+            onSelect={selectFilter}
+            firstPhoto={photos[0]}
+          />
+        </div>
+
+        {/* ─── Mobile-only: Intensity slider ─────────────────────── */}
+        <div className="lg:hidden">
+          <AnimatePresence>
+            {!isOriginal && (
+              <motion.div
+                key="intensity-slider-mobile"
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 8 }}
+                transition={{ duration: 0.22, ease: "easeOut" }}
+                className="mb-4 rounded-2xl border border-[#E5E7EB] dark:border-[#2a2a2e] bg-white dark:bg-[#18181b] p-4 shadow-sm"
+              >
+                <div className="mb-3 flex items-center justify-between">
+                  <span className="text-xs font-semibold uppercase tracking-wider text-[#111111] dark:text-[#f4f4f5]">
+                    Filter Intensity
+                  </span>
+                  <span className="inline-flex items-center rounded-full bg-[#4F46E5]/10 px-2.5 py-0.5 text-xs font-bold text-[#4F46E5] dark:text-[#818cf8]">
+                    {Math.round(intensity)}%
+                  </span>
+                </div>
+                <div className="relative flex items-center py-1">
+                  <input
+                    type="range" min="0" max="100" step="1" value={intensity}
+                    onChange={(e) => handleIntensityChange(Number(e.target.value))}
+                    className="h-2 w-full cursor-pointer appearance-none rounded-lg accent-[#4F46E5]"
+                    style={{ background: `linear-gradient(to right, #4F46E5 0%, #4F46E5 ${intensity}%, #2a2a2e ${intensity}%, #2a2a2e 100%)` }}
+                  />
+                </div>
+                <div className="mt-3 flex items-center gap-1.5">
+                  {[25, 50, 75, 100].map((val) => (
+                    <button key={val} type="button" onClick={() => handleIntensityChange(val)}
+                      className={`flex-1 rounded-lg py-1 text-[11px] font-semibold transition-all ${
+                        Math.round(intensity) === val
+                          ? "bg-[#111111] dark:bg-white text-white dark:text-[#111111] shadow-sm"
+                          : "bg-[#F3F4F6] dark:bg-[#232327] text-[#6B7280] dark:text-[#a1a1aa] hover:bg-[#E5E7EB] dark:hover:bg-[#2a2a2e]"
+                      }`}>
+                      {val}%
+                    </button>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+
+        {/* ─── Desktop: 2-column grid (original layout) ────────── */}
         <div className="grid gap-6 lg:grid-cols-[minmax(0,7fr)_minmax(0,3fr)] lg:items-start">
           {/* Left — live preview */}
           <FilterPreview
@@ -119,8 +184,8 @@ export default function FilmLabExperience() {
             intensity={intensity}
           />
 
-          {/* Right — Film Lab panel */}
-          <div className="flex flex-col gap-3 lg:sticky lg:top-24 lg:max-h-[calc(100vh-7rem)]">
+          {/* Right — Film Lab panel (desktop only) */}
+          <div className="hidden lg:flex lg:flex-col gap-3 lg:sticky lg:top-24 lg:max-h-[calc(100vh-7rem)]">
             <FilmHeader />
 
             {/* Scrollable filter card list */}
@@ -132,7 +197,7 @@ export default function FilmLabExperience() {
               />
             </div>
 
-            {/* ── Intensity slider — always visible, OUTSIDE the scroll area ── */}
+            {/* Intensity slider */}
             <AnimatePresence>
               {!isOriginal && (
                 <motion.div
@@ -151,37 +216,22 @@ export default function FilmLabExperience() {
                       {Math.round(intensity)}%
                     </span>
                   </div>
-
-                  {/* Slider track */}
                   <div className="relative flex items-center py-1">
                     <input
-                      id="filter-intensity"
-                      type="range"
-                      min="0"
-                      max="100"
-                      step="1"
-                      value={intensity}
+                      id="filter-intensity" type="range" min="0" max="100" step="1" value={intensity}
                       onChange={(e) => handleIntensityChange(Number(e.target.value))}
                       className="h-2 w-full cursor-pointer appearance-none rounded-lg accent-[#4F46E5] focus:outline-none focus:ring-2 focus:ring-[#4F46E5]/40"
-                      style={{
-                        background: `linear-gradient(to right, #4F46E5 0%, #4F46E5 ${intensity}%, #2a2a2e ${intensity}%, #2a2a2e 100%)`,
-                      }}
+                      style={{ background: `linear-gradient(to right, #4F46E5 0%, #4F46E5 ${intensity}%, #2a2a2e ${intensity}%, #2a2a2e 100%)` }}
                     />
                   </div>
-
-                  {/* Quick preset buttons */}
                   <div className="mt-3 flex items-center gap-1.5">
                     {[25, 50, 75, 100].map((val) => (
-                      <button
-                        key={val}
-                        type="button"
-                        onClick={() => handleIntensityChange(val)}
+                      <button key={val} type="button" onClick={() => handleIntensityChange(val)}
                         className={`flex-1 rounded-lg py-1 text-[11px] font-semibold transition-all ${
                           Math.round(intensity) === val
                             ? "bg-[#111111] dark:bg-white text-white dark:text-[#111111] shadow-sm"
                             : "bg-[#F3F4F6] dark:bg-[#232327] text-[#6B7280] dark:text-[#a1a1aa] hover:bg-[#E5E7EB] dark:hover:bg-[#2a2a2e] hover:text-[#111111] dark:hover:text-white"
-                        }`}
-                      >
+                        }`}>
                         {val}%
                       </button>
                     ))}
@@ -195,6 +245,14 @@ export default function FilmLabExperience() {
               onContinue={() => router.push("/stickers")}
             />
           </div>
+        </div>
+
+        {/* Mobile-only footer */}
+        <div className="lg:hidden mt-4">
+          <FilterFooter
+            onBack={() => router.push(templateId ? "/template" : "/theme")}
+            onContinue={() => router.push("/stickers")}
+          />
         </div>
       </Container>
     </section>

@@ -140,12 +140,35 @@ export default function StickersExperience() {
       <div className="absolute inset-0 bg-[#F9FAFB] dark:bg-[#0D0D0F]" />
 
       <Container className="relative h-full flex flex-col lg:flex-row lg:overflow-hidden">
+        {/* ─── Mobile-only header ─────────────────────────────── */}
+        <div className="lg:hidden pt-6 pb-2 flex flex-col gap-1 text-center items-center">
+          <span className="flex items-center gap-1.5 text-[12px] font-semibold uppercase tracking-[0.08em] text-[#6B7280] dark:text-[#a1a1aa]">
+            <Clapperboard className="h-3.5 w-3.5" aria-hidden="true" />
+            Decorate
+          </span>
+          <h1 className="text-[22px] font-semibold tracking-[-0.02em] text-[#111111] dark:text-[#f4f4f5]">
+            Stickers
+          </h1>
+        </div>
+
+        {/* ─── Mobile-only: Sticker sidebar ────────────────────── */}
+        <div className="lg:hidden px-0 pb-3">
+          <div className="min-h-[260px] max-h-[280px]">
+            <StickerSidebar
+              onAddSticker={handleAddSticker}
+              stickerCount={placements.length}
+              maxStickers={MAX_STICKERS}
+            />
+          </div>
+        </div>
+
         {/* Left: Canvas Area */}
-        <div 
-          className="flex-1 flex flex-col items-center pt-8 pb-12 lg:py-12 lg:overflow-y-auto hide-scrollbar"
+        <div
+          className="flex-1 flex flex-col items-center pt-4 pb-4 lg:pt-8 lg:pb-12 lg:py-12 lg:overflow-y-auto hide-scrollbar"
           onClick={handleCanvasClick}
         >
-          <div className="flex flex-col gap-1 text-center items-center">
+          {/* Desktop-only header */}
+          <div className="hidden lg:flex flex-col gap-1 text-center items-center">
             <span className="flex items-center gap-1.5 text-[13px] font-semibold uppercase tracking-[0.08em] text-[#6B7280] dark:text-[#a1a1aa]">
               <Clapperboard className="h-3.5 w-3.5" aria-hidden="true" />
               Decorate
@@ -158,7 +181,7 @@ export default function StickersExperience() {
             </p>
           </div>
 
-          <div className="mt-8 relative max-w-full">
+          <div className="mt-4 lg:mt-8 relative max-w-full">
             <InteractivePreviewCanvas
               theme={themeState.themeId}
               customization={themeState.customization}
@@ -173,9 +196,9 @@ export default function StickersExperience() {
           </div>
         </div>
 
-        {/* Right: Sidebar / Controls */}
-        <div className="w-full lg:w-[440px] flex-shrink-0 lg:h-full lg:overflow-y-auto hide-scrollbar pb-safe">
-          <div className="p-4 lg:p-6 lg:pl-0 h-full flex flex-col">
+        {/* Right: Sidebar / Controls (desktop only) */}
+        <div className="hidden lg:flex w-full lg:w-[440px] flex-shrink-0 lg:h-full lg:overflow-y-auto hide-scrollbar pb-safe">
+          <div className="p-4 lg:p-6 lg:pl-0 h-full flex flex-col w-full">
             <div className="flex-1 min-h-[280px] lg:min-h-[400px] mb-6">
               <StickerSidebar
                 onAddSticker={handleAddSticker}
@@ -184,56 +207,61 @@ export default function StickersExperience() {
               />
             </div>
 
-            {/* Custom Footer for Stickers (Skip/Continue) */}
+            {/* Footer */}
             <div className="flex items-center justify-between bg-white dark:bg-[#18181b] rounded-[24px] p-5 shadow-sm border border-[#E5E7EB] dark:border-[#2a2a2e] w-full gap-3">
-              {/* Left: Back Button */}
               <button
                 onClick={() => router.push("/film-lab")}
                 className="px-4 py-2.5 rounded-xl border border-[#E5E7EB] dark:border-[#2a2a2e] text-[13px] font-semibold text-[#111111] dark:text-[#f4f4f5] bg-white dark:bg-[#18181b] hover:bg-gray-50 dark:hover:bg-[#232327] transition-colors whitespace-nowrap"
               >
                 Back
               </button>
-              
-              {/* Middle: Undo, Delete All, Redo */}
               <div className="flex items-center gap-1.5 justify-center flex-1">
-                <button
-                  onClick={handleUndo}
-                  disabled={historyIndex <= 0}
-                  className="p-2.5 rounded-xl border border-[#E5E7EB] dark:border-[#2a2a2e] bg-white dark:bg-[#18181b] text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-[#232327] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
-                  title="Undo"
-                >
+                <button onClick={handleUndo} disabled={historyIndex <= 0}
+                  className="p-2.5 rounded-xl border border-[#E5E7EB] dark:border-[#2a2a2e] bg-white dark:bg-[#18181b] text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-[#232327] transition-colors disabled:opacity-40 disabled:cursor-not-allowed" title="Undo">
                   <Undo2 className="w-4 h-4" />
                 </button>
-
-                <button
-                  onClick={handleDeleteAll}
-                  disabled={placements.length === 0}
-                  className="flex items-center gap-1.5 px-3 py-2.5 rounded-xl border border-red-200 dark:border-red-950/40 bg-red-50 dark:bg-red-950/20 text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-950/40 text-[12px] font-semibold transition-colors disabled:opacity-40 disabled:cursor-not-allowed whitespace-nowrap"
-                  title="Delete All Stickers"
-                >
+                <button onClick={handleDeleteAll} disabled={placements.length === 0}
+                  className="flex items-center gap-1.5 px-3 py-2.5 rounded-xl border border-red-200 dark:border-red-950/40 bg-red-50 dark:bg-red-950/20 text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-950/40 text-[12px] font-semibold transition-colors disabled:opacity-40 disabled:cursor-not-allowed whitespace-nowrap" title="Delete All Stickers">
                   <Trash2 className="w-3.5 h-3.5" />
                   <span className="hidden sm:inline">Delete All</span>
                 </button>
-
-                <button
-                  onClick={handleRedo}
-                  disabled={historyIndex >= history.length - 1}
-                  className="p-2.5 rounded-xl border border-[#E5E7EB] dark:border-[#2a2a2e] bg-white dark:bg-[#18181b] text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-[#232327] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
-                  title="Redo"
-                >
+                <button onClick={handleRedo} disabled={historyIndex >= history.length - 1}
+                  className="p-2.5 rounded-xl border border-[#E5E7EB] dark:border-[#2a2a2e] bg-white dark:bg-[#18181b] text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-[#232327] transition-colors disabled:opacity-40 disabled:cursor-not-allowed" title="Redo">
                   <Redo2 className="w-4 h-4" />
                 </button>
               </div>
-
-              {/* Right: Skip/Continue Button */}
-              <button
-                onClick={handleContinue}
-                className="px-5 py-2.5 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] dark:bg-[#6366F1] dark:hover:bg-[#4F46E5] text-[13px] font-semibold text-white transition-colors shadow-sm min-w-[80px] text-center whitespace-nowrap"
-              >
+              <button onClick={handleContinue}
+                className="px-5 py-2.5 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] dark:bg-[#6366F1] dark:hover:bg-[#4F46E5] text-[13px] font-semibold text-white transition-colors shadow-sm min-w-[80px] text-center whitespace-nowrap">
                 {placements.length === 0 ? "Skip" : "Continue"}
               </button>
             </div>
           </div>
+        </div>
+
+        {/* Mobile-only footer (fixed at bottom) */}
+        <div className="lg:hidden flex items-center justify-between bg-white dark:bg-[#18181b] rounded-[20px] mx-0 mb-4 p-4 shadow-sm border border-[#E5E7EB] dark:border-[#2a2a2e] gap-2">
+          <button onClick={() => router.push("/film-lab")}
+            className="px-3 py-2 rounded-xl border border-[#E5E7EB] dark:border-[#2a2a2e] text-[12px] font-semibold text-[#111111] dark:text-[#f4f4f5] bg-white dark:bg-[#18181b] hover:bg-gray-50 dark:hover:bg-[#232327] transition-colors whitespace-nowrap">
+            Back
+          </button>
+          <div className="flex items-center gap-1.5">
+            <button onClick={handleUndo} disabled={historyIndex <= 0}
+              className="p-2 rounded-xl border border-[#E5E7EB] dark:border-[#2a2a2e] bg-white dark:bg-[#18181b] text-gray-700 dark:text-gray-300 disabled:opacity-40" title="Undo">
+              <Undo2 className="w-3.5 h-3.5" />
+            </button>
+            <button onClick={handleDeleteAll} disabled={placements.length === 0}
+              className="p-2 rounded-xl border border-red-200 dark:border-red-950/40 bg-red-50 dark:bg-red-950/20 text-red-600 dark:text-red-400 disabled:opacity-40" title="Delete All">
+              <Trash2 className="w-3.5 h-3.5" />
+            </button>
+            <button onClick={handleRedo} disabled={historyIndex >= history.length - 1}
+              className="p-2 rounded-xl border border-[#E5E7EB] dark:border-[#2a2a2e] bg-white dark:bg-[#18181b] text-gray-700 dark:text-gray-300 disabled:opacity-40" title="Redo">
+              <Redo2 className="w-3.5 h-3.5" />
+            </button>
+          </div>
+          <button onClick={handleContinue}
+            className="flex-1 px-4 py-2 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] dark:bg-[#6366F1] text-[12px] font-semibold text-white transition-colors text-center whitespace-nowrap">
+            {placements.length === 0 ? "Skip" : "Continue"}
+          </button>
         </div>
       </Container>
     </section>
