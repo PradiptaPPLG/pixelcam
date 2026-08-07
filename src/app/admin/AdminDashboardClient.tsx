@@ -66,6 +66,15 @@ function formatTime(iso: string) {
   });
 }
 
+/** Format a number into compact K/M notation, e.g. 2583 → 2.6K */
+function formatNum(n: number | string): string {
+  if (typeof n === "string") return n; // already formatted (e.g. avgViewsPerSession)
+  if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1).replace(/\.0$/, "")}M`;
+  if (n >= 10_000)    return `${(n / 1_000).toFixed(1).replace(/\.0$/, "")}K`;
+  if (n >= 1_000)     return `${(n / 1_000).toFixed(1).replace(/\.0$/, "")}K`;
+  return n.toLocaleString();
+}
+
 // ──────────────────────────────────────────────────────────────
 // Stat Card Component
 // ──────────────────────────────────────────────────────────────
@@ -88,7 +97,7 @@ function StatCard({
         </div>
       </div>
       <p className="text-2xl font-bold text-[#111111] dark:text-[#f4f4f5] tracking-tight">
-        {typeof value === "number" ? value.toLocaleString() : value}
+        {typeof value === "number" ? formatNum(value) : value}
       </p>
       {sub && (
         <p className="text-xs text-[#9ca3af] dark:text-[#71717a] mt-1">
@@ -117,8 +126,8 @@ function BarChart({ data, type = "default" }: { data: Array<{ label: string; cou
               style={{ width: `${(item.count / max) * 100}%` }}
             />
           </div>
-          <span className="w-8 text-right text-xs font-semibold text-[#111111] dark:text-[#f4f4f5]">
-            {item.count}
+          <span className="w-10 text-right text-xs font-semibold text-[#111111] dark:text-[#f4f4f5]">
+            {formatNum(item.count)}
           </span>
         </div>
       ))}
