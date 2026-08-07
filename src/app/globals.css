@@ -293,3 +293,14 @@ body,
 .dark .hover\:bg-\[\#F5F5F5\]:hover, .dark .hover\:bg-\[\#f5f5f5\]:hover { background-color: #232327; }
 .dark .hover\:bg-\[\#FAFAFA\]:hover, .dark .hover\:bg-\[\#fafafa\]:hover { background-color: #18181b; }
 .dark .hover\:bg-\[\#EEEEEE\]:hover, .dark .hover\:bg-\[\#eeeeee\]:hover { background-color: #2a2a2e; }
+
+/* ────────────────────────────────────────────────────────────
+   UTILITY — Hide scrollbar while keeping scroll behaviour
+   ------------------------------------------------------------ */
+.hide-scrollbar {
+  scrollbar-width: none;        /* Firefox */
+  -ms-overflow-style: none;     /* IE / Edge legacy */
+}
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;                /* Chrome / Safari / Opera */
+}

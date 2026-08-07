@@ -15,8 +15,69 @@ import { getThemeStateSnapshot } from "@/utils/theme";
 import { getFilterStateSnapshot } from "@/utils/filter";
 import { getSessionPhotosSnapshot } from "@/utils/session";
 import { Clapperboard, Undo2, Redo2, Trash2 } from "lucide-react";
+import { STICKER_CATEGORIES } from "@/data/stickersData";
 
 const MAX_STICKERS = 10;
+
+/** Compact horizontal sticker picker — used only on mobile */
+function MobileStickerPicker({
+  onAddSticker,
+  stickerCount,
+  maxStickers,
+}: {
+  onAddSticker: (url: string) => void;
+  stickerCount: number;
+  maxStickers: number;
+}) {
+  const [activeCategory, setActiveCategory] = useState(STICKER_CATEGORIES[0].id);
+  const activeCat = STICKER_CATEGORIES.find((c) => c.id === activeCategory)!;
+
+  return (
+    <div className="lg:hidden mb-3 rounded-[20px] bg-white dark:bg-[#18181b] border border-[#E5E7EB] dark:border-[#2a2a2e] shadow-sm overflow-hidden">
+      {/* Count badge */}
+      <div className="flex items-center justify-between px-4 pt-3 pb-2">
+        <span className="text-[13px] font-semibold text-[#111111] dark:text-[#f4f4f5]">Stickers</span>
+        <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-indigo-50 dark:bg-indigo-950/40 text-[#4F46E5] dark:text-[#818CF8]">
+          {stickerCount} / {maxStickers}
+        </span>
+      </div>
+      {/* Category tabs */}
+      <div className="flex gap-1.5 overflow-x-auto hide-scrollbar px-3 pb-2">
+        {STICKER_CATEGORIES.map((cat) => (
+          <button
+            key={cat.id}
+            onClick={() => setActiveCategory(cat.id)}
+            className={`px-3 py-1 text-[11px] font-semibold rounded-lg whitespace-nowrap transition-all ${
+              activeCategory === cat.id
+                ? "bg-[#4F46E5] text-white"
+                : "text-[#6B7280] dark:text-[#a1a1aa] bg-[#F3F4F6] dark:bg-[#232327]"
+            }`}
+          >
+            {cat.name}
+          </button>
+        ))}
+      </div>
+      {/* Horizontal sticker row */}
+      <div className="flex gap-2 overflow-x-auto hide-scrollbar px-3 pb-3 pt-1">
+        {activeCat.files.map((file) => {
+          const url = `${activeCat.path}/${file}`;
+          return (
+            <button
+              key={file}
+              onClick={() => onAddSticker(url)}
+              disabled={stickerCount >= maxStickers}
+              className="flex-shrink-0 w-14 h-14 rounded-xl bg-[#18181b] dark:bg-[#121215] border border-[#27272a] dark:border-[#222226] flex items-center justify-center p-2 hover:border-[#4F46E5] dark:hover:border-[#818CF8] transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={url} alt="Sticker" className="w-full h-full object-contain" loading="lazy" />
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 
 const generateId = () => Math.random().toString(36).substring(2, 9);
 
@@ -151,16 +212,12 @@ export default function StickersExperience() {
           </h1>
         </div>
 
-        {/* ─── Mobile-only: Sticker sidebar ────────────────────── */}
-        <div className="lg:hidden px-0 pb-3">
-          <div className="min-h-[260px] max-h-[280px]">
-            <StickerSidebar
-              onAddSticker={handleAddSticker}
-              stickerCount={placements.length}
-              maxStickers={MAX_STICKERS}
-            />
-          </div>
-        </div>
+        {/* ─── Mobile-only: Compact horizontal sticker picker ─── */}
+        <MobileStickerPicker
+          onAddSticker={handleAddSticker}
+          stickerCount={placements.length}
+          maxStickers={MAX_STICKERS}
+        />
 
         {/* Left: Canvas Area */}
         <div
