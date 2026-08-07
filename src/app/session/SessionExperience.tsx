@@ -92,7 +92,7 @@ export default function SessionExperience() {
         ) : (
           <>
             <div className="flex flex-col items-center gap-6 lg:flex-row lg:items-start lg:justify-center lg:gap-8">
-              <div className="w-full max-w-3xl">
+              <div className="flex w-full max-w-3xl flex-col items-center gap-6">
                 <LiveCamera
                   videoRef={videoRef}
                   mirrored={MIRRORED}
@@ -101,6 +101,17 @@ export default function SessionExperience() {
                 >
                   <Countdown value={session.countdownValue} />
                 </LiveCamera>
+
+                <SessionFooter
+                  phase={session.phase}
+                  photoCount={session.photoCount}
+                  countdownSeconds={session.countdownSeconds}
+                  onPhotoCount={session.setPhotoCount}
+                  onCountdownSeconds={session.setCountdownSeconds}
+                  onStart={session.start}
+                  canStart={canStart}
+                  isTemplateActive={!!templateId}
+                />
               </div>
 
               <PreviewStrip
@@ -108,17 +119,6 @@ export default function SessionExperience() {
                 total={session.photoCount}
               />
             </div>
-
-            <SessionFooter
-              phase={session.phase}
-              photoCount={session.photoCount}
-              countdownSeconds={session.countdownSeconds}
-              onPhotoCount={session.setPhotoCount}
-              onCountdownSeconds={session.setCountdownSeconds}
-              onStart={session.start}
-              canStart={canStart}
-              isTemplateActive={!!templateId}
-            />
           </>
         )}
       </Container>

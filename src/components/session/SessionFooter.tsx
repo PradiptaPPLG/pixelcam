@@ -37,11 +37,11 @@ function Segmented<T extends number>({
   onChange: (option: T) => void;
 }) {
   return (
-    <div className="flex flex-col items-center gap-2">
-      <span className="text-[12px] font-semibold uppercase tracking-[0.08em] text-[#6B7280]">
+    <div className="flex flex-col items-center gap-1 sm:gap-2">
+      <span className="text-[11px] sm:text-[12px] font-semibold uppercase tracking-[0.08em] text-[#6B7280] dark:text-[#a1a1aa]">
         {label}
       </span>
-      <div className="inline-flex gap-1 rounded-[14px] border border-[#E5E7EB] bg-white p-1">
+      <div className="inline-flex gap-0.5 rounded-[12px] sm:rounded-[14px] border border-[#E5E7EB] dark:border-[#2a2a2e] bg-white dark:bg-[#18181b] p-0.5 sm:p-1">
         {options.map((option) => {
           const active = option === value;
           return (
@@ -51,10 +51,10 @@ function Segmented<T extends number>({
               onClick={() => onChange(option)}
               aria-pressed={active}
               className={cn(
-                "h-9 min-w-11 rounded-[10px] px-3 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4F46E5] focus-visible:ring-offset-2",
+                "h-7 sm:h-9 min-w-9 sm:min-w-11 rounded-[8px] sm:rounded-[10px] px-2.5 sm:px-3 text-xs sm:text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4F46E5] focus-visible:ring-offset-2",
                 active
-                  ? "bg-[#111111] text-white"
-                  : "text-[#6B7280] hover:text-[#111111]",
+                  ? "bg-[#111111] dark:bg-white text-white dark:text-[#111111]"
+                  : "text-[#6B7280] dark:text-[#a1a1aa] hover:text-[#111111] dark:hover:text-white",
               )}
             >
               {format(option)}
@@ -93,14 +93,14 @@ export default function SessionFooter({
 
   return (
     <div className="flex flex-col items-center gap-1.5">
-      <div className="flex flex-wrap items-start justify-center gap-x-10 gap-y-1">
+      <div className="flex flex-wrap items-start justify-center gap-x-6 sm:gap-x-10 gap-y-1.5">
         {isTemplateActive ? (
-          <div className="flex flex-col items-center gap-1">
-            <span className="text-[12px] font-semibold uppercase tracking-[0.08em] text-[#6B7280]">
+          <div className="flex flex-col items-center gap-1 sm:gap-2">
+            <span className="text-[11px] sm:text-[12px] font-semibold uppercase tracking-[0.08em] text-[#6B7280] dark:text-[#a1a1aa]">
               Photos
             </span>
-            <div className="inline-flex h-11 items-center justify-center rounded-[14px] border border-[#E5E7EB] bg-white px-5 text-sm font-medium text-[#111111]">
-              {photoCount} Photos (Locked by Template)
+            <div className="inline-flex h-8 sm:h-11 items-center justify-center rounded-[12px] sm:rounded-[14px] border border-[#E5E7EB] dark:border-[#2a2a2e] bg-white dark:bg-[#18181b] px-3 sm:px-5 text-xs sm:text-sm font-medium text-[#111111] dark:text-[#f4f4f5]">
+              {photoCount} Photos (Locked)
             </div>
           </div>
         ) : (

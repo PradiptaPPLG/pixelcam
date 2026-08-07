@@ -30,11 +30,11 @@ export default function CaptureButton({
         disabled && "cursor-not-allowed opacity-40",
       )}
     >
-      <span className="absolute inset-0 rounded-full border-2 border-[#111111]/15" />
+      <span className="absolute inset-0 rounded-full border-2 border-black/15 dark:border-white/30" />
       <span
         className={cn(
-          "h-[56px] w-[56px] rounded-full bg-[#111111] transition-colors duration-150",
-          !disabled && "group-hover:bg-[#222222] group-active:bg-[#333333]",
+          "h-[56px] w-[56px] rounded-full bg-[#111111] dark:bg-white transition-colors duration-150",
+          !disabled && "group-hover:bg-[#222222] dark:group-hover:bg-[#e4e4e7] group-active:bg-[#333333] dark:group-active:bg-[#d4d4d8]",
         )}
       />
     </motion.button>

@@ -15,15 +15,15 @@ interface PreviewStripProps {
  */
 export default function PreviewStrip({ photos, total }: PreviewStripProps) {
   return (
-    <div className="w-full shrink-0 lg:w-32">
-      <ul className="flex flex-row gap-3 overflow-x-auto pb-1 lg:flex-col lg:overflow-visible lg:pb-0">
+    <div className="w-full shrink-0 lg:w-auto">
+      <ul className="flex flex-row gap-3 overflow-x-auto pb-1 lg:grid lg:grid-rows-2 lg:grid-flow-col lg:gap-3 lg:overflow-visible lg:pb-0">
         {Array.from({ length: total }, (_, index) => {
           const src = photos[index];
 
           return (
             <li
               key={index}
-              className="relative aspect-[3/4] w-24 shrink-0 overflow-hidden rounded-[14px] border border-[#E5E7EB] bg-white lg:w-full"
+              className="relative aspect-[3/4] w-24 shrink-0 overflow-hidden rounded-[14px] border border-[#E5E7EB] bg-white lg:w-28"
             >
               <AnimatePresence>
                 {src ? (
