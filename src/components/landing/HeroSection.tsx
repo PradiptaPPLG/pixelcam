@@ -301,7 +301,7 @@ export default function HeroSection() {
             <Link
               href="/booth"
               id="hero-start-session"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-[14px] bg-[#111111] text-white text-[15px] font-medium hover:bg-[#222222] active:bg-[#333333] transition-colors duration-150 shadow-[0_2px_8px_rgba(0,0,0,0.12)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4f46e5] focus-visible:ring-offset-2"
+              className="inline-flex items-center gap-1.5 sm:gap-2 px-4 sm:px-6 py-2 sm:py-3 rounded-[14px] bg-[#111111] text-white text-[13px] sm:text-[15px] font-medium hover:bg-[#222222] active:bg-[#333333] transition-colors duration-150 shadow-[0_2px_8px_rgba(0,0,0,0.12)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4f46e5] focus-visible:ring-offset-2"
             >
               Start Session
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
@@ -311,7 +311,7 @@ export default function HeroSection() {
             <Link
               href="/template"
               id="hero-browse-templates"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-[14px] bg-white border border-[#e5e7eb] text-[#111111] text-[15px] font-medium hover:bg-[#f5f5f5] active:bg-[#eeeeee] transition-colors duration-150 shadow-[var(--shadow-sm)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4f46e5] focus-visible:ring-offset-2"
+              className="inline-flex items-center gap-1.5 sm:gap-2 px-4 sm:px-6 py-2 sm:py-3 rounded-[14px] bg-white border border-[#e5e7eb] text-[#111111] text-[13px] sm:text-[15px] font-medium hover:bg-[#f5f5f5] active:bg-[#eeeeee] transition-colors duration-150 shadow-[var(--shadow-sm)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4f46e5] focus-visible:ring-offset-2"
             >
               <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true">
                 <rect x="1.5" y="1.5" width="5" height="5" rx="1" stroke="#6b7280" strokeWidth="1.2" />
@@ -325,7 +325,7 @@ export default function HeroSection() {
               id="hero-watch-demo"
               type="button"
               onClick={() => setTutorialOpen(true)}
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-[14px] bg-white border border-[#e5e7eb] text-[#111111] text-[15px] font-medium hover:bg-[#f5f5f5] active:bg-[#eeeeee] transition-colors duration-150 shadow-[var(--shadow-sm)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4f46e5] focus-visible:ring-offset-2"
+              className="inline-flex items-center gap-1.5 sm:gap-2 px-4 sm:px-6 py-2 sm:py-3 rounded-[14px] bg-white border border-[#e5e7eb] text-[#111111] text-[13px] sm:text-[15px] font-medium hover:bg-[#f5f5f5] active:bg-[#eeeeee] transition-colors duration-150 shadow-[var(--shadow-sm)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4f46e5] focus-visible:ring-offset-2"
             >
               <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true">
                 <circle cx="7.5" cy="7.5" r="6.5" stroke="#6b7280" strokeWidth="1.2" />
