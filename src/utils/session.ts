@@ -21,11 +21,17 @@ export function countdownLabel(seconds: number): string {
   return seconds === 0 ? "Off" : `${seconds}s`;
 }
 
-/** Persist the captured strip so the review route can read it. */
+/** Persist the captured strip so the review route can read it.
+ * Also clears stale editor decorations, filter and frame so the new
+ * session starts from a clean slate. */
 export function saveSessionPhotos(photos: string[]): void {
   if (typeof window === "undefined") return;
   try {
     window.sessionStorage.setItem(SESSION_PHOTOS_KEY, JSON.stringify(photos));
+    // Reset editor doc (stickers, frame, adjustments) for the new session.
+    window.sessionStorage.removeItem("pixelcam:editor-state");
+    // Reset filter so the new session starts with no filter applied.
+    window.sessionStorage.removeItem("pixelcam:filter-state");
     window.dispatchEvent(new Event("storage"));
   } catch {
     // Storage may be unavailable (private mode / quota) — fail silently.
