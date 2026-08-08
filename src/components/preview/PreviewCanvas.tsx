@@ -59,8 +59,9 @@ const PreviewCanvas = forwardRef<HTMLDivElement, PreviewCanvasProps>(
           }}
         >
           {/* Photo slots — sit beneath the overlay */}
-          {/* Using background-image + background-size:cover instead of <img objectFit>
-              because html2canvas supports background-size:cover on divs but NOT objectFit on imgs. */}
+          {/* Using background-image + background-size:contain so photos are never
+              zoomed/cropped. html2canvas supports background-size on divs but NOT
+              objectFit on imgs. backgroundColor:#000 fills any letterbox gaps. */}
           {template.slots.map((slot, i) => {
             const src = photos[i];
             return (
@@ -74,9 +75,10 @@ const PreviewCanvas = forwardRef<HTMLDivElement, PreviewCanvasProps>(
                   height: `${slot.heightPct}%`,
                   overflow: "hidden",
                   backgroundImage: src ? `url(${src})` : undefined,
-                  backgroundSize: "cover",
+                  backgroundSize: "contain",
                   backgroundPosition: "center center",
-                  backgroundColor: src ? undefined : "rgba(0,0,0,0.1)",
+                  backgroundRepeat: "no-repeat",
+                  backgroundColor: "#000000",
                 }}
               />
             );
