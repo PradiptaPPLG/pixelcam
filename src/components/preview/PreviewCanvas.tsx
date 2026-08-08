@@ -7,7 +7,6 @@ import type { StripCustomization, ThemePreset } from "@/utils/theme";
 import type { StickerPlacement } from "@/utils/sticker";
 import { getTemplateById } from "@/data/templatesData";
 import { loadTemplateId } from "@/utils/template";
-import { useCroppedTemplatePhotos } from "@/hooks/useCroppedTemplatePhotos";
 
 interface PreviewCanvasProps {
   theme: ThemePreset;
@@ -42,14 +41,6 @@ const PreviewCanvas = forwardRef<HTMLDivElement, PreviewCanvasProps>(
     const resolvedTemplateId = templateId !== undefined ? templateId : loadTemplateId();
     const template = resolvedTemplateId ? getTemplateById(resolvedTemplateId) : null;
 
-    // Pre-crop each photo to its slot's aspect ratio so html2canvas (which
-    // ignores `objectFit`) renders a cover-cropped image, not a stretched one.
-    // Must be called unconditionally to comply with React's Rules of Hooks.
-    const croppedPhotos = useCroppedTemplatePhotos(
-      photos,
-      template?.slots ?? [],
-    );
-
     if (template) {
       const contentHeight = Math.round(width / template.aspectRatio);
 
@@ -68,8 +59,10 @@ const PreviewCanvas = forwardRef<HTMLDivElement, PreviewCanvasProps>(
           }}
         >
           {/* Photo slots — sit beneath the overlay */}
+          {/* Using background-image + background-size:cover instead of <img objectFit>
+              because html2canvas supports background-size:cover on divs but NOT objectFit on imgs. */}
           {template.slots.map((slot, i) => {
-            const src = croppedPhotos[i];
+            const src = photos[i];
             return (
               <div
                 key={i}
@@ -80,32 +73,12 @@ const PreviewCanvas = forwardRef<HTMLDivElement, PreviewCanvasProps>(
                   width: `${slot.widthPct}%`,
                   height: `${slot.heightPct}%`,
                   overflow: "hidden",
-                  backgroundColor: "transparent",
+                  backgroundImage: src ? `url(${src})` : undefined,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center center",
+                  backgroundColor: src ? undefined : "rgba(0,0,0,0.1)",
                 }}
-              >
-                {src ? (
-                  /* Plain img (not next/image) so html2canvas captures it reliably. */
-                  /* eslint-disable-next-line @next/next/no-img-element */
-                  <img
-                    src={src}
-                    alt={`Photo ${i + 1}`}
-                    style={{
-                      display: "block",
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "cover",
-                    }}
-                  />
-                ) : (
-                  <div
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      backgroundColor: "rgba(0,0,0,0.1)",
-                    }}
-                  />
-                )}
-              </div>
+              />
             );
           })}
 
