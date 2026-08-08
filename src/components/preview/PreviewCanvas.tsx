@@ -7,6 +7,7 @@ import type { StripCustomization, ThemePreset } from "@/utils/theme";
 import type { StickerPlacement } from "@/utils/sticker";
 import { getTemplateById } from "@/data/templatesData";
 import { loadTemplateId } from "@/utils/template";
+import { useCroppedTemplatePhotos } from "@/hooks/useCroppedTemplatePhotos";
 
 interface PreviewCanvasProps {
   theme: ThemePreset;
@@ -41,6 +42,14 @@ const PreviewCanvas = forwardRef<HTMLDivElement, PreviewCanvasProps>(
     const resolvedTemplateId = templateId !== undefined ? templateId : loadTemplateId();
     const template = resolvedTemplateId ? getTemplateById(resolvedTemplateId) : null;
 
+    // Pre-crop each photo to its slot's aspect ratio so html2canvas (which
+    // ignores `objectFit`) renders a cover-cropped image, not a stretched one.
+    // Must be called unconditionally to comply with React's Rules of Hooks.
+    const croppedPhotos = useCroppedTemplatePhotos(
+      photos,
+      template?.slots ?? [],
+    );
+
     if (template) {
       const contentHeight = Math.round(width / template.aspectRatio);
 
@@ -60,7 +69,7 @@ const PreviewCanvas = forwardRef<HTMLDivElement, PreviewCanvasProps>(
         >
           {/* Photo slots — sit beneath the overlay */}
           {template.slots.map((slot, i) => {
-            const src = photos[i];
+            const src = croppedPhotos[i];
             return (
               <div
                 key={i}

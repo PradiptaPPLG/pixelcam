@@ -118,3 +118,63 @@ export function bakeAdjustedPhotos(
     ),
   );
 }
+
+/**
+ * Crop a photo data URL to a target aspect ratio using "cover" logic —
+ * i.e. the same behaviour as CSS `object-fit: cover`. The image is scaled
+ * so its shortest side fills the target box, then centred and cropped.
+ *
+ * html2canvas 1.x ignores `objectFit`, so we bake the crop into the data URL
+ * before rendering to guarantee the photo fills the slot without stretching.
+ *
+ * @param src        – The source image data URL.
+ * @param slotWidth  – Target slot width in pixels (used only for aspect ratio).
+ * @param slotHeight – Target slot height in pixels (used only for aspect ratio).
+ * @returns A Promise that resolves to a cropped data URL (or the original on failure).
+ */
+export function cropPhotoToCoverRatio(
+  src: string,
+  slotWidth: number,
+  slotHeight: number,
+): Promise<string> {
+  return new Promise<string>((resolve) => {
+    const image = new Image();
+    image.onload = () => {
+      const { naturalWidth: iw, naturalHeight: ih } = image;
+      const targetRatio = slotWidth / slotHeight;
+      const imageRatio = iw / ih;
+
+      let sx: number, sy: number, sw: number, sh: number;
+      if (imageRatio > targetRatio) {
+        // Image is wider than the slot → crop left/right
+        sh = ih;
+        sw = ih * targetRatio;
+        sx = (iw - sw) / 2;
+        sy = 0;
+      } else {
+        // Image is taller than the slot → crop top/bottom
+        sw = iw;
+        sh = iw / targetRatio;
+        sx = 0;
+        sy = (ih - sh) / 2;
+      }
+
+      const canvas = document.createElement("canvas");
+      canvas.width = Math.round(sw);
+      canvas.height = Math.round(sh);
+      const ctx = canvas.getContext("2d");
+      if (!ctx) {
+        resolve(src);
+        return;
+      }
+      ctx.drawImage(image, sx, sy, sw, sh, 0, 0, canvas.width, canvas.height);
+      try {
+        resolve(canvas.toDataURL("image/png"));
+      } catch {
+        resolve(src);
+      }
+    };
+    image.onerror = () => resolve(src);
+    image.src = src;
+  });
+}
