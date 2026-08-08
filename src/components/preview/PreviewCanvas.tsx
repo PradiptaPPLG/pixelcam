@@ -7,6 +7,7 @@ import type { StripCustomization, ThemePreset } from "@/utils/theme";
 import type { StickerPlacement } from "@/utils/sticker";
 import { getTemplateById } from "@/data/templatesData";
 import { loadTemplateId } from "@/utils/template";
+import { useCroppedTemplatePhotos } from "@/hooks/useCroppedTemplatePhotos";
 
 interface PreviewCanvasProps {
   theme: ThemePreset;
@@ -41,6 +42,15 @@ const PreviewCanvas = forwardRef<HTMLDivElement, PreviewCanvasProps>(
     const resolvedTemplateId = templateId !== undefined ? templateId : loadTemplateId();
     const template = resolvedTemplateId ? getTemplateById(resolvedTemplateId) : null;
 
+    // Pre-crop each photo to the true pixel aspect ratio of its slot so that
+    // html2canvas renders it correctly without stretching. Must be called
+    // unconditionally (Rules of Hooks). No-op when there is no template.
+    const croppedPhotos = useCroppedTemplatePhotos(
+      photos,
+      template?.slots ?? [],
+      template?.aspectRatio ?? 1,
+    );
+
     if (template) {
       const contentHeight = Math.round(width / template.aspectRatio);
 
@@ -59,11 +69,13 @@ const PreviewCanvas = forwardRef<HTMLDivElement, PreviewCanvasProps>(
           }}
         >
           {/* Photo slots — sit beneath the overlay */}
-          {/* Using background-image + background-size:contain so photos are never
-              zoomed/cropped. html2canvas supports background-size on divs but NOT
-              objectFit on imgs. backgroundColor:#000 fills any letterbox gaps. */}
+          {/* Pre-cropped photos (via useCroppedTemplatePhotos) are rendered with
+              explicit pixel dimensions so html2canvas captures them faithfully.
+              objectFit is retained as a visual CSS fallback only. */}
           {template.slots.map((slot, i) => {
-            const src = photos[i];
+            const src = croppedPhotos[i];
+            const slotPxW = Math.round((slot.widthPct  / 100) * width);
+            const slotPxH = Math.round((slot.heightPct / 100) * contentHeight);
             return (
               <div
                 key={i}
@@ -74,13 +86,25 @@ const PreviewCanvas = forwardRef<HTMLDivElement, PreviewCanvasProps>(
                   width: `${slot.widthPct}%`,
                   height: `${slot.heightPct}%`,
                   overflow: "hidden",
-                  backgroundImage: src ? `url(${src})` : undefined,
-                  backgroundSize: "contain",
-                  backgroundPosition: "center center",
-                  backgroundRepeat: "no-repeat",
                   backgroundColor: "#000000",
                 }}
-              />
+              >
+                {src ? (
+                  /* eslint-disable-next-line @next/next/no-img-element */
+                  <img
+                    src={src}
+                    alt={`Photo ${i + 1}`}
+                    style={{
+                      display: "block",
+                      width: slotPxW,
+                      height: slotPxH,
+                      objectFit: "cover",
+                    }}
+                  />
+                ) : (
+                  <div style={{ width: "100%", height: "100%" }} />
+                )}
+              </div>
             );
           })}
 
