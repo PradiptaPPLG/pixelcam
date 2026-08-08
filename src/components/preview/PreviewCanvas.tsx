@@ -55,7 +55,7 @@ const PreviewCanvas = forwardRef<HTMLDivElement, PreviewCanvasProps>(
             borderRadius: rounded ? 16 : 4,
             boxShadow: showShadow ? style.shadow : "none",
             overflow: "hidden",
-            backgroundColor: "#ffffff",
+            backgroundColor: "transparent",
           }}
         >
           {/* Photo slots — sit beneath the overlay */}
@@ -71,7 +71,7 @@ const PreviewCanvas = forwardRef<HTMLDivElement, PreviewCanvasProps>(
                   width: `${slot.widthPct}%`,
                   height: `${slot.heightPct}%`,
                   overflow: "hidden",
-                  backgroundColor: "#111111",
+                  backgroundColor: "transparent",
                 }}
               >
                 {src ? (

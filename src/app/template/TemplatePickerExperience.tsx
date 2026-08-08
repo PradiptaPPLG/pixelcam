@@ -6,14 +6,15 @@ import { motion, AnimatePresence } from "framer-motion";
 import Container from "@/components/ui/Container";
 import { TEMPLATE_PRESETS } from "@/data/templatesData";
 import { saveTemplateId } from "@/utils/template";
-import { LayoutTemplate, ChevronLeft, SkipForward, Check, TrendingUp, Camera } from "lucide-react";
+import { LayoutTemplate, ChevronLeft, SkipForward, Check, TrendingUp, Camera, Star } from "lucide-react";
 
 export default function TemplatePickerExperience() {
   const router = useRouter();
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
+  const officialTemplates = TEMPLATE_PRESETS.filter((t) => t.official);
   const trendingTemplates = TEMPLATE_PRESETS.filter((t) => t.trending);
-  const classicTemplates = TEMPLATE_PRESETS.filter((t) => !t.trending);
+  const classicTemplates = TEMPLATE_PRESETS.filter((t) => !t.official && !t.trending);
 
   const handlePick = (id: string) => {
     setSelectedId(id);
@@ -62,6 +63,30 @@ export default function TemplatePickerExperience() {
               <SkipForward className="w-3.5 h-3.5" />
               Skip
             </button>
+          </div>
+        </div>
+
+        {/* ── Official Section ─────────────────────────────────── */}
+        <div className="mb-10">
+          <div className="flex items-center gap-2 mb-4">
+            <Star className="w-4 h-4 text-[#6366F1] fill-[#6366F1]" />
+            <h2 className="text-[15px] font-bold text-[#111111] dark:text-[#f4f4f5] tracking-[-0.01em]">
+              Official
+            </h2>
+            <span className="text-[11px] font-semibold text-[#6366F1] bg-[#EEF2FF] dark:bg-[#4338ca]/30 px-2 py-0.5 rounded-full">
+              RPL EXPO
+            </span>
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 sm:gap-5">
+            {officialTemplates.map((template) => (
+              <TemplateCard
+                key={template.id}
+                template={template}
+                isSelected={selectedId === template.id}
+                onPick={handlePick}
+              />
+            ))}
           </div>
         </div>
 
@@ -175,9 +200,15 @@ function TemplateCard({
                 {template.description}
               </p>
             </div>
-            {/* "used" badge for trending */}
+            {/* badge for official / trending */}
             {template.usedCount && (
-              <span className="shrink-0 text-[9px] font-bold text-[#FDE68A] bg-[#92400E]/70 px-1.5 py-0.5 rounded-md whitespace-nowrap backdrop-blur-sm">
+              <span
+                className={`shrink-0 text-[9px] font-bold px-1.5 py-0.5 rounded-md whitespace-nowrap backdrop-blur-sm ${
+                  template.official
+                    ? "text-[#c7d2fe] bg-[#4338ca]/70"
+                    : "text-[#FDE68A] bg-[#92400E]/70"
+                }`}
+              >
                 {template.usedCount}
               </span>
             )}

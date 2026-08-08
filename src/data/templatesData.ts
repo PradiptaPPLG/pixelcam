@@ -29,6 +29,8 @@ export interface TemplatePreset {
   aspectRatio: number;
   /** Optional inline styles to apply to the overlay img */
   overlayStyle?: Record<string, string | number>;
+  /** If true, shown in the Official section at the very top */
+  official?: boolean;
   /** If true, shown in the Trending section at the top */
   trending?: boolean;
   /** Display label for usage count e.g. "1.5k used" */
@@ -43,6 +45,82 @@ const STRIP_3_SLOTS: PhotoSlot[] = [
 ];
 
 export const TEMPLATE_PRESETS: TemplatePreset[] = [
+  /* ── OFFICIAL ─────────────────────────────────────────────── */
+  {
+    id: "official1",
+    official: true,
+    usedCount: "Official",
+    name: "RPL EXPO — GitHub",
+    description: "Official RPL EXPO template with GitHub pixel art theme.",
+    previewSrc: "/templates/official1.png",
+    overlaySrc: "/templates/official1.png",
+    aspectRatio: 862 / 1825,
+    slots: [
+      { xPct: 19.84, yPct: 21.48, widthPct: 58.24, heightPct: 20.71 },
+      { xPct: 19.84, yPct: 44.82, widthPct: 58.24, heightPct: 20.55 },
+      { xPct: 19.84, yPct: 67.95, widthPct: 58.24, heightPct: 18.03 },
+    ],
+  },
+  {
+    id: "official2",
+    official: true,
+    usedCount: "Official",
+    name: "RPL EXPO — Arcade",
+    description: "Official RPL EXPO template with retro arcade game theme.",
+    previewSrc: "/templates/official2.png",
+    overlaySrc: "/templates/official2.png",
+    aspectRatio: 863 / 1823,
+    slots: [
+      { xPct: 14.72, yPct: 20.68, widthPct: 69.87, heightPct: 20.30 },
+      { xPct: 14.72, yPct: 44.21, widthPct: 69.76, heightPct: 19.20 },
+      { xPct: 14.72, yPct: 66.59, widthPct: 69.87, heightPct: 19.47 },
+    ],
+  },
+  {
+    id: "official3",
+    official: true,
+    usedCount: "Official",
+    name: "RPL EXPO — VS Code",
+    description: "Official RPL EXPO template with VS Code developer theme.",
+    previewSrc: "/templates/official3.png",
+    overlaySrc: "/templates/official3.png",
+    aspectRatio: 858 / 1834,
+    slots: [
+      { xPct: 20.75, yPct: 20.50, widthPct: 58.51, heightPct: 20.01 },
+      { xPct: 20.40, yPct: 43.35, widthPct: 58.86, heightPct: 20.28 },
+      { xPct: 20.40, yPct: 66.58, widthPct: 58.86, heightPct: 19.25 },
+    ],
+  },
+  {
+    id: "official4",
+    official: true,
+    usedCount: "Official",
+    name: "RPL EXPO — PC Build",
+    description: "Official RPL EXPO template with PC hardware & tech theme.",
+    previewSrc: "/templates/official4.png",
+    overlaySrc: "/templates/official4.png",
+    aspectRatio: 863 / 1822,
+    slots: [
+      { xPct: 20.51, yPct: 20.97, widthPct: 59.21, heightPct: 19.48 },
+      { xPct: 20.51, yPct: 43.41, widthPct: 59.21, heightPct: 19.26 },
+      { xPct: 20.51, yPct: 65.70, widthPct: 59.21, heightPct: 19.37 },
+    ],
+  },
+  {
+    id: "official5",
+    official: true,
+    usedCount: "Official",
+    name: "RPL EXPO — Mario",
+    description: "Official RPL EXPO template with classic Mario retro game theme.",
+    previewSrc: "/templates/official5.png",
+    overlaySrc: "/templates/official5.png",
+    aspectRatio: 836 / 1881,
+    slots: [
+      { xPct: 14.11, yPct:  9.36, widthPct: 72.97, heightPct: 21.85 },
+      { xPct: 14.11, yPct: 34.24, widthPct: 72.97, heightPct: 20.63 },
+      { xPct: 14.11, yPct: 57.89, widthPct: 72.97, heightPct: 20.20 },
+    ],
+  },
   /* ── TRENDING ─────────────────────────────────────────────── */
   {
     id: "trending1",
