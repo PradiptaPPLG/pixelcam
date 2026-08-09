@@ -96,8 +96,12 @@ const PreviewCanvas = forwardRef<HTMLDivElement, PreviewCanvasProps>(
                     alt={`Photo ${i + 1}`}
                     style={{
                       display: "block",
-                      width: slotPxW,
-                      height: slotPxH,
+                      width: slotPxW + 2,
+                      height: slotPxH + 2,
+                      position: "absolute",
+                      top: "50%",
+                      left: "50%",
+                      transform: "translate(-50%, -50%)",
                       objectFit: "cover",
                     }}
                   />

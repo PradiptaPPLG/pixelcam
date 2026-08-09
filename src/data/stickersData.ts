@@ -59,6 +59,7 @@ export const STICKER_CATEGORIES: StickerCategory[] = [
     name: "Others",
     path: "/stickers/others",
     files: [
+      "fox.webp", "taylorswift.webp",
       "10.webp", "18.webp", "22.webp", "24.webp", "30.webp", "39.webp", 
       "40.webp", "41.webp", "45.webp", "50.webp", "51.webp", "53.webp", 
       "55.webp", "56.webp", "59.webp", "60.webp", "61.webp", "62.webp",

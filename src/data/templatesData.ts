@@ -703,6 +703,60 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
       { xPct: 6.50, yPct: 58.18, widthPct: 87.05, heightPct: 24.73 },
     ],
   },
+  {
+    id: "template13",
+    name: "Rusty Filmstrip",
+    description: "Vintage film strip overlay with decorative flowers and heart.",
+    previewSrc: "/templates/template13.png",
+    overlaySrc: "/templates/template13.png",
+    aspectRatio: 736 / 1231,
+    slots: [
+      { xPct: 27.17, yPct: 2.52, widthPct: 47.15, heightPct: 21.77 },
+      { xPct: 26.90, yPct: 27.13, widthPct: 47.15, heightPct: 21.77 },
+      { xPct: 26.63, yPct: 51.67, widthPct: 47.01, heightPct: 21.69 },
+      { xPct: 25.68, yPct: 76.04, widthPct: 47.83, heightPct: 21.93 },
+    ],
+  },
+  {
+    id: "template14",
+    name: "Favorite Person",
+    description: "A dark red theme featuring vintage stamps and pins.",
+    previewSrc: "/templates/template14.png",
+    overlaySrc: "/templates/template14.png",
+    aspectRatio: 675 / 1200,
+    slots: [
+      { xPct: 21.48, yPct: 3.00, widthPct: 56.44, heightPct: 24.67 },
+      { xPct: 21.48, yPct: 29.58, widthPct: 56.15, heightPct: 24.58 },
+      { xPct: 21.48, yPct: 56.25, widthPct: 56.15, heightPct: 24.67 },
+    ],
+  },
+  {
+    id: "template15",
+    name: "Moments Ticket",
+    description: "Retro ticket layout with clip, camera, and ribbon graphics.",
+    previewSrc: "/templates/template15.png",
+    overlaySrc: "/templates/template15.png",
+    aspectRatio: 758 / 2208,
+    slots: [
+      { xPct: 11.35, yPct: 25.82, widthPct: 78.36, heightPct: 16.30 },
+      { xPct: 11.87, yPct: 43.39, widthPct: 78.10, heightPct: 16.12 },
+      { xPct: 12.93, yPct: 61.05, widthPct: 77.04, heightPct: 15.94 },
+    ],
+  },
+  {
+    id: "template16",
+    name: "Blue Clipboard",
+    description: "Cute clipboard theme with stars, buttons, and retro tickets.",
+    previewSrc: "/templates/template16.png",
+    overlaySrc: "/templates/template16.png",
+    aspectRatio: 580 / 2616,
+    slots: [
+      { xPct: 11.72, yPct: 17.13, widthPct: 78.62, heightPct: 17.43 },
+      { xPct: 10.69, yPct: 35.47, widthPct: 78.62, heightPct: 17.43 },
+      { xPct: 9.66, yPct: 53.75, widthPct: 78.62, heightPct: 17.35 },
+      { xPct: 8.62, yPct: 72.02, widthPct: 78.62, heightPct: 17.51 },
+    ],
+  },
 ];
 
 /** Convenience: find a template by id, or null if not found. */
