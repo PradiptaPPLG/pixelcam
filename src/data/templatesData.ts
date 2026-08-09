@@ -47,6 +47,21 @@ const STRIP_3_SLOTS: PhotoSlot[] = [
 ];
 
 export const TEMPLATE_PRESETS: TemplatePreset[] = [
+  {
+    id: "lily",
+    trending: true,
+    usedCount: "1.7k used",
+    name: "Lily",
+    description: "Music player glassmorphism photo strip.",
+    previewSrc: "/templates/Lily.png",
+    overlaySrc: "/templates/Lily.png",
+    aspectRatio: 901 / 1352,
+    slots: [
+      { xPct: 6.55, yPct: 15.31, widthPct: 86.90, heightPct: 17.90 },
+      { xPct: 6.55, yPct: 36.39, widthPct: 86.90, heightPct: 17.90 },
+      { xPct: 6.55, yPct: 57.47, widthPct: 86.90, heightPct: 17.90 },
+    ]
+  },
   /* ── OFFICIAL ─────────────────────────────────────────────── */
   {
     id: "official1",
@@ -546,28 +561,13 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
   },
   /* ── CLASSIC ──────────────────────────────────────────────── */
   {
-    id: "lily",
-    trending: true,
-    usedCount: "0 used",
-    name: "Lily",
-    description: "Music player glassmorphism photo strip.",
-    previewSrc: "/templates/Lily.png",
-    overlaySrc: "/templates/Lily.png",
-    aspectRatio: 901 / 1352,
-    slots: [
-      { xPct: 6.55, yPct: 15.31, widthPct: 86.90, heightPct: 17.90 },
-      { xPct: 6.55, yPct: 36.39, widthPct: 86.90, heightPct: 17.90 },
-      { xPct: 6.55, yPct: 57.47, widthPct: 86.90, heightPct: 17.90 },
-    ]
-  },
-  {
     id: "spidey-red",
     exclusive: true,
     usedCount: "0 used",
     name: "Amazing Spider-Man Red",
     description: "The Amazing Spider-Man comic photo strip — red edition.",
-    previewSrc: "/templates/Spidey-red.png",
-    overlaySrc: "/templates/Spidey-red.png",
+    previewSrc: "/templates/spidey-red.png",
+    overlaySrc: "/templates/spidey-red.png",
     aspectRatio: 600 / 1800,
     slots: [
       { xPct: 7.00, yPct: 6.44,  widthPct: 84.50, heightPct: 21.67 },
@@ -581,8 +581,8 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     usedCount: "0 used",
     name: "Amazing Spider-Man Black",
     description: "The Amazing Spider-Man comic photo strip — black edition.",
-    previewSrc: "/templates/spidey-black.png",
-    overlaySrc: "/templates/spidey-black.png",
+    previewSrc: "/templates/Spidey-black.png",
+    overlaySrc: "/templates/Spidey-black.png",
     aspectRatio: 600 / 1800,
     slots: [
       { xPct: 7.17, yPct: 6.50,  widthPct: 84.17, heightPct: 21.56 },

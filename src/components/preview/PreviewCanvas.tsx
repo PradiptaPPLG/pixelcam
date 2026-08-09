@@ -128,6 +128,8 @@ const PreviewCanvas = forwardRef<HTMLDivElement, PreviewCanvasProps>(
               pointerEvents: "none",
               ...template.overlayStyle,
             }}
+            onContextMenu={(e) => e.preventDefault()}
+            draggable="false"
           />
 
           {/* Render Stickers */}
