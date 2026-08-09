@@ -276,7 +276,9 @@ export default function HeroSection() {
               stagger={0.04}
               threshold={0.1}
               triggerOnce={true}
-              triggerOnHover={true}
+              triggerOnHover={false}
+              loop={true}
+              loopDelay={5}
               respectReducedMotion={true}
               style={{ fontSize: "clamp(1.65rem, 5vw, 2.6rem)", lineHeight: "1.2", letterSpacing: "-0.02em" }}
             />
