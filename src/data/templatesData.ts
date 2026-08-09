@@ -33,6 +33,8 @@ export interface TemplatePreset {
   official?: boolean;
   /** If true, shown in the Trending section at the top */
   trending?: boolean;
+  /** If true, shown in the Exclusive section */
+  exclusive?: boolean;
   /** Display label for usage count e.g. "1.5k used" */
   usedCount?: string;
 }
@@ -543,6 +545,97 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     ]
   },
   /* ── CLASSIC ──────────────────────────────────────────────── */
+  {
+    id: "lily",
+    trending: true,
+    usedCount: "0 used",
+    name: "Lily",
+    description: "Music player glassmorphism photo strip.",
+    previewSrc: "/templates/Lily.png",
+    overlaySrc: "/templates/Lily.png",
+    aspectRatio: 901 / 1352,
+    slots: [
+      { xPct: 6.55, yPct: 15.31, widthPct: 86.90, heightPct: 17.90 },
+      { xPct: 6.55, yPct: 36.39, widthPct: 86.90, heightPct: 17.90 },
+      { xPct: 6.55, yPct: 57.47, widthPct: 86.90, heightPct: 17.90 },
+    ]
+  },
+  {
+    id: "spidey-red",
+    exclusive: true,
+    usedCount: "0 used",
+    name: "Amazing Spider-Man Red",
+    description: "The Amazing Spider-Man comic photo strip — red edition.",
+    previewSrc: "/templates/Spidey-red.png",
+    overlaySrc: "/templates/Spidey-red.png",
+    aspectRatio: 600 / 1800,
+    slots: [
+      { xPct: 7.00, yPct: 6.44,  widthPct: 84.50, heightPct: 21.67 },
+      { xPct: 7.00, yPct: 31.33, widthPct: 84.50, heightPct: 22.00 },
+      { xPct: 7.00, yPct: 56.28, widthPct: 84.50, heightPct: 22.06 },
+    ]
+  },
+  {
+    id: "spidey-black",
+    exclusive: true,
+    usedCount: "0 used",
+    name: "Amazing Spider-Man Black",
+    description: "The Amazing Spider-Man comic photo strip — black edition.",
+    previewSrc: "/templates/spidey-black.png",
+    overlaySrc: "/templates/spidey-black.png",
+    aspectRatio: 600 / 1800,
+    slots: [
+      { xPct: 7.17, yPct: 6.50,  widthPct: 84.17, heightPct: 21.56 },
+      { xPct: 7.17, yPct: 31.39, widthPct: 84.17, heightPct: 21.89 },
+      { xPct: 7.17, yPct: 56.33, widthPct: 84.17, heightPct: 21.94 },
+    ]
+  },
+  {
+    id: "spiderman-bnd-01",
+    exclusive: true,
+    usedCount: "0 used",
+    name: "Spider-Man Brand New Day 01",
+    description: "Spider-Man Brand New Day photo strip — red classic.",
+    previewSrc: "/templates/Spiderman brand new day 01.png",
+    overlaySrc: "/templates/Spiderman brand new day 01.png",
+    aspectRatio: 1150 / 2048,
+    slots: [
+      { xPct: 22.35, yPct: 20.07, widthPct: 55.39, heightPct: 17.97 },
+      { xPct: 22.35, yPct: 44.24, widthPct: 55.30, heightPct: 17.92 },
+      { xPct: 22.35, yPct: 68.36, widthPct: 55.30, heightPct: 17.82 },
+    ]
+  },
+  {
+    id: "spiderman-bnd-02",
+    exclusive: true,
+    usedCount: "0 used",
+    name: "Spider-Man Brand New Day 02",
+    description: "Spider-Man Brand New Day photo strip — red rounded.",
+    previewSrc: "/templates/Spiderman brand new day 02.png",
+    overlaySrc: "/templates/Spiderman brand new day 02.png",
+    aspectRatio: 1150 / 2048,
+    slots: [
+      { xPct: 23.13, yPct: 18.85, widthPct: 52.78, heightPct: 16.70 },
+      { xPct: 23.13, yPct: 42.97, widthPct: 52.78, heightPct: 16.70 },
+      { xPct: 23.13, yPct: 67.09, widthPct: 52.78, heightPct: 16.70 },
+    ]
+  },
+  {
+    id: "spiderman-bnd-03",
+    exclusive: true,
+    usedCount: "0 used",
+    name: "Spider-Man Brand New Day 03",
+    description: "Spider-Man Brand New Day photo strip — blue orange.",
+    previewSrc: "/templates/Spiderman brand new day 03.png",
+    overlaySrc: "/templates/Spiderman brand new day 03.png",
+    aspectRatio: 1150 / 2048,
+    slots: [
+      { xPct: 27.83, yPct: 17.97, widthPct: 44.35, heightPct: 17.82 },
+      { xPct: 27.83, yPct: 41.85, widthPct: 44.35, heightPct: 17.82 },
+      { xPct: 27.83, yPct: 65.72, widthPct: 44.35, heightPct: 17.82 },
+    ]
+  },
+
   {
     id: "template1",
     name: "Airmail Love",

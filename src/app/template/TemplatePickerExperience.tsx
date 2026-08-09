@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Container from "@/components/ui/Container";
 import { TEMPLATE_PRESETS } from "@/data/templatesData";
 import { saveTemplateId } from "@/utils/template";
-import { LayoutTemplate, ChevronLeft, SkipForward, Check, TrendingUp, Camera, Star } from "lucide-react";
+import { LayoutTemplate, ChevronLeft, SkipForward, Check, TrendingUp, Camera, Star, Sparkles } from "lucide-react";
 
 export default function TemplatePickerExperience() {
   const router = useRouter();
@@ -14,7 +14,8 @@ export default function TemplatePickerExperience() {
 
   const officialTemplates = TEMPLATE_PRESETS.filter((t) => t.official);
   const trendingTemplates = TEMPLATE_PRESETS.filter((t) => t.trending);
-  const classicTemplates = TEMPLATE_PRESETS.filter((t) => !t.official && !t.trending);
+  const exclusiveTemplates = TEMPLATE_PRESETS.filter((t) => t.exclusive);
+  const classicTemplates = TEMPLATE_PRESETS.filter((t) => !t.official && !t.trending && !t.exclusive);
 
   const handlePick = (id: string) => {
     setSelectedId(id);
@@ -113,6 +114,32 @@ export default function TemplatePickerExperience() {
             ))}
           </div>
         </div>
+
+        {/* ── Exclusive Section ────────────────────────────────── */}
+        {exclusiveTemplates.length > 0 && (
+          <div className="mb-10">
+            <div className="flex items-center gap-2 mb-4">
+              <Sparkles className="w-4 h-4 text-[#EC4899]" />
+              <h2 className="text-[15px] font-bold text-[#111111] dark:text-[#f4f4f5] tracking-[-0.01em]">
+                Exclusive
+              </h2>
+              <span className="text-[11px] font-semibold text-[#EC4899] bg-[#FCE7F3] dark:bg-[#831843]/30 px-2 py-0.5 rounded-full">
+                LIMITED
+              </span>
+            </div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 sm:gap-5">
+              {exclusiveTemplates.map((template) => (
+                <TemplateCard
+                  key={template.id}
+                  template={template}
+                  isSelected={selectedId === template.id}
+                  onPick={handlePick}
+                />
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* ── Classic Section ──────────────────────────────────── */}
         <div>
