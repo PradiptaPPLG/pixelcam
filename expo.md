@@ -1,6 +1,6 @@
 # Panduan Mengaktifkan & Menonaktifkan Expo Mode (PixelCam)
 
-Expo Mode digunakan untuk menampilkan template **Official RPL EXPO** dan memunculkan pesan Instagram **@official_sentinel** di halaman preview. 
+Expo Mode digunakan untuk menampilkan template **Official RPL EXPO** dan memunculkan pesan Instagram **@official__sentinel** di halaman preview. 
 
 Mode ini disimpan di browser masing-masing menggunakan `localStorage`, sehingga tidak memengaruhi pengunjung website umum di HP mereka.
 

@@ -451,10 +451,10 @@ export default function PreviewExperience() {
                   School Expo Info
                 </p>
                 <p className="text-[13px] leading-relaxed text-slate-700 dark:text-slate-300">
-                  📸 Silakan kunjungi akun Instagram <a href="https://instagram.com/official_sentinel" target="_blank" rel="noopener noreferrer" className="font-bold underline text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300">@official_sentinel</a> untuk meminta cetak foto fisik hasil karyamu!
+                  📸 Silakan kunjungi akun Instagram <a href="https://instagram.com/official__sentinel" target="_blank" rel="noopener noreferrer" className="font-bold underline text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300">@official__sentinel</a> untuk meminta cetak foto fisik hasil karyamu!
                 </p>
                 <p className="text-[11px] leading-relaxed text-slate-500 dark:text-slate-400 mt-2">
-                  (Please visit <span className="font-semibold text-indigo-600 dark:text-indigo-400">@official_sentinel</span> on Instagram to request your physical prints!)
+                  (Please visit <span className="font-semibold text-indigo-600 dark:text-indigo-400">@official__sentinel</span> on Instagram to request your physical prints!)
                 </p>
               </div>
             )}
