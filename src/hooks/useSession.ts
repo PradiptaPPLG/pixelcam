@@ -58,6 +58,13 @@ export function useSession({
     }
   }, [initialPhotoCount]);
 
+  // Reset phase to setup if the user deletes a photo, allowing them to retake
+  useEffect(() => {
+    if (photos.length < photoCount && phase === "complete") {
+      setPhase("setup");
+    }
+  }, [photos.length, photoCount, phase]);
+
   const runningRef = useRef(false);
   const cancelledRef = useRef(false);
 

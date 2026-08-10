@@ -250,6 +250,13 @@ function PrintAnimation({
  */
 export default function PreviewExperience() {
   const router = useRouter();
+  const [expoMode, setExpoMode] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setExpoMode(localStorage.getItem("expoMode") === "true");
+    }
+  }, []);
 
   // Preserved state from earlier stages (hydration-safe external stores).
   const photos = useSyncExternalStore(
@@ -424,7 +431,7 @@ export default function PreviewExperience() {
           </div>
 
           {/* Right — export panel (always visible, on mobile shows below preview) */}
-          <div className="lg:sticky lg:top-24">
+          <div className="lg:sticky lg:top-24 flex flex-col gap-4">
             <ExportPanel
               theme={theme}
               filter={filter}
@@ -436,6 +443,21 @@ export default function PreviewExperience() {
               onDownloadJpg={() => handleDownload("jpeg")}
               onBack={() => router.push("/stickers")}
             />
+
+            {/* School Expo Info Card */}
+            {expoMode && (
+              <div className="p-5 rounded-3xl bg-indigo-50/80 dark:bg-indigo-950/20 border border-indigo-100 dark:border-indigo-900/50 backdrop-blur-md shadow-sm">
+                <p className="text-xs font-semibold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 mb-1.5">
+                  School Expo Info
+                </p>
+                <p className="text-[13px] leading-relaxed text-slate-700 dark:text-slate-300">
+                  📸 Silakan kunjungi akun Instagram <a href="https://instagram.com/official_sentinel" target="_blank" rel="noopener noreferrer" className="font-bold underline text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300">@official_sentinel</a> untuk meminta cetak foto fisik hasil karyamu!
+                </p>
+                <p className="text-[11px] leading-relaxed text-slate-500 dark:text-slate-400 mt-2">
+                  (Please visit <span className="font-semibold text-indigo-600 dark:text-indigo-400">@official_sentinel</span> on Instagram to request your physical prints!)
+                </p>
+              </div>
+            )}
           </div>
         </div>
       </Container>

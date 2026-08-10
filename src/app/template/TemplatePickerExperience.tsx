@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import Container from "@/components/ui/Container";
@@ -11,6 +11,13 @@ import { LayoutTemplate, ChevronLeft, SkipForward, Check, TrendingUp, Camera, St
 export default function TemplatePickerExperience() {
   const router = useRouter();
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [expoMode, setExpoMode] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setExpoMode(localStorage.getItem("expoMode") === "true");
+    }
+  }, []);
 
   const officialTemplates = TEMPLATE_PRESETS.filter((t) => t.official);
   const trendingTemplates = TEMPLATE_PRESETS.filter((t) => t.trending);
@@ -68,28 +75,30 @@ export default function TemplatePickerExperience() {
         </div>
 
         {/* ── Official Section ─────────────────────────────────── */}
-        <div className="mb-10">
-          <div className="flex items-center gap-2 mb-4">
-            <Star className="w-4 h-4 text-[#6366F1] fill-[#6366F1]" />
-            <h2 className="text-[15px] font-bold text-[#111111] dark:text-[#f4f4f5] tracking-[-0.01em]">
-              Official
-            </h2>
-            <span className="text-[11px] font-semibold text-[#6366F1] bg-[#EEF2FF] dark:bg-[#4338ca]/30 px-2 py-0.5 rounded-full">
-              RPL EXPO
-            </span>
-          </div>
+        {expoMode && (
+          <div className="mb-10">
+            <div className="flex items-center gap-2 mb-4">
+              <Star className="w-4 h-4 text-[#6366F1] fill-[#6366F1]" />
+              <h2 className="text-[15px] font-bold text-[#111111] dark:text-[#f4f4f5] tracking-[-0.01em]">
+                Official
+              </h2>
+              <span className="text-[11px] font-semibold text-[#6366F1] bg-[#EEF2FF] dark:bg-[#4338ca]/30 px-2 py-0.5 rounded-full">
+                RPL EXPO
+              </span>
+            </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 sm:gap-5">
-            {officialTemplates.map((template) => (
-              <TemplateCard
-                key={template.id}
-                template={template}
-                isSelected={selectedId === template.id}
-                onPick={handlePick}
-              />
-            ))}
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 sm:gap-5">
+              {officialTemplates.map((template) => (
+                <TemplateCard
+                  key={template.id}
+                  template={template}
+                  isSelected={selectedId === template.id}
+                  onPick={handlePick}
+                />
+              ))}
+            </div>
           </div>
-        </div>
+        )}
 
         {/* ── Exclusive Section ────────────────────────────────── */}
         {exclusiveTemplates.length > 0 && (

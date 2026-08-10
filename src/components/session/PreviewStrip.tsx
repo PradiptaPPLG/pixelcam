@@ -25,7 +25,7 @@ export default function PreviewStrip({ photos, total, onRemovePhoto }: PreviewSt
           return (
             <li
               key={index}
-              className="relative aspect-[3/4] w-24 shrink-0 overflow-hidden rounded-[14px] border border-[#E5E7EB] dark:border-[#2a2a2e] bg-white dark:bg-[#18181b] lg:w-28 group"
+              className="relative aspect-[4/3] w-24 shrink-0 overflow-hidden rounded-[14px] border border-[#E5E7EB] dark:border-[#2a2a2e] bg-white dark:bg-[#18181b] lg:w-28 group"
             >
               <AnimatePresence>
                 {src ? (
