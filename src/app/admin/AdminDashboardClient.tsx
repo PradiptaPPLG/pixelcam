@@ -225,7 +225,7 @@ export default function AdminDashboardClient() {
       
       {/* Header */}
       <header className="sticky top-0 z-40 w-full backdrop-blur-md bg-[rgba(250,250,250,0.85)] dark:bg-[rgba(13,13,15,0.85)] border-b border-[#e5e7eb] dark:border-[#2a2a2e] transition-colors duration-300">
-        <div className="max-w-[1200px] mx-auto px-6 h-16 flex items-center justify-between">
+        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 py-3.5 sm:py-0 sm:h-16 flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-0">
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 bg-black dark:bg-[#f4f4f5] text-white dark:text-black rounded-lg flex items-center justify-center">
               <Camera className="w-4.5 h-4.5" />
@@ -236,7 +236,7 @@ export default function AdminDashboardClient() {
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
             <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-green-50 dark:bg-green-950/20 border border-green-200 dark:border-green-900/30 rounded-full text-[10px] font-semibold text-green-600 dark:text-green-400">
               <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
               Live
@@ -267,7 +267,7 @@ export default function AdminDashboardClient() {
       </header>
 
       {/* Main Body */}
-      <main className="max-w-[1200px] mx-auto px-6 mt-8">
+      <main className="max-w-[1200px] mx-auto px-4 sm:px-6 mt-6 sm:mt-8">
         
         {/* Loading Screen */}
         {loading && (
@@ -290,7 +290,7 @@ export default function AdminDashboardClient() {
           <div className="space-y-8 animate-fade-in">
             
             {/* Overview Stats */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
               <StatCard icon={Eye} label="Page Views" value={data.summary.totalViews} />
               <StatCard icon={Users} label="Unique Visitors" value={data.summary.totalSessions} />
               <StatCard icon={Calendar} label="Views Today" value={data.summary.viewsToday} />

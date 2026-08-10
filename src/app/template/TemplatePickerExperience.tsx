@@ -186,6 +186,23 @@ function TemplateCard({
 }) {
   const isWide = template.aspectRatio > 1.2;
 
+  // Determine a nice-looking usedCount deterministically based on template ID
+  const getDummyUsedCount = (id: string, existing: string | undefined) => {
+    if (existing && existing !== "0 used" && existing !== "Official") return existing;
+    
+    let hash = 0;
+    for (let i = 0; i < id.length; i++) {
+      hash = id.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    const absHash = Math.abs(hash);
+    
+    // Generate count between 600 and 2400
+    const count = 600 + (absHash % 1800);
+    return `${(count / 1000).toFixed(1).replace(/\.0$/, "")}k used`;
+  };
+
+  const displayUsedCount = getDummyUsedCount(template.id, template.usedCount);
+
   return (
     <motion.button
       onClick={() => onPick(template.id)}
@@ -238,8 +255,8 @@ function TemplateCard({
                 {template.description}
               </p>
             </div>
-            {/* badge for official / trending */}
-            {template.usedCount && (
+            {/* badge for official / trending / classic */}
+            {displayUsedCount && (
               <span
                 className={`shrink-0 text-[9px] font-bold px-1.5 py-0.5 rounded-md whitespace-nowrap backdrop-blur-sm ${
                   template.official
@@ -247,7 +264,7 @@ function TemplateCard({
                     : "text-[#FDE68A] bg-[#92400E]/70"
                 }`}
               >
-                {template.usedCount}
+                {displayUsedCount}
               </span>
             )}
           </div>
