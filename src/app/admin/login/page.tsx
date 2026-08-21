@@ -49,7 +49,7 @@ export default function AdminLoginPage() {
             <Camera className="w-6 h-6" />
           </div>
           <h1 className="text-xl font-semibold text-[#111111] dark:text-[#f4f4f5] tracking-tight">
-            PixelCam Admin
+            PixelCam Admin Side
           </h1>
           <p className="text-sm text-[#6b7280] dark:text-[#a1a1aa] mt-1.5">
             Enter password to access analytics console.
