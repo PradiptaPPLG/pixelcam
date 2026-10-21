@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { FlipHorizontal2, Upload, SwitchCamera } from "lucide-react";
 import Container from "@/components/ui/Container";
-import { PermissionCard, CameraSelector, CaptureButton } from "@/components/camera";
+import { PermissionCard, CameraSelector, CaptureButton, BoomerangModal } from "@/components/camera";
 import {
   Countdown,
   LiveCamera,
@@ -56,6 +56,7 @@ export default function CameraExperience() {
   const [mirrored, setMirrored] = useState(true);
   const [toast, setToast] = useState<string | null>(null);
   const [uploadOpen, setUploadOpen] = useState(false);
+  const [boomerangOpen, setBoomerangOpen] = useState(false);
 
   const templateId = useSyncExternalStore(
     subscribeTemplateState,
@@ -136,14 +137,24 @@ export default function CameraExperience() {
                 {/* ── Controls (directly attached below the camera) ────────────────── */}
                 <div className="flex w-full flex-col items-center gap-2">
                   {session.photos.length === session.photoCount ? (
-                    <div className="flex justify-center w-full my-2">
+                    <div className="flex flex-col sm:flex-row items-center justify-center w-full gap-3 my-2">
                       <button
                         type="button"
                         onClick={() => handleComplete(session.photos)}
-                        className="inline-flex h-11 sm:h-12 items-center justify-center gap-2 rounded-[14px] bg-[#4F46E5] hover:bg-[#4338CA] active:bg-[#3730A3] px-8 text-sm font-semibold text-white transition-all shadow-[0_4px_12px_rgba(79,70,229,0.2)] hover:shadow-[0_6px_20px_rgba(79,70,229,0.3)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4F46E5] focus-visible:ring-offset-2"
+                        className="inline-flex h-11 sm:h-12 items-center justify-center gap-2 rounded-[14px] bg-[#4F46E5] hover:bg-[#4338CA] active:bg-[#3730A3] px-8 text-sm font-semibold text-white transition-all shadow-[0_4px_12px_rgba(79,70,229,0.2)] hover:shadow-[0_6px_20px_rgba(79,70,229,0.3)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4F46E5] focus-visible:ring-offset-2 w-full sm:w-auto"
                       >
                         Continue to Edit
                       </button>
+                      
+                      {session.photos.length > 1 && (
+                        <button
+                          type="button"
+                          onClick={() => setBoomerangOpen(true)}
+                          className="inline-flex h-11 sm:h-12 items-center justify-center gap-2 rounded-[14px] border border-[#E5E7EB] dark:border-[#2a2a2e] bg-white dark:bg-[#18181b] px-6 text-sm font-semibold text-[#111111] dark:text-[#f4f4f5] transition-all hover:bg-[#F5F5F5] dark:hover:bg-[#232327] active:bg-[#EEEEEE] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4F46E5] focus-visible:ring-offset-2 w-full sm:w-auto"
+                        >
+                          Preview Boomerang 🎞️
+                        </button>
+                      )}
                     </div>
                   ) : (
                     <>
@@ -255,6 +266,12 @@ export default function CameraExperience() {
             return updated;
           });
         }}
+      />
+      {/* ── Boomerang Modal ──────────────────────── */}
+      <BoomerangModal
+        open={boomerangOpen}
+        onClose={() => setBoomerangOpen(false)}
+        photos={session.photos}
       />
     </section>
   );

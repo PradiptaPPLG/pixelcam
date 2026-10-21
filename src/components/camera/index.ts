@@ -6,3 +6,4 @@ export { default as UploadButton } from "./UploadButton";
 export { default as CameraSelector } from "./CameraSelector";
 export { default as PermissionCard } from "./PermissionCard";
 export { default as PreviewCard } from "./PreviewCard";
+export { BoomerangModal } from "./BoomerangModal";
